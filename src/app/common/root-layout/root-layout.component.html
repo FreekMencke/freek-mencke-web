@@ -1,0 +1,70 @@
+<div class="flex flex-col sa-t sa-l sa-r">
+  <nav class="fixed w-full z-[1000] bg-secondary-100 bg-opacity-40 backdrop-blur-md transition-shadow" scrollShadow>
+    <div class="container mx-auto flex items-center px-4 py-4">
+      <!-- Logo -->
+      <a class="link-states text-lg uppercase flex tracking-widest" routerLink="/">
+        <span class="font-semibold">Freek</span>&ngsp;<span class="font-thin">Mencke</span>
+      </a>
+
+      <!-- Spacer -->
+      <div class="flex-grow"></div>
+
+      <!-- Desktop menu -->
+      <div class="hidden lg:flex items-center">
+        <ul class="flex space-x-4 font-bold">
+          @for (route of routes; track route.path + route.fragment) {
+            <li>
+              <a
+                class="link-states size-6"
+                [routerLink]="route.path"
+                [fragment]="route.fragment"
+                routerLinkActive="text-primary-700"
+                [routerLinkActiveOptions]="{
+                  matrixParams: 'ignored',
+                  queryParams: 'ignored',
+                  paths: 'exact',
+                  fragment: 'exact',
+                }"
+                >{{ route.name }}</a
+              >
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Mobile menu -->
+      <menu-button class="lg:hidden" [(menuCollapsed)]="menuCollapsed" />
+
+      <!-- Social media -->
+      <social-media class="border-l ml-4 pl-4" />
+    </div>
+
+    <div class="lg:hidden" [ngClass]="{ 'hidden lg:flex': menuCollapsed() }">
+      <ul class="container mx-auto font-bold">
+        @for (route of routes; track route.path + route.fragment) {
+          <li class="first:border-t border-b border-secondary-800 border-opacity-20">
+            <a
+              class="link-states flex px-4 py-4"
+              (click)="menuCollapsed.set(true)"
+              [routerLink]="route.path"
+              [fragment]="route.fragment"
+              routerLinkActive="text-primary-700"
+              [routerLinkActiveOptions]="{
+                matrixParams: 'ignored',
+                queryParams: 'ignored',
+                paths: 'exact',
+                fragment: 'exact',
+              }"
+              >{{ route.name }}</a
+            >
+          </li>
+        }
+      </ul>
+    </div>
+  </nav>
+
+  <main class="relative h-full">
+    <!-- content -->
+    <router-outlet />
+  </main>
+</div>

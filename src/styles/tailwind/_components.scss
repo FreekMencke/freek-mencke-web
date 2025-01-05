@@ -1,0 +1,17 @@
+@layer components {
+  .link {
+    @apply font-bold active:text-primary-700 hover:text-primary-600 text-primary-500 dark:active:text-primary-600 dark:hover:text-primary-500 dark:text-primary-400;
+  }
+
+  .link-states {
+    transition: color 0.2s ease-in-out;
+    @apply link-states--light dark:link-states--dark;
+  }
+
+  .link-states--light {
+    @apply active:text-primary-700 hover:text-primary-600;
+  }
+  .link-states--dark {
+    @apply active:text-primary-600 hover:text-primary-500;
+  }
+}

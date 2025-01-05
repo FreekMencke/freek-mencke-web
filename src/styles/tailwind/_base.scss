@@ -1,0 +1,28 @@
+@layer base {
+  @font-face {
+    font-family: 'SOLIX';
+    font-style: normal;
+    font-weight: 300;
+    font-display: block;
+    descent-override: 10%;
+    src: url('/fonts/solix_light.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'SOLIX';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    descent-override: 10%;
+    src: url('/fonts/solix.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'SOLIX';
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    descent-override: 10%;
+    src: url('/fonts/solix_bold.woff2') format('woff2');
+  }
+}

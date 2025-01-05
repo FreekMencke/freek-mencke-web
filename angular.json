@@ -20,26 +20,13 @@
             "outputPath": "dist/freek-mencke-web",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": [],
+            "assets": [{ "glob": "**/*", "input": "public" }],
+            "styles": ["src/styles/tailwind.scss"],
             "server": "src/main.server.ts",
             "prerender": true,
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "ssr": false
           },
           "configurations": {
             "production": {
@@ -72,7 +59,8 @@
               "buildTarget": "freek-mencke-web:build:production"
             },
             "development": {
-              "buildTarget": "freek-mencke-web:build:development"
+              "buildTarget": "freek-mencke-web:build:development",
+              "open": true
             }
           },
           "defaultConfiguration": "development"
@@ -83,25 +71,23 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "assets": [{ "glob": "**/*", "input": "public" }],
+            "styles": ["src/styles/tailwind.scss"]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": ["@angular-eslint/schematics"],
+    "analytics": false
   }
 }
