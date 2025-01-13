@@ -1,4 +1,4 @@
-<div class="relative w-full h-full overflow-hidden text-center rounded-3xl">
+<div class="relative w-full h-full overflow-hidden text-center rounded-3xl shadow-lg">
   <div class="text-white *:absolute *:z-10 *:bg-secondary-500 *:bg-opacity-50">
     <button
       (click)="previous()"
@@ -61,8 +61,6 @@
   }
 </div>
 
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @if (isOverlayVisible()) {
   <div
     class="fixed inset-0 z-[9999] h-screen w-screen flex items-center justify-center bg-black bg-opacity-75 cursor-pointer"
@@ -92,5 +90,3 @@
     </div>
   </div>
 }
-<!-- eslint-enable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-enable @angular-eslint/template/click-events-have-key-events -->

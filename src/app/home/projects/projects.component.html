@@ -1,50 +1,48 @@
-<div class="fill-screen flex flex-col py-24 sm:py-32 px-8">
-  <section class="container mx-auto flex flex-col flex-grow justify-center">
-    <header class="mb-8 sm:mb-16 lg:mb-24">
-      <h1 class="uppercase text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-widest xl:tracking-wider">Projects</h1>
-    </header>
+<section class="fill-screen container mx-auto py-24 sm:py-32 px-8">
+  <header class="mb-8 sm:mb-16 lg:mb-24">
+    <h1 class="uppercase text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-widest xl:tracking-wider">Projects</h1>
+  </header>
 
-    <article class="flex flex-col lg:flex-row gap-8 xl:gap-16 min-h-[32rem]">
-      <div class="lg:flex-1 h-[20em] sm:h-[24em] lg:h-auto flex flex-col items-center">
-        <image-carousel
-          [images]="[
-            { src: '/projects/osrs-tracker/osrs-tracker-dark.webp', alt: 'OSRS Tracker dark mode' },
-            { src: '/projects/osrs-tracker/osrs-tracker-light.webp', alt: 'OSRS Tracker light mode' },
-          ]"
-        />
-      </div>
+  <article class="flex flex-col lg:flex-row gap-8 xl:gap-16 min-h-[32rem]">
+    <figure class="lg:flex-1 h-[20em] sm:h-[24em] lg:h-auto flex flex-col items-center">
+      <image-carousel
+        [images]="[
+          { src: '/projects/osrs-tracker/osrs-tracker-dark.webp', alt: 'OSRS Tracker dark mode' },
+          { src: '/projects/osrs-tracker/osrs-tracker-light.webp', alt: 'OSRS Tracker light mode' },
+        ]"
+      />
+    </figure>
 
-      <div class="flex-1 prose sm:prose-xl xl:prose-2xl">
-        <div class="flex flex-col sm:flex-row sm:gap-2 items-baseline p prose-h2:my-0">
-          <h2>OSRS Tracker</h2>
-          <small
-            >(<a href="https://osrs-tracker.freekmencke.com/" target="_blank" class="link-states"
-              >osrs-tracker.freekmencke.com</a
-            >)</small
-          >
-        </div>
-        <p>
-          I created this web app for
-          <a href="https://oldschool.runescape.com/" target="_blank" class="link-states">Old School RuneScape (OSRS)</a>
-          players to track their progress, keep up with their friends, and even spark some friendly competition.
-        </p>
-        <p>
-          It has a <strong>Price Tracker</strong> for checking real-time prices and market trends, along with an
-          <strong>XP Tracker</strong> that automatically tracks daily XP gains, completed Clue scrolls, Boss kills, and
-          more. You can even add your friends to your favorites to see how they're doing.
-        </p>
-        <p>
-          The frontend is built with <a href="https://angular.dev" target="_blank" class="link-states">Angular</a> and
-          <a href="https://tailwindcss.com" target="_blank" class="link-states">Tailwind CSS</a>, while the backend runs
-          on <a href="https://aws.amazon.com/lambda/" target="_blank" class="link-states">AWS Lambda</a> and a
-          <a href="https://www.mongodb.com/" target="_blank" class="link-states">MongoDB</a> database.
-        </p>
+    <div class="flex-1 prose sm:prose-xl xl:prose-2xl">
+      <header class="flex flex-col sm:flex-row sm:gap-2 items-baseline p prose-h2:my-0">
+        <h2>OSRS Tracker</h2>
+        <small
+          >(<a href="https://osrs-tracker.freekmencke.com/" target="_blank" class="link-states"
+            >osrs-tracker.freekmencke.com</a
+          >)</small
+        >
+      </header>
+      <p>
+        I created this web app for
+        <a href="https://oldschool.runescape.com/" target="_blank" class="link-states">Old School RuneScape (OSRS)</a>
+        players to track their progress, keep up with their friends, and even spark some friendly competition.
+      </p>
+      <p>
+        It has a <strong>Price Tracker</strong> for checking real-time prices and market trends, along with an
+        <strong>XP Tracker</strong> that automatically tracks daily XP gains, completed Clue scrolls, Boss kills, and
+        more. You can even add your friends to your favorites to see how they're doing.
+      </p>
+      <p>
+        The frontend is built with <a href="https://angular.dev" target="_blank" class="link-states">Angular</a> and
+        <a href="https://tailwindcss.com" target="_blank" class="link-states">Tailwind CSS</a>, while the backend runs
+        on <a href="https://aws.amazon.com/lambda/" target="_blank" class="link-states">AWS Lambda</a> and a
+        <a href="https://www.mongodb.com/" target="_blank" class="link-states">MongoDB</a> database.
+      </p>
 
-        <small>
-          GitHub:
-          <a href="https://github.com/osrs-tracker" target="_blank" class="link-states"> github.com/osrs-tracker </a>
-        </small>
-      </div>
-    </article>
-  </section>
-</div>
+      <small>
+        GitHub:
+        <a href="https://github.com/osrs-tracker" target="_blank" class="link-states"> github.com/osrs-tracker </a>
+      </small>
+    </div>
+  </article>
+</section>

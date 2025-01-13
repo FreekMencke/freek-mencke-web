@@ -1,7 +1,42 @@
-<div class="fill-screen flex flex-col">
-  <section class="container mx-auto flex flex-col flex-grow justify-center">
-    <header>
-      <h1 class="uppercase text-3xl sm:text-4xl lg:text-5xl xl:text-6xl tracking-widest xl:tracking-wider">TODO</h1>
-    </header>
-  </section>
+<div class="fill-screen container mx-auto flex items-center px-8 pb-16 pt-24 sm:py-32">
+  <article class="flex flex-col w-full lg:flex-row gap-8 xl:gap-16 min-h-[32rem] items-center">
+    <div class="flex-1">
+      <header class="mb-8 sm:mb-16 lg:mb-24">
+        <h1 class="uppercase text-3xl sm:text-4xl lg:text-5xl xl:text-6xl tracking-widest xl:tracking-wider">
+          About me
+        </h1>
+      </header>
+
+      <div class="prose sm:prose-xl xl:prose-2xl">
+        <p>
+          Hi, I'm Freek Mencke, a <strong>JavaScript/TypeScript</strong> developer from <strong>Belgium</strong>. I have
+          a passion for coding and enjoy creating projects that are both useful and fun to build.
+        </p>
+        <p>
+          For personal projects, I primarily work with <strong>Angular</strong> and Tailwind CSS on the frontend, and
+          <strong>Node.js</strong> and MongoDB on the backend. I also have experience with AWS Lambda, Docker, and
+          Kubernetes.
+        </p>
+        <p>
+          <a href="https://www.linkedin.com/in/freekmencke/" target="_blank" class="link-states">
+            Professionally, I work</a
+          >
+          with <strong>Angular</strong>, using a custom component library, along with <strong>.NET Core</strong> on the
+          backend. I also lead the <strong>Frontend Guild</strong>, where we discuss best practices, explore new
+          technologies, and improve workflows.
+        </p>
+        <p>When I'm not coding, I enjoy reading books or playing video games.</p>
+      </div>
+    </div>
+
+    <figure class="flex-1 relative w-full h-[24em] lg:h-full">
+      <div class="aspect-[4/3] w-full h-auto">
+        @defer (on viewport) {
+          <img src="/about/selfie.webp" alt="Selfie" class="rounded-3xl shadow-lg w-full h-auto" />
+        } @placeholder {
+          <div><!-- placeholder --></div>
+        }
+      </div>
+    </figure>
+  </article>
 </div>
