@@ -1,7 +1,7 @@
 <div class="fill-screen container mx-auto flex items-center px-8 pb-16 pt-24 sm:py-32">
   <article class="flex flex-col w-full lg:flex-row gap-8 xl:gap-16 min-h-[32rem] items-center">
     <div class="flex-1">
-      <header class="mb-8 sm:mb-16 lg:mb-24">
+      <header class="mb-8 sm:mb-16 lg:mb-24" #header>
         <h1 class="uppercase text-3xl sm:text-4xl lg:text-5xl xl:text-6xl tracking-widest xl:tracking-wider">
           About me
         </h1>
@@ -31,7 +31,7 @@
 
     <figure class="flex-1 relative w-full h-[24em] lg:h-full">
       <div class="aspect-[4/3] w-full h-auto">
-        @defer (on viewport) {
+        @defer (on viewport(header)) {
           <img src="/about/selfie.webp" alt="Selfie" class="rounded-3xl shadow-lg w-full h-auto" />
         } @placeholder {
           <div><!-- placeholder --></div>

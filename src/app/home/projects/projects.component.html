@@ -1,16 +1,20 @@
 <section class="fill-screen container mx-auto py-24 sm:py-32 px-8">
-  <header class="mb-8 sm:mb-16 lg:mb-24">
+  <header class="mb-8 sm:mb-16 lg:mb-24" #header>
     <h1 class="uppercase text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-widest xl:tracking-wider">Projects</h1>
   </header>
 
   <article class="flex flex-col lg:flex-row gap-8 xl:gap-16 min-h-[32rem]">
     <figure class="lg:flex-1 h-[20em] sm:h-[24em] lg:h-auto flex flex-col items-center">
-      <image-carousel
-        [images]="[
-          { src: '/projects/osrs-tracker/osrs-tracker-dark.webp', alt: 'OSRS Tracker dark mode' },
-          { src: '/projects/osrs-tracker/osrs-tracker-light.webp', alt: 'OSRS Tracker light mode' },
-        ]"
-      />
+      @defer (on viewport(header)) {
+        <image-carousel
+          [images]="[
+            { src: '/projects/osrs-tracker/osrs-tracker-dark.webp', alt: 'OSRS Tracker dark mode' },
+            { src: '/projects/osrs-tracker/osrs-tracker-light.webp', alt: 'OSRS Tracker light mode' },
+          ]"
+        />
+      } @placeholder {
+        <div></div>
+      }
     </figure>
 
     <div class="flex-1 prose sm:prose-xl xl:prose-2xl">
