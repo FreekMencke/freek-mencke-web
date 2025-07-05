@@ -1,6 +1,15 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, input, InputSignal, signal, WritableSignal, DOCUMENT } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  InputSignal,
+  signal,
+  WritableSignal,
+  DOCUMENT,
+} from '@angular/core';
 
 @Component({
   selector: 'image-carousel',
