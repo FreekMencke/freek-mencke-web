@@ -1,5 +1,5 @@
 <div class="flex flex-col sa-t sa-l sa-r">
-  <nav class="fixed w-full z-[1000] bg-secondary-100 bg-opacity-40 backdrop-blur-md transition-shadow" scrollShadow>
+  <nav class="fixed w-full z-[1000] bg-secondary-100/40 backdrop-blur-md transition-shadow" scrollShadow>
     <div class="container mx-auto flex items-center px-4 py-4">
       <!-- Logo -->
       <a class="link-states text-lg uppercase flex tracking-widest" routerLink="/">
@@ -7,7 +7,7 @@
       </a>
 
       <!-- Spacer -->
-      <div class="flex-grow"></div>
+      <div class="grow"></div>
 
       <!-- Desktop menu -->
       <div class="hidden lg:flex items-center">
@@ -42,7 +42,7 @@
     <div class="lg:hidden" [ngClass]="{ 'hidden lg:flex': menuCollapsed() }">
       <ul class="container mx-auto font-bold">
         @for (route of routes; track route.path + route.fragment) {
-          <li class="first:border-t border-b border-secondary-800 border-opacity-20">
+          <li class="first:border-t border-b border-secondary-800/20">
             <a
               class="link-states flex px-4 py-4"
               (click)="menuCollapsed.set(true)"

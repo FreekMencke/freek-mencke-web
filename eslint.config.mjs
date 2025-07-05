@@ -38,7 +38,14 @@ export default tseslint.config(
   {
     files: ['**/*.html'],
     extends: [...angular.configs.templateRecommended],
-    rules: {},
+    rules: {
+      '@angular-eslint/template/eqeqeq': [
+        'error',
+        {
+          allowNullOrUndefined: true,
+        },
+      ],
+    },
   },
   eslintConfigPrettier,
 );
