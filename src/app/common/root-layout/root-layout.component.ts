@@ -1,42 +1,83 @@
-import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal, WritableSignal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { MenuButtonComponent } from './menu-button/menu-button.component';
-import { ScrollShadowDirective } from './scroll-shadow/scroll-shadow.directive';
-import { SocialMediaComponent } from './social-media/social-media.component';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { ThemeToggleComponent } from '../theme/theme-toggle.component';
+import { BarStore } from './bar-store';
 
 @Component({
   selector: 'root-layout',
-  templateUrl: './root-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgClass,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    SocialMediaComponent,
-    MenuButtonComponent,
-    ScrollShadowDirective,
-  ],
+  imports: [RouterOutlet, RouterLink, ThemeToggleComponent],
+  styles: `
+    .bar {
+      transition:
+        background-color 0.25s,
+        color 0.25s,
+        box-shadow 0.25s;
+    }
+    .bar.is-scrolled {
+      background-color: color-mix(in oklch, var(--color-ground) 86%, transparent);
+      backdrop-filter: blur(12px);
+      color: var(--color-ink);
+      box-shadow: 0 1px 0 var(--color-line);
+    }
+    /* Dark: the field's green carries on. The dark ground over the light screenshots reads as a black band. */
+    :host-context(.dark) .bar.is-scrolled {
+      background-color: color-mix(in oklch, var(--color-field) 92%, transparent);
+      color: var(--color-on-field);
+      box-shadow: none;
+    }
+    .mark {
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.25s,
+        visibility 0.25s;
+    }
+    .is-scrolled .mark {
+      opacity: 1;
+      visibility: visible;
+    }
+    .bar:not(.is-scrolled) a:hover,
+    :host-context(.dark) .bar a:hover {
+      color: var(--color-field-accent);
+    }
+    .bar:not(.is-scrolled) :focus-visible,
+    :host-context(.dark) .bar :focus-visible {
+      outline-color: var(--color-field-accent);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bar,
+      .mark {
+        transition: none;
+      }
+    }
+  `,
+  template: `
+    <div
+      class="bar sticky top-0 z-10 flex h-bar-phone items-center justify-between gap-4 px-page text-on-field sm:h-bar"
+      [class.is-scrolled]="!barStore.overField()"
+    >
+      <a
+        class="mark text-base tracking-widest whitespace-nowrap uppercase hover:text-accent"
+        routerLink="/"
+        fragment="top"
+        aria-label="Freek Mencke, back to top"
+      >
+        <span class="font-semibold">Freek</span><span class="font-thin">Mencke</span>
+      </a>
+
+      <div class="flex items-center gap-6">
+        <nav class="flex gap-6 text-sm/5 font-medium" aria-label="Sections">
+          <a class="hover:text-accent" routerLink="/" fragment="projects">Projects</a>
+          <a class="hover:text-accent" routerLink="/" fragment="about">About</a>
+        </nav>
+        <theme-toggle />
+      </div>
+    </div>
+
+    <router-outlet />
+  `,
 })
 export default class RootLayoutComponent {
-  menuCollapsed: WritableSignal<boolean> = signal(true);
-
-  routes: { path: string; fragment?: string; name: string }[] = [
-    {
-      path: '/',
-      name: 'Home',
-      fragment: 'home',
-    },
-    {
-      path: '/',
-      name: 'Projects',
-      fragment: 'projects',
-    },
-    {
-      path: '/',
-      name: 'About me',
-      fragment: 'about',
-    },
-  ];
+  protected readonly barStore = inject(BarStore);
 }

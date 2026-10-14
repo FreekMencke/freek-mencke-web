@@ -1,8 +1,8 @@
 # freek-mencke-web
 
-The personal site at https://freekmencke.com: one Angular 22 page (zoneless, standalone, Tailwind 4), pre-rendered at
-build time and served by a small Express server (`src/server.ts`) on the home Kubernetes cluster. Develop, deploy and
-rollback steps are in `README.md`.
+The personal site at https://freekmencke.com: one Angular 22 page (zoneless, standalone, Tailwind 4, light and dark),
+pre-rendered at build time and served by a small Express server (`src/server.ts`) on the home Kubernetes cluster.
+Develop, deploy and rollback steps are in `README.md`.
 
 **Load the `freek-mencke-web` skill before writing, reviewing, running, deploying or committing anything here.** It
 holds this repo's specifics on top of `angular-conventions` and `angular-developer` (load those too): where the repo
@@ -27,7 +27,8 @@ differs from them, the design, local runs, the browser check and the commit step
 
 ## Where things live
 
-- `src/app/home/` the page's sections; `src/app/common/` the layout, the carousel and `seo/` (page meta).
+- `src/app/home/` the page's sections; `src/app/common/` the layout and its bar, the theme, the social links and `seo/`
+  (page meta).
 - `src/server.ts` the Express server: static files and their caching, the pre-rendered page, health and metrics.
 - `freek-mencke-web.yaml` the Kubernetes manifest; `.github/workflows/` CI and CD, `.github/scripts/` CD's steps.
 - `.claude/agents/conventions-reviewer.md` reviews diffs against the skill and this file; `browser-checker.md` runs the

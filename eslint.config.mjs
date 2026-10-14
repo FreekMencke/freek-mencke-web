@@ -2,6 +2,8 @@
 import eslint from '@eslint/js';
 import angular from 'angular-eslint';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+import { importX } from 'eslint-plugin-import-x';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -32,6 +34,32 @@ export default tseslint.config(
         },
       ],
       'no-console': 'error',
+    },
+  },
+  {
+    // Layers: home builds on common, never the other way round, and only app.config.server.ts reaches the Express
+    // server. Resolved paths, so relative imports count too.
+    files: ['src/**/*.ts'],
+    plugins: { 'import-x': importX },
+    settings: { 'import-x/resolver-next': [createTypeScriptImportResolver({ project: 'tsconfig.json' })] },
+    rules: {
+      'import-x/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: './src/app/common',
+              from: './src/app/home',
+              message: 'Shared code must not depend on the home page.',
+            },
+            {
+              target: './src/app',
+              from: './src/server.ts',
+              message: 'App code must not import the Express server.',
+            },
+          ],
+        },
+      ],
     },
   },
   {

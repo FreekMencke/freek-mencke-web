@@ -38,9 +38,9 @@ servers. The "Design" and "Browser check" sections of the preloaded skill are yo
 1. For each URL the caller gives: desktop width (1280px) first, then 390px (`browser_resize`). Dark mode
    (`browser_emulate_media`) only once the skill says the site has a dark theme.
 2. Use `browser_snapshot` for structure and to pick targets by ref, for clicks, hovers and key presses. Never click
-   guessed elements. For a state the caller names (hover, focus, the open mobile menu, the carousel's overlay), put the
-   page in it with those tools or `browser_press_key` and screenshot it in that state. Measure sizes and gaps the caller
-   asks about with `browser_evaluate`, reading the page without changing it.
+   guessed elements. For a state the caller names (hover, focus, the bar after scrolling), put the page in it with those
+   tools or `browser_press_key` and screenshot it in that state. Measure sizes and gaps the caller asks about with
+   `browser_evaluate`, reading the page without changing it.
 3. Take one screenshot per URL and width with `browser_take_screenshot`. Always pass `filename` with the folder:
    `.playwright-mcp/<section>-<width>.png` (a bare `home-1280.png` lands in the checkout's root). Element screenshots
    when the change is one component. `Read` each screenshot to look at it: without that you haven't seen the page.
