@@ -1,0 +1,45 @@
+# Node modules
+node_modules
+
+# Claude Code settings and worktrees
+.claude
+
+# Git files
+.git
+.gitignore
+.github
+
+# Build artifacts
+dist
+tmp
+out-tsc
+.angular
+
+# IDE files
+.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+
+# Test coverage
+coverage
+
+# Docker files and the manifest
+Dockerfile
+.dockerignore
+freek-mencke-web.yaml
+
+# Documentation
+README.md

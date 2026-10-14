@@ -1,0 +1,226 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: freek-mencke
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freek-mencke-web
+  namespace: freek-mencke
+  labels:
+    app: freek-mencke-web
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: freek-mencke-web
+  template:
+    metadata:
+      labels:
+        app: freek-mencke-web
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: '9090'
+        prometheus.io/scrape: 'true'
+    spec:
+      containers:
+        - name: freek-mencke-web
+          image: freekmencke/freek-mencke-web@sha256:0000000000000000000000000000000000000000000000000000000000000000
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: HOST
+              value: freekmencke.com
+            # Traefik sets these and overwrites any sent by clients.
+            - name: TRUST_PROXY_HEADERS
+              value: x-forwarded-for,x-forwarded-host,x-forwarded-port,x-forwarded-proto,x-forwarded-server
+          ports:
+            - containerPort: 8080
+            - containerPort: 9090
+          resources:
+            # One pre-rendered page and static files. No CPU limit, like osrs-tracker-web.
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+            # The image's `node` user, numeric so the kubelet can verify it isn't root
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          # Checks the main app, so a pod whose app stopped serving is taken out of the service
+          readinessProbe:
+            httpGet:
+              path: /healthy
+              port: 8080
+            periodSeconds: 5
+          # Only restarts a hung process
+          livenessProbe:
+            httpGet:
+              path: /healthy
+              port: 9090
+            periodSeconds: 10
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /healthy
+              port: 8080
+            periodSeconds: 2
+            failureThreshold: 30
+          lifecycle:
+            # Keep serving until Traefik has dropped the terminating pod, otherwise in-flight requests get a 502/504
+            preStop:
+              sleep:
+                seconds: 5
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: freek-mencke-web
+  namespace: freek-mencke
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: freek-mencke-web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: freek-mencke-web-service
+  namespace: freek-mencke
+spec:
+  selector:
+    app: freek-mencke-web
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: metrics
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: freek-mencke-web-ingress
+  namespace: freek-mencke
+  annotations:
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    # The Middlewares below: per-client-IP rate limits, Forwarded header stripping, then compression (last, so rejected
+    # requests cost none).
+    traefik.ingress.kubernetes.io/router.middlewares: freek-mencke-freek-mencke-web-ratelimit@kubernetescrd,freek-mencke-freek-mencke-web-inflight@kubernetescrd,freek-mencke-freek-mencke-web-strip-forwarded@kubernetescrd,freek-mencke-freek-mencke-web-compress@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - freekmencke.com
+      secretName: freek-mencke-web-tls
+  rules:
+    - host: freekmencke.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: freek-mencke-web-service
+                port:
+                  number: 80
+---
+# www only redirects to the apex. Its own Ingress, because Traefik applies an Ingress's middlewares to all its hosts.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: freek-mencke-web-www-ingress
+  namespace: freek-mencke
+  annotations:
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    traefik.ingress.kubernetes.io/router.middlewares: freek-mencke-freek-mencke-web-ratelimit@kubernetescrd,freek-mencke-freek-mencke-web-www-redirect@kubernetescrd
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - www.freekmencke.com
+      secretName: freek-mencke-web-www-tls
+  rules:
+    - host: www.freekmencke.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            # Never reached: the redirect answers first, but an Ingress rule needs a backend
+            backend:
+              service:
+                name: freek-mencke-web-service
+                port:
+                  number: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: freek-mencke-web-www-redirect
+  namespace: freek-mencke
+spec:
+  redirectRegex:
+    regex: ^https?://www\.freekmencke\.com/(.*)
+    replacement: https://freekmencke.com/${1}
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: freek-mencke-web-ratelimit
+  namespace: freek-mencke
+spec:
+  rateLimit:
+    average: 50
+    period: 1s
+    burst: 250
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: freek-mencke-web-inflight
+  namespace: freek-mencke
+spec:
+  inFlightReq:
+    amount: 200
+---
+# Traefik passes a client-sent RFC 7239 Forwarded header through unchanged (it only rewrites X-Forwarded-*), so drop it.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: freek-mencke-web-strip-forwarded
+  namespace: freek-mencke
+spec:
+  headers:
+    customRequestHeaders:
+      Forwarded: ''
+---
+# Compresses text for browsers (bodies of 1024 bytes and up): the page, bundles, robots.txt and the sitemap. Not the
+# images or WOFF2 fonts, which are compressed already. Brotli first: browsers list encodings without weights, so Traefik
+# picks by this order.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: freek-mencke-web-compress
+  namespace: freek-mencke
+spec:
+  compress:
+    encodings: [br, gzip]
+    includedContentTypes:
+      - text/html
+      - text/css
+      - text/javascript
+      - text/plain
+      - application/xml

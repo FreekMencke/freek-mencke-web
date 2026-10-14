@@ -3,31 +3,53 @@ name: CI
 on:
   push:
     branches: ['main']
+    # Deploy commits (and reverting them to roll back) only change the manifest, which Flux applies by itself, so they
+    # need no CI run, and with no CI run there's no deploy run to skip
+    paths-ignore: ['freek-mencke-web.yaml']
   pull_request:
     branches: ['main']
+
+permissions:
+  contents: read
 
 jobs:
   lint:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '20.x'
+          node-version: '24.x'
           cache: 'npm'
       - run: npm ci
       - run: npm run lint
       - run: npm run prettier:ci
+      - run: shellcheck .github/scripts/*.sh
 
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '20.x'
+          node-version: '24.x'
           cache: 'npm'
       - run: npm ci
       - run: npm run build
+
+  # The image CD deploys, run the way the cluster runs it (read-only, as the node user, no capabilities)
+  image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t freek-mencke-web .
+      - name: Check the container serves the site
+        run: |
+          docker run -d --read-only --user 1000:1000 --cap-drop ALL -e HOST=localhost -p 8080:8080 -p 9090:9090 \
+            freek-mencke-web
+          for _ in $(seq 1 30); do curl -sf -o /dev/null localhost:8080/healthy && break; sleep 1; done
+          curl -sf -o /dev/null localhost:9090/healthy
+          curl -sf localhost:8080/ | grep -q '<title>Freek Mencke'
