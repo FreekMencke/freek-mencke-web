@@ -1,11 +1,10 @@
 @import 'tailwindcss';
 
-@plugin "@tailwindcss/forms";
-@plugin "@tailwindcss/typography";
-
 @import './tailwind/theme' layer(theme);
+/* Colours swap through the tokens in base.css; this only makes a stray dark: follow the class, not the system */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @import './tailwind/base' layer(base);
 @import './tailwind/components' layer(components);
-@import './tailwind/utilities' layer(utilities);
+/* not imported into a layer: it holds `@utility` rules, which can't be nested */
+@import './tailwind/utilities';

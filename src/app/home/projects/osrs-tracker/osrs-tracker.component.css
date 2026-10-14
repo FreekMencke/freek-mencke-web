@@ -1,0 +1,120 @@
+/*
+ * The home page across 10 of 12 columns, the two detail pages over its bottom corners (5 columns each) and hanging below
+ * it. On phones the home page takes the full width and the details sit side by side under its lower half.
+ */
+.shots {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  padding-bottom: 7%;
+}
+.shots img {
+  grid-row: 1;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 0 0 1px var(--color-edge);
+}
+.shots .home {
+  grid-column: 2 / span 10;
+  border-radius: 12px;
+}
+.shots .detail {
+  z-index: 1;
+  grid-column: 1 / span 5;
+  align-self: end;
+  border-radius: 10px;
+  transform: translateY(24%);
+  box-shadow:
+    0 0 0 1px var(--color-edge),
+    0 24px 48px -16px rgb(15 23 42 / 0.4);
+}
+.shots .player {
+  grid-column: 8 / span 5;
+}
+/* Light screenshots on a dark page: a little dimmer, so they don't glare */
+:host-context(.dark) .shots img {
+  filter: brightness(0.9);
+}
+
+/* Five years on a line: grey for the Android app, the accent for the website */
+.timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding-top: 24px;
+  border-top: 1px solid var(--color-line);
+}
+.timeline::before,
+.timeline::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  height: 3px;
+  border-radius: 2px;
+}
+.timeline::before {
+  left: 0;
+  width: 40%;
+  background: var(--color-muted);
+}
+.timeline::after {
+  left: 60%;
+  right: 0;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
+}
+.timeline li {
+  position: relative;
+  padding-right: 24px;
+}
+.timeline li::before {
+  content: '';
+  position: absolute;
+  top: -29px;
+  left: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-ink);
+}
+.timeline li.web::before {
+  background: var(--color-accent);
+}
+
+@media (width < 40rem) {
+  .shots {
+    padding-bottom: 20%;
+  }
+  .shots .home {
+    grid-column: 1 / -1;
+  }
+  .shots .detail {
+    grid-column: 1 / span 6;
+    width: calc(100% - 4px);
+    border-radius: 6px;
+    transform: translateY(45%);
+  }
+  .shots .player {
+    grid-column: 7 / span 6;
+    justify-self: end;
+  }
+
+  /* Vertical on phones */
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 0 0 24px;
+    border-top: 0;
+    border-left: 1px solid var(--color-line);
+  }
+  .timeline::before,
+  .timeline::after {
+    display: none;
+  }
+  .timeline li {
+    padding-right: 0;
+  }
+  .timeline li::before {
+    top: 6px;
+    left: -29px;
+  }
+}

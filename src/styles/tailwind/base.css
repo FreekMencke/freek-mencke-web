@@ -1,15 +1,40 @@
 @layer base {
+  /* The light theme is in theme.css; the inline script in index.html and ThemeStore set .dark on <html> */
+  :root {
+    color-scheme: light;
+  }
+
+  /* A near-black in the field's own green, so the page stays one colour family */
+  .dark {
+    color-scheme: dark;
+    --color-ground: #0b1613;
+    --color-line: #1c2b26;
+    --color-ink: #e3ebe7;
+    --color-muted: #93a59d;
+    --color-accent: #34d399;
+    --color-field: #0f3d31;
+    --color-on-field: #e6f0eb;
+    --color-field-muted: #8db8a6;
+    --color-field-accent: #6ee7b7;
+  }
+
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
 
-  /* SOLIX, from the releases of https://github.com/FreekMencke/solix */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  /* SOLIX, from the releases of https://github.com/FreekMencke/solix, cut to weights 100–700 */
   @font-face {
     font-family: 'SOLIX';
     font-style: normal;
-    font-weight: 300 700;
+    font-weight: 100 700;
     font-display: block;
-    src: url(/fonts/SOLIX-Variable.woff2?v=3.00) format('woff2');
+    src: url(/fonts/SOLIX-Variable.woff2?v=3.00-100) format('woff2');
   }
 }
