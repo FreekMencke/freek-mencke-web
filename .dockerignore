@@ -45,3 +45,6 @@ freek-mencke-web.yaml
 README.md
 CLAUDE.md
 .mcp.json
+
+# Lint config
+knip.jsonc

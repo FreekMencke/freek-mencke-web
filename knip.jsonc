@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreDependencies": [
+    // `ng lint`'s builder in angular.json, installed by the angular-eslint package
+    "@angular-eslint/builder",
+  ],
+  // Components load them through `styleUrl`, which knip's Angular plugin doesn't follow
+  "ignoreFiles": ["src/**/*.component.css"],
+  // `ng test` loads it through `runnerConfig` in angular.json, under a name knip's Vitest plugin doesn't look for
+  "vitest": { "config": ["vitest-base.config.ts"] },
+}
