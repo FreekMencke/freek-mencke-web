@@ -7,9 +7,10 @@
   /* Between the page's big parts: the hero, the featured project, the other projects and the footer */
   --spacing-section: clamp(6rem, 12.5vw, 10rem);
   --spacing-section-sm: clamp(5rem, 10vw, 8rem);
-  /* The sticky bar: the hero and footer slide under it, and fragment links stop below it */
-  --spacing-bar: 4rem;
-  --spacing-bar-phone: 3.5rem;
+  /* The sticky bar with the top safe area it covers (sa-t): the hero and footer slide under it, and fragment links stop
+     below it */
+  --spacing-bar: calc(4rem + env(safe-area-inset-top));
+  --spacing-bar-phone: calc(3.5rem + env(safe-area-inset-top));
 
   --container-page: 90rem;
   --container-shots: 74rem;
