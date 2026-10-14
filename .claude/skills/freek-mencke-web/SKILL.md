@@ -103,8 +103,8 @@ changing the page's look, and keep the two in step.
   `lsof -ti:4301 -sTCP:LISTEN | xargs -r kill`.
 - The image as the cluster runs it (read-only, uid 1000, no capabilities): CI doesn't build it (CD does, after the
   merge), so run it yourself after changing the `Dockerfile`, `.dockerignore` or how `src/server.ts` starts. Build it
-  with `npm run docker:build`, start it with the command below, run the smoke test above, and stop it with
-  `docker stop fmw`:
+  with `npm run docker:build`, start it with the command below, run the smoke test above once `/healthy` answers, and
+  stop it with `docker stop fmw`:
 
   ```bash
   docker run -d --rm --name fmw --read-only --user 1000:1000 --cap-drop ALL -p 4301:8080 -p 9301:9090 freekmencke/freek-mencke-web
