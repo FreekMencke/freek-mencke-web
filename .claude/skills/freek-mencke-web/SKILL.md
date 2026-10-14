@@ -138,13 +138,15 @@ The flow and the rollback are in `README.md`. For a session:
 - Merging to `main` is the deploy, and the end of the job: don't wait for or watch the `CD` run unless the user asks. A
   failure shows as a failed `CD` run titled after the change.
 - CD skips a commit that changes only files outside the image: `NOT_IN_IMAGE` in `.github/workflows/deploy.yml` (the
-  manifest, `.claude/`, `.github/`, `.vscode/`, `README.md`, `CLAUDE.md`, `.mcp.json`, `.gitignore`). A new file that
-  isn't part of the build goes in that list and in `.dockerignore`, or every change to it redeploys.
+  manifest, `.claude/`, `.github/`, `.vscode/`, `README.md`, `CLAUDE.md`, `.mcp.json`, `.gitignore`, `knip.jsonc`). A
+  new file that isn't part of the build goes in that list and in `.dockerignore`, or every change to it redeploys.
 - `freek-mencke-web.yaml` reaches the cluster through Flux without a new image, and CI ignores pushes that change only
   it.
 
 ## Commit and push
 
+- `npx knip` (in the verify list) reports unused files, exports and dependencies. An export only its own file uses loses
+  its `export`; a false positive goes in `knip.jsonc` with a comment saying why.
 - Conventional commits (`feat(scope): …`, `chore(deps): …`); `chore(deploy)` is reserved for CD's digest commits. No
   changelog.
 - What goes straight to `main` and what needs a PR: `CLAUDE.md`. `main` isn't protected, so a direct push is a deploy

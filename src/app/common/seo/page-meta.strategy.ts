@@ -9,7 +9,7 @@ export interface PageMeta {
   canonicalPath: string;
 }
 
-export const SITE_NAME = 'Freek Mencke';
+const SITE_NAME = 'Freek Mencke';
 const SITE_URL = 'https://freekmencke.com';
 
 /** Every tag this strategy sets apart from the description, so a page without meta can remove them all */
