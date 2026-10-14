@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Claude Code worktrees and Playwright output
+.claude/worktrees/
+.playwright-mcp/
