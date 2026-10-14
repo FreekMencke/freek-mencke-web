@@ -41,5 +41,7 @@ Dockerfile
 .dockerignore
 freek-mencke-web.yaml
 
-# Documentation
+# Documentation and Claude Code instructions
 README.md
+CLAUDE.md
+.mcp.json
