@@ -34,11 +34,9 @@ app: look there for a pattern this repo doesn't have yet (semantic colour tokens
 
 Decided after a review of the whole codebase against both skills (2026-10-14):
 
-- File and class names keep their role suffix (`home.component.ts`, `HomeComponent`, `page-meta.strategy.ts`), as
-  `angular.json`'s schematics generate them. New files follow the suffixed names too, so the repo stays consistent until
-  a rename (a separate change).
-- Imports are relative, with no `@app/…` alias and no ESLint layers: there are two folders. `common/` never imports
-  `home/`, and app code never imports `src/server.ts`. Add the alias and layers when the redesign adds features.
+- Imports are relative for now, only because the structure is two folders (`common/`, `home/`). Once it grows (the
+  redesign), add the `@app/…` alias and the ESLint layers. Until then `common/` never imports `home/`, and app code
+  never imports `src/server.ts`.
 - The page is pre-rendered at build time, makes no HTTP calls and the server sends no CSP, so the async data, state and
   per-request SSR rules (CSP nonce, transfer cache, third-party calls, writes) don't apply. The build does render the
   page in Node: browser-only APIs (`window`, `requestAnimationFrame`, layout reads) run in `afterNextRender` or an event
