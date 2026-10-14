@@ -39,6 +39,8 @@
   --color-accent: #047857;
   /* The hairline around screenshots */
   --color-edge: color-mix(in oklch, var(--color-ink) 8%, transparent);
+  /* The shadow under the screenshots over the corners: dark in both themes */
+  --color-shade: color-mix(in oklch, var(--color-ink) 40%, transparent);
   /* The deep green of the hero, the footer and the terminal cards, and what sits on it */
   --color-field: #0c3b2f;
   --color-on-field: #eef3f0;

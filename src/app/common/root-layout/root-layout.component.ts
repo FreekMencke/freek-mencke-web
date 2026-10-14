@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { ThemeToggleComponent } from '@app/common/theme/theme-toggle.component';
+import { ThemeToggleComponent } from '../theme/theme-toggle.component';
 import { BarStore } from './bar-store';
 
 @Component({

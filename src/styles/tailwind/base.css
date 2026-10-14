@@ -12,6 +12,7 @@
     --color-ink: #e3ebe7;
     --color-muted: #93a59d;
     --color-accent: #34d399;
+    --color-shade: color-mix(in oklch, black 50%, transparent);
     --color-field: #0f3d31;
     --color-on-field: #e6f0eb;
     --color-field-muted: #8db8a6;
