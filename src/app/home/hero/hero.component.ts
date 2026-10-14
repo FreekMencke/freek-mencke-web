@@ -65,9 +65,11 @@ export class HeroComponent {
     const destroyRef = inject(DestroyRef);
 
     afterNextRender(() => {
-      // The bar turns solid once the field has scrolled out from under it (64px; on phones, 8px early)
+      // The bar turns solid once the field has scrolled out from under it. The hero's top padding is the bar's height,
+      // top safe area included (pt-bar).
+      const barHeight = getComputedStyle(host.firstElementChild!).paddingTop;
       const observer = new IntersectionObserver(([entry]) => barStore.setOverField(entry.isIntersecting), {
-        rootMargin: '-64px 0px 0px 0px',
+        rootMargin: `-${barHeight} 0px 0px 0px`,
       });
       observer.observe(host);
       destroyRef.onDestroy(() => observer.disconnect());
