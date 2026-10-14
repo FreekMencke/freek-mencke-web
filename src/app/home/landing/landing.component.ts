@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'landing',
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.scss',
+  styleUrl: './landing.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
 })
