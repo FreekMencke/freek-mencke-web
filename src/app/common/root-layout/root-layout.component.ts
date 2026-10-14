@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { afterNextRender, ChangeDetectionStrategy, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ThemeToggleComponent } from '../theme/theme-toggle.component';
 import { BarStore } from './bar-store';
@@ -54,7 +55,8 @@ import { BarStore } from './bar-store';
   `,
   template: `
     <div
-      class="bar sticky top-0 z-10 flex h-bar-phone items-center justify-between gap-4 px-page text-on-field sm:h-bar"
+      #bar
+      class="bar sticky top-0 z-10 flex h-bar-phone items-center justify-between gap-4 px-page sa-t text-on-field sm:h-bar"
       [class.is-scrolled]="!barStore.overField()"
     >
       <a
@@ -80,4 +82,15 @@ import { BarStore } from './bar-store';
 })
 export default class RootLayoutComponent {
   protected readonly barStore = inject(BarStore);
+  private readonly bar = viewChild.required<ElementRef<HTMLElement>>('bar');
+
+  constructor() {
+    const scroller = inject(ViewportScroller);
+
+    afterNextRender(() => {
+      // The router's anchor scrolling ignores scroll-padding: drop its targets by the top safe area the bar grows by
+      // (sa-t). The sections' own top padding clears the rest of the bar.
+      scroller.setOffset(() => [0, parseFloat(getComputedStyle(this.bar().nativeElement).paddingTop)]);
+    });
+  }
 }

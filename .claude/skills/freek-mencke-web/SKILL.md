@@ -62,9 +62,12 @@ changing the page's look, and keep the two in step.
   names `text-display` (OSRS Tracker) and `text-title`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the
   footer's first line `text-statement`. The wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked
   at 20vw, FREEK at 1.32em and weight 400 so both lines are as wide. Monospace only for the tagline and the terminals.
-- **Layout**: `px-page` (the gutter plus safe areas), `max-w-page` sections, `max-w-152` text columns centred. Space
-  between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and footer
-  slide under it. `scroll-pt-bar` on `<html>` keeps fragment targets and focused elements out from under it.
+- **Layout**: `px-page` (the gutter plus the side safe areas), `max-w-page` sections, `max-w-152` text columns centred.
+  Space between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and
+  footer slide under it. `scroll-pt-bar` on `<html>` keeps focused elements out from under it; the router's anchor
+  scrolling ignores it, so the sections' own top padding clears the bar. `viewport-fit=cover`, as in osrs-tracker-web:
+  the bar's `sa-t` covers the top safe area (the `bar` tokens include it, and `root-layout` offsets anchor scrolling by
+  it) and the footer's `sa-b` the bottom one, so the green or the bar fills them, never a strip of ground.
 - **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
   reduced motion; the bar fades from see-through to blurred when the hero leaves it: the ground in light, the field's
   green in dark (a dark ground over the light screenshots reads as a black band).

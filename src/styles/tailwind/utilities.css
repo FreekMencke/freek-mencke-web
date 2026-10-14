@@ -3,3 +3,11 @@
   padding-left: max(var(--spacing-gutter), env(safe-area-inset-left));
   padding-right: max(var(--spacing-gutter), env(safe-area-inset-right));
 }
+
+/* The top and bottom safe areas, as in osrs-tracker-web: the bar covers the top one, the footer's green the bottom one */
+@utility sa-t {
+  padding-top: env(safe-area-inset-top);
+}
+@utility sa-b {
+  padding-bottom: env(safe-area-inset-bottom);
+}
