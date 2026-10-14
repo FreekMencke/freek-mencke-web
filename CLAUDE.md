@@ -11,7 +11,7 @@ differs from them, the design, local runs, the browser check and the commit step
 ## Commands
 
 - Verify, the checks CI runs: `npm run lint`, `npm run prettier:ci`, `npm test`, `npm run build` and
-  `shellcheck .github/scripts/*.sh`.
+  `shellcheck .github/scripts/*.sh .claude/hooks/*.sh`.
 - One spec: `npx ng test --watch=false --include <path>`.
 - Dev server: `npm start -- --port 4300` (osrs-tracker-web's sessions hold 4200).
 - Claude Code formats every file it edits with Prettier, and runs `.claude/hooks/pre-push-check.sh` (lint and Prettier

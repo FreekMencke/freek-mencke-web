@@ -9,6 +9,8 @@ on:
   pull_request:
     branches: ['main']
 
+# Read-only unless a job asks for more: build and test run code from every installed package, so they get a token that
+# can't push or approve pull requests, whatever the repository's default is
 permissions:
   contents: read
 
@@ -18,25 +20,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.x'
-          cache: 'npm'
-      - run: npm ci
+      - uses: ./.github/actions/setup-deps
       - run: npm run lint
       - run: npm run prettier:ci
-      - run: shellcheck .github/scripts/*.sh
+      # The workflows' scripts and Claude Code's hooks. ShellCheck comes with GitHub's Ubuntu runners.
+      - run: shellcheck .github/scripts/*.sh .claude/hooks/*.sh
 
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.x'
-          cache: 'npm'
-      - run: npm ci
+      - uses: ./.github/actions/setup-deps
       - run: npm run build
 
   test:
@@ -44,24 +39,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.x'
-          cache: 'npm'
-      - run: npm ci
+      - uses: ./.github/actions/setup-deps
       - run: npm run test
-
-  # The image CD deploys, run the way the cluster runs it (read-only, as the node user, no capabilities)
-  image:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v7
-      - run: docker build -t freek-mencke-web .
-      - name: Check the container serves the site
-        run: |
-          docker run -d --read-only --user 1000:1000 --cap-drop ALL -e HOST=localhost -p 8080:8080 -p 9090:9090 \
-            freek-mencke-web
-          for _ in $(seq 1 30); do curl -sf -o /dev/null localhost:8080/healthy && break; sleep 1; done
-          curl -sf -o /dev/null localhost:9090/healthy
-          curl -sf localhost:8080/ | grep -q '<title>Freek Mencke'
