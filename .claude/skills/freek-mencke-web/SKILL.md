@@ -64,7 +64,7 @@ changing the page's look, and keep the two in step.
   at 20vw, FREEK at 1.32em and weight 400 so both lines are as wide. Monospace only for the tagline and the terminals.
 - **Layout**: `px-page` (the gutter plus safe areas), `max-w-page` sections, `max-w-152` text columns centred. Space
   between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and footer
-  slide under it with `scroll-mt-bar` on fragment targets.
+  slide under it. `scroll-pt-bar` on `<html>` keeps fragment targets and focused elements out from under it.
 - **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
   reduced motion; the bar fades from see-through to blurred when the hero leaves it.
 - **Images**: WebP in `public/`, through `NgOptimizedImage` with `width` and `height`. OSRS Tracker's screenshots are

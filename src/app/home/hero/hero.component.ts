@@ -37,7 +37,7 @@ import { SocialLinksComponent } from '@app/common/social-links/social-links.comp
       </div>
 
       <a
-        class="flex flex-col items-center gap-1 self-center px-3 py-2 text-sm/5 font-medium text-field-muted motion-safe:animate-bounce"
+        class="flex flex-col items-center gap-1 self-center px-3 py-2 text-sm/5 font-medium text-field-muted hover:text-field-accent motion-safe:animate-bounce"
         routerLink="/"
         fragment="projects"
       >

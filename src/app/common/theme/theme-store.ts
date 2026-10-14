@@ -27,11 +27,12 @@ export const ThemeStore = signalStore(
         const dark = !store.dark();
         patchState(store, { dark });
 
-        localStorage.setItem(THEME_STORAGE_KEY, dark ? 'dark' : 'light');
         document.documentElement.classList.toggle('dark', dark);
         document
           .querySelector('meta[name="theme-color"]')
           ?.setAttribute('content', dark ? THEME_COLOR.dark : THEME_COLOR.light);
+        // Last: it throws when the browser blocks site data, and the page has switched by then
+        localStorage.setItem(THEME_STORAGE_KEY, dark ? 'dark' : 'light');
       },
     };
   }),

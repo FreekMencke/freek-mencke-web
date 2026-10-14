@@ -8,7 +8,7 @@ import { SocialLinksComponent } from '@app/common/social-links/social-links.comp
   imports: [SocialLinksComponent],
   host: { class: 'block' },
   template: `
-    <footer id="about" class="field mt-section scroll-mt-bar-phone sm:scroll-mt-bar" aria-labelledby="about-title">
+    <footer id="about" class="field mt-section" aria-labelledby="about-title">
       <div class="mx-auto flex max-w-page flex-col items-center px-page pt-section-sm pb-10 text-center">
         <h2 id="about-title" class="sr-only">About me</h2>
         <p class="max-w-147 text-statement font-light text-balance">

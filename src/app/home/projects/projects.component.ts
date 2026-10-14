@@ -12,11 +12,7 @@ import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
   imports: [OsrsTrackerComponent, TerminalCardComponent],
   host: { class: 'block' },
   template: `
-    <section
-      id="projects"
-      class="mx-auto max-w-page scroll-mt-bar-phone px-page pt-section-sm sm:scroll-mt-bar"
-      aria-labelledby="projects-title"
-    >
+    <section id="projects" class="mx-auto max-w-page px-page pt-section-sm" aria-labelledby="projects-title">
       <h2 id="projects-title" class="sr-only">Projects</h2>
 
       <osrs-tracker />

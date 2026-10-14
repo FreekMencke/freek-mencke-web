@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="motion-safe:scroll-smooth" lang="en">
+<html class="scroll-pt-bar-phone motion-safe:scroll-smooth sm:scroll-pt-bar" lang="en">
   <head>
     <base href="/" />
     <meta charset="utf-8" />
@@ -12,7 +12,12 @@
     <!-- The theme before the first paint: the visitor's choice, else the system's. ThemeStore keeps it in sync. -->
     <script>
       {
-        const theme = localStorage.getItem('theme');
+        let theme = null;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {
+          // The browser blocks site data: follow the system
+        }
         const dark = theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
         document.documentElement.classList.toggle('dark', dark);
         // The page's ground (base.css), as ThemeStore sets it on toggle

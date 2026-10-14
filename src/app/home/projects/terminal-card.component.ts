@@ -15,6 +15,7 @@ export interface TerminalLine {
   template: `
     <pre
       class="overflow-x-auto rounded-xl bg-field p-4 font-mono text-xs/5 text-on-field sm:px-6 sm:py-5 sm:text-sm/5.5"
+      role="img"
       [attr.aria-label]="label()"
     ><span class="text-field-accent">$</span> {{ command() }}@for (line of output(); track $index) {<br /><span [class.text-field-muted]="line.muted">{{ line.text }}</span>}</pre>
   `,
