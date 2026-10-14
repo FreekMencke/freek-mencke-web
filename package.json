@@ -5,6 +5,7 @@
   "scripts": {
     "start": "ng serve",
     "build": "ng build",
+    "postbuild": "rm -f dist/freek-mencke-web/browser/index.csr.html",
     "lint": "ng lint",
     "prettier": "prettier --write .",
     "prettier:ci": "prettier --check .",
@@ -30,7 +31,6 @@
     "@angular/core": "^22.2.2",
     "@angular/forms": "^22.2.2",
     "@angular/platform-browser": "^22.2.2",
-    "@angular/platform-browser-dynamic": "^22.2.2",
     "@angular/platform-server": "^22.2.2",
     "@angular/router": "^22.2.2",
     "@angular/ssr": "^22.2.2",

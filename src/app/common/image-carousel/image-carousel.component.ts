@@ -3,6 +3,7 @@ import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   input,
   InputSignal,
@@ -48,6 +49,11 @@ export class ImageCarouselComponent {
   readonly animationState: WritableSignal<'next' | 'previous' | null> = signal(null);
   readonly isOverlayVisible: WritableSignal<boolean> = signal(false);
 
+  constructor() {
+    // The overlay locks the page's scroll; leaving the page with it open would keep it locked
+    inject(DestroyRef).onDestroy(() => this.document.documentElement.classList.remove('overflow-hidden'));
+  }
+
   next() {
     if (this.isAnimating()) return;
 
@@ -74,6 +80,6 @@ export class ImageCarouselComponent {
 
   toggleOverlay() {
     this.isOverlayVisible.set(!this.isOverlayVisible());
-    this.document.documentElement.classList.toggle('overflow-hidden');
+    this.document.documentElement.classList.toggle('overflow-hidden', this.isOverlayVisible());
   }
 }
