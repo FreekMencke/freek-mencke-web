@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: freek-mencke-web
-          image: freekmencke/freek-mencke-web@sha256:997d68cf8692f2004c9b9b0ab5d7b11f77e6dc9c5d98459b6745f492bb20cbf1
+          image: freekmencke/freek-mencke-web@sha256:99cecb1c839e59aa302361baba2e148e1b818cc3bd4cf22cb03d210a9ef125c7
           imagePullPolicy: IfNotPresent
           env:
             - name: HOST
