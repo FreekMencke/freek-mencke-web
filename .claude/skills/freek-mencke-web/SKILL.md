@@ -101,8 +101,14 @@ changing the page's look, and keep the two in step.
   test with `curl -s -D - http://localhost:4301/<path>`: `/` is 200 with `Cache-Control: no-cache`, an unknown path a
   302 to `/`, a missing file (`/x.js`) a 404, `/healthy` 200 on both ports, `/metrics` on 9301. Stop it with
   `lsof -ti:4301 -sTCP:LISTEN | xargs -r kill`.
-- The image as the cluster runs it (read-only, uid 1000, no capabilities): the `docker run` in CI's `image` job
-  (`.github/workflows/nodejs.yml`), after `npm run docker:build`.
+- The image as the cluster runs it (read-only, uid 1000, no capabilities): CI doesn't build it (CD does, after the
+  merge), so run it yourself after changing the `Dockerfile`, `.dockerignore` or how `src/server.ts` starts. Build it
+  with `npm run docker:build`, start it with the command below, run the smoke test above, and stop it with
+  `docker stop fmw`:
+
+  ```bash
+  docker run -d --rm --name fmw --read-only --user 1000:1000 --cap-drop ALL -p 4301:8080 -p 9301:9090 freekmencke/freek-mencke-web
+  ```
 
 ## Browser check
 
