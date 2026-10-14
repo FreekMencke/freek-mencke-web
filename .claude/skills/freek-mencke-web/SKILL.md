@@ -37,10 +37,8 @@ Decided after a review of the whole codebase against both skills (2026-10-14):
 - Imports are relative for now, only because the structure is two folders (`common/`, `home/`). Once it grows (the
   redesign), add the `@app/…` alias and the ESLint layers. Until then `common/` never imports `home/`, and app code
   never imports `src/server.ts`.
-- The page is pre-rendered at build time, makes no HTTP calls and the server sends no CSP, so the async data, state and
-  per-request SSR rules (CSP nonce, transfer cache, third-party calls, writes) don't apply. The build does render the
-  page in Node: browser-only APIs (`window`, `requestAnimationFrame`, layout reads) run in `afterNextRender` or an event
-  handler, never in a constructor or field initialiser (`scroll-shadow.directive.ts`).
+- The build pre-renders the page in Node: browser-only APIs (`window`, `requestAnimationFrame`, layout reads) run in
+  `afterNextRender` or an event handler, never in a constructor or field initialiser (`scroll-shadow.directive.ts`).
 
 **Known debt the redesign clears**. Leave it in small edits; don't add more of it:
 
