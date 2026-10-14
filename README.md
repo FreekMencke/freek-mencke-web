@@ -10,7 +10,7 @@ npm ci
 npm start                          # dev server on http://localhost:4200
 npm run build                      # dist/freek-mencke-web: browser/ and server/
 npm run serve:ssr:freek-mencke-web # the production server on http://localhost:8080, metrics on :9090
-npm run lint && npm run prettier:ci
+npm run lint && npm run prettier:ci && npx knip
 ```
 
 ## Deploy
