@@ -2,7 +2,7 @@
 name: freek-mencke-web
 description:
   This repo's specifics on top of angular-conventions for freek-mencke-web, the personal site at freekmencke.com: where
-  it differs from the house rules, the design and the coming redesign, pre-rendering, local runs, the browser check,
+  it differs from the house rules, the design system, pre-rendering, local runs, the browser check,
   deploy and commit rules. Use when writing or reviewing code in this repo, redesigning the site, running it locally,
   checking it in the browser, or deploying, committing, pushing or releasing it.
 ---
@@ -16,65 +16,72 @@ Detailed guide; the always-on summary, commands and hard rules are in `CLAUDE.md
 General Angular rules are in the `angular-conventions` skill, on top of Angular's `angular-developer`: load both. This
 skill holds this repo's specifics and wins where they differ. Without `angular-conventions` (cloud sessions don't load
 personal skills), say so instead of guessing its rules. `~/repos/osrs-tracker-web` follows the same rules on a bigger
-app: look there for a pattern this repo doesn't have yet (semantic colour tokens, ESLint layers).
+app: look there for a pattern this repo doesn't have yet.
 
 ## The app
 
-- One page: `home/` (the `landing`, `projects` and `about` sections) inside `common/root-layout/` (the fixed nav, the
-  mobile menu button, the social links). The nav links are fragments of `/` (`#projects`, `#about`), scrolled to by
-  `withInMemoryScrolling`; every other path redirects to `/` (`app.routes.ts`, a 302 from the server).
-- `common/image-carousel/` shows a project's screenshots, with a full-screen overlay that locks the page's scroll.
+- One page, `home/`, inside `common/root-layout/` (the sticky bar: wordmark, Projects, About and the theme toggle). In
+  order: `hero/` (the green field, `#top`), `projects/` (`#projects`: `osrs-tracker/` featured, then the two smaller
+  ones with `terminal-card`) in `<main>`, and `about/` (`#about`, the green footer). The bar's links are fragments of
+  `/`, scrolled to by `withInMemoryScrolling`; every other path redirects to `/` (`app.routes.ts`, a 302 from the
+  server).
+- **State**: `common/theme/ThemeStore` (light or dark, kept in `localStorage` under `theme`) and
+  `common/root-layout/BarStore` (whether the hero is under the bar, which the hero sets with an `IntersectionObserver`).
+- **Theme**: the inline script in `src/index.html` sets `.dark` on `<html>` and the `theme-color` meta before the first
+  paint, from the stored choice or the system's. `ThemeStore` reads the class after render and toggles both; its ground
+  colours are copies of the script's and `base.css`'s, so change all three together.
 - **Page meta**: `PageMetaStrategy` (`common/seo/page-meta.strategy.ts`) sets the title from the route's `title`, and
   the description, canonical link and `og:`/`twitter:` tags from the deepest route's `data['meta']` (a `PageMeta`). A
   new page's lazy route gets both; `src/index.html` holds no meta.
-- `public/`: images per section (`about/`, `projects/<project>/`, WebP), the font, the light and dark favicons,
-  `robots.txt` and a hand-written `sitemap.xml`: bump its `<lastmod>` when the page's content changes, and add a page.
+- `public/`: images per project (`projects/<project>/`, WebP), the font, the light and dark favicons, `robots.txt` and a
+  hand-written `sitemap.xml`: bump its `<lastmod>` when the page's content changes, and add a page.
 
 ## Where this repo differs from `angular-conventions`
 
 Decided after a review of the whole codebase against both skills (2026-10-14):
 
-- Imports are relative for now, only because the structure is two folders (`common/`, `home/`). Once it grows (the
-  redesign), add the `@app/…` alias and the ESLint layers. Until then `common/` never imports `home/`, and app code
-  never imports `src/server.ts`.
-- The build pre-renders the page in Node: browser-only APIs (`window`, `requestAnimationFrame`, layout reads) run in
-  `afterNextRender` or an event handler, never in a constructor or field initialiser (`scroll-shadow.directive.ts`).
-
-**Known debt the redesign clears**. Leave it in small edits; don't add more of it:
-
-- Templates under 80 lines in `.html` files (`root-layout`, `projects`, `about`, `landing`, `home`).
-- Arbitrary values (`z-[1000]`, `min-h-[32rem]`, `h-[24em]`, `sm:max-w-[90vw]`…) instead of theme tokens.
-- Palette colour classes (`text-primary-500`, `bg-secondary-100`) instead of semantic tokens, and unused dark mode
-  machinery (`dark:` pairs in `.link`, `.link-states--dark`, the `.dark` variant: nothing sets `.dark`).
-- `leading-tight` with `xl:text-3xl` on the landing's tagline (a 37.5px line height).
-- Accessibility: three `<h1>`s, a menu button without `aria-expanded`, an overlay without Escape or keyboard close.
-- Sizeless `@defer` placeholders in `projects` and `about`, and plain `<img>`s (the selfie, the overlay) without `width`
-  and `height`.
-- `@angular/animations` in the carousel (`provideAnimations()` in `app.config.ts`): deprecated since 20.2, removed in
-  v23, so it goes in the redesign or the v23 update, whichever comes first. New animations use
-  `animate.enter`/`animate.leave` or CSS.
+- The build pre-renders the page in Node: browser-only APIs (`window`, `IntersectionObserver`, layout reads) run in
+  `afterNextRender` or an event handler, never in a constructor or field initialiser (`hero.component.ts`).
+- Imports use the `@app/…` alias across `common/` and `home/`, relative within them. ESLint's
+  `import-x/no-restricted-paths` keeps `common/` from importing `home/`, and app code from importing `src/server.ts`.
 
 ## Design
 
-The current design, until the redesign replaces it:
+Designed on the canvas https://claude.ai/artifact/DP3jSVavjuymjpv5zc4oBS (direction "Colour field"): look there before
+changing the page's look, and keep the two in step.
 
-- **Font**: SOLIX (variable, weights 300–700), the same file as osrs-tracker-web's
-  `public/assets/fonts/SOLIX-Variable.woff2`, preloaded in `src/index.html` and declared in `base.css`, both with `?v=`.
-  To update it, copy that file once osrs-tracker-web has a new one (its skill's Font rule cuts it) and bump `?v=` in
-  both files.
-- **Colours** (`src/styles/tailwind/theme.css`): a green `primary` scale and a slate `secondary` scale. The page is
-  `bg-secondary-100` with `text-secondary-800`; `.link-states` (`components.css`) colours links' hover and active
-  states. Light only.
-- **Layout**: Tailwind's `container mx-auto`; the landing fills the screen (`fill-screen`), and `sa-t`/`sa-l`/`sa-r`/
-  `sa-b` pad for the safe areas (`viewport-fit=cover`) (`utilities.css`). The nav switches to the menu button below
-  `lg`.
-- **Images**: WebP in `public/`, through `NgOptimizedImage`: `ngSrc` with `width` and `height`, or `fill` in a sized box
-  (the carousel).
+- **Idea**: one bold thing, a deep green field, opens the page (the hero) and closes it (the footer). Everything between
+  is quiet: the light ground, thin type, centred project heads.
+- **Colours**: semantic tokens only (`theme.css`, the light values; `.dark` in `base.css` swaps them; the stock palette
+  is cleared). `ground` the page, `line` hairlines, `ink` text, `muted` secondary text, `accent` links' hover and the
+  website years, `edge` the hairline around screenshots; `field` the green, `on-field`, `field-muted` and `field-accent`
+  on it. Dark is a near-black in the field's own green (`#0b1613`), not OSRS Tracker's navy: navy clashes with the
+  green. A tint is `color-mix(in oklch, <token> N%, transparent)`.
+- **Type**: SOLIX 3.00, cut to weights 100–700 from the release (osrs-tracker-web's skill has the commands; this repo
+  cuts `wght=100:700`, for MENCKE's 100), preloaded in `index.html` and declared in `base.css`, both with `?v=`. Project
+  names `text-display` (OSRS Tracker) and `text-title`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the
+  footer's first line `text-statement`. The wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked
+  at 20vw, FREEK at 1.32em and weight 400 so both lines are as wide. Monospace only for the tagline and the terminals.
+- **Layout**: `px-page` (the gutter plus safe areas), `max-w-page` sections, `max-w-152` text columns centred. Space
+  between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and footer
+  slide under it with `scroll-mt-bar` on fragment targets.
+- **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
+  reduced motion; the bar fades from see-through to blurred when the hero leaves it.
+- **Images**: WebP in `public/`, through `NgOptimizedImage` with `width` and `height`. OSRS Tracker's screenshots are
+  its light theme in both page themes, dimmed to 90% on a dark page. They show live data (a price, a player), so retake
+  them now and then: the home page at 1440x800 at 1.5x, the item (`/trackers/price/4151`) and player
+  (`/trackers/xp/The%20Fraking`) pages at 1440x1100 at 2x, cropped to the header, stat cards and chart, without the
+  cookie banner, 1400px wide.
 
-**Redesign**: design it on a Design canvas artifact first and let the user look, as osrs-tracker did. Its skill's
-`## Design system` shows the result to aim for: a link to the canvas, semantic colour tokens that swap under `.dark`,
-surfaces, radii, type, spacing, phone rules and a which-component table. Then replace this section with the same, and
-the palette classes with the tokens.
+| Piece                                | Where                                                           |
+| ------------------------------------ | --------------------------------------------------------------- |
+| Sticky bar, nav, theme toggle        | `common/root-layout/`, `common/theme/theme-toggle.component.ts` |
+| Social links (hero and footer)       | `common/social-links/`                                          |
+| Green field background, link style   | `.field`, `.link` in `components.css`                           |
+| Hero: wordmark, typed tagline, arrow | `home/hero/`                                                    |
+| Screenshots and timeline             | `home/projects/osrs-tracker/`                                   |
+| Terminal cards                       | `home/projects/terminal-card.component.ts`                      |
+| Footer bio                           | `home/about/`                                                   |
 
 ## Tests
 
@@ -109,11 +116,12 @@ sees the server's HTML). If Playwright is unavailable, say so rather than fallin
 
 The rules it follows (it reads them here):
 
-- Desktop (1280px) and phone (390px) for every change: the nav and the sections change layout between them.
-- Light mode only, until the redesign adds a dark theme.
-- Click the menu button, the nav links, the carousel's previous and next buttons and its overlay from snapshot refs,
-  never by guessing.
-- A screenshot per URL and width, plus failed requests (an image under `/about/` or `/projects/`) and console errors.
+- Desktop (1280px) and phone (390px), each in light and dark (emulate `prefers-color-scheme`, or click the toggle): the
+  wordmark, the tagline, the screenshots and the timeline change layout between the widths.
+- Click the bar's links, the hero's arrow and the theme toggle from snapshot refs, never by guessing. After a toggle,
+  reload: the page must open in the chosen theme without a flash of the other.
+- Scroll past the hero: the bar turns solid and shows the wordmark.
+- A screenshot per URL, width and theme, plus failed requests (an image under `/projects/`) and console errors.
 - Close the browser as soon as the round of checks is done.
 
 ## Deploy
@@ -145,9 +153,9 @@ The flow and the rollback are in `README.md`. For a session:
 What `conventions-reviewer` checks beyond the rules above. It reads this section; keep repo rules here, not in the
 agent.
 
-- The differences from `angular-conventions` above are the repo's rules: don't flag them. Known debt the redesign clears
-  is flagged only where the diff adds to it (a new `dark:` pair, an arbitrary value, a new short `.html` template, a new
-  `@angular/animations` trigger): **violates**.
+- The differences from `angular-conventions` above are the repo's rules: don't flag them. **violates**: a palette colour
+  or a `dark:` colour pair instead of a token from `## Design`, an arbitrary value (`w-[13px]`), and
+  `@angular/animations` (removed in v23; CSS or `animate.enter`/`animate.leave` instead).
 - Rules that span files, checked against the whole diff: a new page and its route `title`, `data['meta']` and
   `sitemap.xml` entry; a new file outside the build and `NOT_IN_IMAGE` plus `.dockerignore`.
 - **breaks** here also covers: a browser-only API outside `afterNextRender` or an event handler (the pre-render fails or
