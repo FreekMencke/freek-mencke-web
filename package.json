@@ -2,6 +2,10 @@
   "name": "freek-mencke-web",
   "version": "0.0.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "github:FreekMencke/freek-mencke-web"
+  },
   "scripts": {
     "start": "ng serve",
     "build": "ng build",
@@ -17,6 +21,9 @@
     "name": "Freek Mencke",
     "email": "freek_mencke.dev@outlook.com",
     "url": "https://freekmencke.com"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "config": {
     "commitizen": {
@@ -36,32 +43,30 @@
     "@angular/ssr": "^22.2.2",
     "@osrs-tracker/express-metrics": "^0.1.1",
     "express": "^5.3.0",
-    "rxjs": "~7.8.0",
+    "rxjs": "~7.8.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular/build": "^22.2.2",
     "@angular/cli": "^22.2.2",
     "@angular/compiler-cli": "^22.2.2",
-    "@eslint/js": "^9.17.0",
-    "@stylistic/eslint-plugin": "^4.4.1",
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",
     "@types/express": "^5.0.6",
-    "@types/node": "^22.16.0",
+    "@types/node": "^24.19.2",
     "angular-eslint": "^22.6.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.28.0",
-    "eslint-config-prettier": "^10.1.5",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
     "jsdom": "^30.1.2",
     "postcss": "^8.5.30",
-    "prettier": "^3.4.2",
-    "prettier-eslint": "^16.3.0",
+    "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
-    "typescript": "6.0.3",
-    "typescript-eslint": "^8.59.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.2",
     "vitest": "^5.0.4"
   }
 }
