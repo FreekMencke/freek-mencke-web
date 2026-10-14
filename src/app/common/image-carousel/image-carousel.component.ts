@@ -6,6 +6,7 @@ import {
   inject,
   input,
   InputSignal,
+  OnDestroy,
   signal,
   WritableSignal,
   DOCUMENT,
@@ -38,7 +39,7 @@ import {
     ]),
   ],
 })
-export class ImageCarouselComponent {
+export class ImageCarouselComponent implements OnDestroy {
   readonly document = inject(DOCUMENT);
 
   readonly images: InputSignal<{ src: string; alt: string }[]> = input<{ src: string; alt: string }[]>([]);
@@ -74,6 +75,11 @@ export class ImageCarouselComponent {
 
   toggleOverlay() {
     this.isOverlayVisible.set(!this.isOverlayVisible());
-    this.document.documentElement.classList.toggle('overflow-hidden');
+    this.document.documentElement.classList.toggle('overflow-hidden', this.isOverlayVisible());
+  }
+
+  // The overlay locks the page's scroll; leaving the page with it open would keep it locked
+  ngOnDestroy(): void {
+    this.document.documentElement.classList.remove('overflow-hidden');
   }
 }
