@@ -20,6 +20,12 @@ import { BarStore } from './bar-store';
       color: var(--color-ink);
       box-shadow: 0 1px 0 var(--color-line);
     }
+    /* Dark: the field's green carries on. The dark ground over the light screenshots reads as a black band. */
+    :host-context(.dark) .bar.is-scrolled {
+      background-color: color-mix(in oklch, var(--color-field) 92%, transparent);
+      color: var(--color-on-field);
+      box-shadow: none;
+    }
     .mark {
       opacity: 0;
       visibility: hidden;
@@ -31,10 +37,12 @@ import { BarStore } from './bar-store';
       opacity: 1;
       visibility: visible;
     }
-    .bar:not(.is-scrolled) a:hover {
+    .bar:not(.is-scrolled) a:hover,
+    :host-context(.dark) .bar a:hover {
       color: var(--color-field-accent);
     }
-    .bar:not(.is-scrolled) :focus-visible {
+    .bar:not(.is-scrolled) :focus-visible,
+    :host-context(.dark) .bar :focus-visible {
       outline-color: var(--color-field-accent);
     }
     @media (prefers-reduced-motion: reduce) {

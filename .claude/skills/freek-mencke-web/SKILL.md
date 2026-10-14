@@ -66,7 +66,8 @@ changing the page's look, and keep the two in step.
   between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and footer
   slide under it. `scroll-pt-bar` on `<html>` keeps fragment targets and focused elements out from under it.
 - **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
-  reduced motion; the bar fades from see-through to blurred when the hero leaves it.
+  reduced motion; the bar fades from see-through to blurred when the hero leaves it: the ground in light, the field's
+  green in dark (a dark ground over the light screenshots reads as a black band).
 - **Images**: WebP in `public/`, through `NgOptimizedImage` with `width` and `height`. OSRS Tracker's screenshots are
   its light theme in both page themes, dimmed to 90% on a dark page. They show live data (a price, a player), so retake
   them now and then: the home page at 1440x800 at 1.5x, the item (`/trackers/price/4151`) and player
@@ -120,7 +121,7 @@ The rules it follows (it reads them here):
   wordmark, the tagline, the screenshots and the timeline change layout between the widths.
 - Click the bar's links, the hero's arrow and the theme toggle from snapshot refs, never by guessing. After a toggle,
   reload: the page must open in the chosen theme without a flash of the other.
-- Scroll past the hero: the bar turns solid and shows the wordmark.
+- Scroll past the hero: the bar turns solid (light ground, or green in dark) and shows the wordmark.
 - A screenshot per URL, width and theme, plus failed requests (an image under `/projects/`) and console errors.
 - Close the browser as soon as the round of checks is done.
 
