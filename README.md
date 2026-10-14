@@ -23,8 +23,8 @@ One page, in light and dark:
 
 - **The hero**: a deep green field with the name, a typed-out tagline and the socials.
 - **Projects**: [OSRS Tracker](https://osrs-tracker.freekmencke.com) with screenshots and its timeline, then
-  [Node TS Starter CLI](https://github.com/FreekMencke/node-ts-starter-cli) and the Kubernetes cluster in my house, each
-  with a terminal card.
+  [Node TS Starter CLI](https://github.com/FreekMencke/node-ts-starter-cli) and fremen-server, my Kubernetes cluster,
+  each with a terminal card.
 - **About**: who I am, on the hero's green, so the page opens and closes on it.
 
 ## How it's built
@@ -35,7 +35,7 @@ One page, in light and dark:
   in `public/fonts/LICENSE.txt`).
 - **Express 5** (`src/server.ts`) serves the pre-rendered page and the static files (hashed ones cached for a year),
   plus health checks and Prometheus metrics on a separate port.
-- **Hosting**: a Docker image on a single-node Kubernetes cluster at home, deployed by Flux from this repo's manifest
+- **Hosting**: a Docker image on a single-node Kubernetes cluster, deployed by Flux from this repo's manifest
   (`freek-mencke-web.yaml`).
 
 ## Running it locally
