@@ -1,4 +1,6 @@
 <p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Elastic--2.0-blue.svg" /></a>
+  &middot;
   <a href="https://github.com/FreekMencke/freek-mencke-web/actions/workflows/nodejs.yml"><img src="https://github.com/FreekMencke/freek-mencke-web/actions/workflows/nodejs.yml/badge.svg" /></a>
   <a href="https://github.com/FreekMencke/freek-mencke-web/actions/workflows/deploy.yml"><img src="https://github.com/FreekMencke/freek-mencke-web/actions/workflows/deploy.yml/badge.svg" /></a>
 </p>
@@ -73,3 +75,9 @@ without a new image.
 minute; CD skips the revert.
 
 Repository secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
+
+## Licence
+
+[Elastic License 2.0](LICENSE): you're welcome to read the code, learn from it, change it and run it yourself, but not
+to offer it to others as a hosted service, paid or free. SOLIX (`public/fonts/`) isn't covered: its terms are in
+`public/fonts/LICENSE.txt`.
