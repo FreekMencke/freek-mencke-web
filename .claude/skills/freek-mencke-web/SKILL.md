@@ -33,8 +33,13 @@ app: look there for a pattern this repo doesn't have yet.
 - **Page meta**: `PageMetaStrategy` (`common/seo/page-meta.strategy.ts`) sets the title from the route's `title`, and
   the description, canonical link and `og:`/`twitter:` tags from the deepest route's `data['meta']` (a `PageMeta`). A
   new page's lazy route gets both; `src/index.html` holds no meta.
-- `public/`: images per project (`projects/<project>/`, WebP), the font, the light and dark favicons, `robots.txt` and a
-  hand-written `sitemap.xml`: bump its `<lastmod>` when the page's content changes, and add a page.
+- `public/`: images per project (`projects/<project>/`, WebP), the font, the light and dark favicons, `robots.txt`,
+  `.well-known/security.txt` (renewed as `README.md` says) and a hand-written `sitemap.xml`: bump its `<lastmod>` when
+  the page's content changes, and add a page.
+- **CSP** (`src/server.ts`, helmet): scripts run only with the response's nonce. `ngCspNonce` on `<app-root>` gives
+  every inline script and style the placeholder at build and pre-render, and each response swaps in its own nonce, so
+  the page has no ETag (a 304 would revive an old nonce). Everything loads from the site itself: a resource from another
+  host needs its directive first. The dev server leaves out `'strict-dynamic'`, as Vite's client script has no nonce.
 
 ## Where this repo differs from `angular-conventions`
 
@@ -71,6 +76,11 @@ changing the page's look, and keep the two in step.
 - **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
   reduced motion; the bar fades from see-through to blurred when the hero leaves it: the ground in light, the field's
   green in dark (a dark ground over the light screenshots reads as a black band).
+- **Icons**: Lucide's, through `@lucide/angular`, as in osrs-tracker-web: import the icon's component (`LucideSun`) and
+  write `<svg lucideSun class="size-4.5" />`; pick from https://lucide.dev/icons, never hand-draw one or take it from
+  another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default, 1.5 for the hero's
+  arrow. Changing classes go in one `[class]="…"` binding, never `[class.x]`: the component rewrites its `class`
+  attribute on creation and drops one that's already true. They're `aria-hidden`: label the control around them.
 - **Images**: WebP in `public/`, through `NgOptimizedImage` with `width` and `height`. OSRS Tracker's screenshots are
   its light theme in both page themes, dimmed to 90% on a dark page. They show live data (a price, a player), so retake
   them now and then: the home page at 1440x800 at 1.5x, the item (`/trackers/price/4151`) and player
@@ -101,8 +111,9 @@ changing the page's look, and keep the two in step.
 - `src/server.ts` needs the production build: `npm run build` (about 5 s; it pre-renders `/` and deletes the browser
   build's `index.csr.html`, which `npx ng build` keeps), then
   `PORT=4301 METRICS_PORT=9301 npm run serve:ssr:freek-mencke-web` (the defaults, 8080 and 9090, are often taken). Smoke
-  test with `curl -s -D - http://localhost:4301/<path>`: `/` is 200 with `Cache-Control: no-cache`, an unknown path a
-  302 to `/`, a missing file (`/x.js`) a 404, `/healthy` 200 on both ports, `/metrics` on 9301. Stop it with
+  test with `curl -s -D - http://localhost:4301/<path>`: `/` is 200 with `Cache-Control: no-cache`, no ETag and a CSP
+  whose nonce is on every script and style in the page, `/.well-known/security.txt` 200, an unknown path a 302 to `/`, a
+  missing file (`/x.js`) a 404, `/healthy` 200 on both ports, `/metrics` on 9301. Stop it with
   `lsof -ti:4301 -sTCP:LISTEN | xargs -r kill`.
 - The image as the cluster runs it (read-only, uid 1000, no capabilities): CI doesn't build it (CD does, after the
   merge), so run it yourself after changing the `Dockerfile`, `.dockerignore` or how `src/server.ts` starts. Build it
@@ -171,7 +182,8 @@ agent.
 
 - The differences from `angular-conventions` above are the repo's rules: don't flag them. **violates**: a palette colour
   or a `dark:` colour pair instead of a token from `## Design`, an arbitrary value (`w-[13px]`), and
-  `@angular/animations` (removed in v23; CSS or `animate.enter`/`animate.leave` instead).
+  `@angular/animations` (removed in v23; CSS or `animate.enter`/`animate.leave` instead), an inline `<svg>` icon instead
+  of a Lucide component.
 - Rules that span files, checked against the whole diff: a new page and its route `title`, `data['meta']` and
   `sitemap.xml` entry; a new file outside the build and `NOT_IN_IMAGE` plus `.dockerignore`.
 - **breaks** here also covers: a browser-only API outside `afterNextRender` or an event handler (the pre-render fails or
