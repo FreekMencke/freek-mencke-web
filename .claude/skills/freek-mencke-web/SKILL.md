@@ -57,7 +57,7 @@ changing the page's look, and keep the two in step.
   website years, `edge` the hairline around screenshots, `shade` their shadow; `field` the green, `on-field`,
   `field-muted` and `field-accent` on it. Dark is a near-black in the field's own green (`#0b1613`), not OSRS Tracker's
   navy: navy clashes with the green. A tint is `color-mix(in oklch, <token> N%, transparent)`.
-- **Type**: SOLIX 3.00, cut to weights 100–700 from the release (osrs-tracker-web's skill has the commands; this repo
+- **Type**: SOLIX 3.01, cut to weights 100–700 from the release (osrs-tracker-web's skill has the commands; this repo
   cuts `wght=100:700`, for MENCKE's 100), preloaded in `index.html` and declared in `base.css`, both with `?v=`. Project
   names `text-display` (OSRS Tracker) and `text-title`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the
   footer's first line `text-statement`. The wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked
@@ -119,15 +119,18 @@ For visible changes, check the page in the browser locally, and on https://freek
 sees the server's HTML). If Playwright is unavailable, say so rather than falling back to curl silently.
 
 1. Start the server yourself (see Running locally); for production, wait for the deploy.
-2. Delegate every round to the `browser-checker` agent (without a `model`), with the URLs and what changed, so its
-   screenshots stay out of the main session. It starts its own headless, isolated browser.
-3. Pass on its `VERDICT:`, failed requests and console errors, and send its screenshots with `SendUserFile` without
-   `Read`ing them: it has looked. Then delete them and `.playwright-mcp/`, and stop the server.
+2. Delegate every round to the `browser-checker` agent (without a `model`), with the URLs and what changed (colours, the
+   state to show, the changed elements), so its screenshots stay out of the main session. It starts its own headless,
+   isolated browser.
+3. Pass on its `VERDICT:`, contrast failures, failed requests and console errors, and send its screenshots with
+   `SendUserFile` without `Read`ing them: it has looked. Then delete them and `.playwright-mcp/`, and stop the server.
 
 The rules it follows (it reads them here):
 
 - Desktop (1280px) and phone (390px), each in light and dark (emulate `prefers-color-scheme`, or click the toggle): the
   wordmark, the tagline, the screenshots and the timeline change layout between the widths.
+- Measure the contrast of changed text and icons, and which tokens their colours are, in the page: a screenshot can't
+  settle a ratio or a colour.
 - Click the bar's links, the hero's arrow and the theme toggle from snapshot refs, never by guessing. After a toggle,
   reload: the page must open in the chosen theme without a flash of the other.
 - Scroll past the hero: the bar turns solid (light ground, or green in dark) and shows the wordmark.
