@@ -23,7 +23,8 @@
 
 - **Angular 22**, zoneless, pre-rendered at build time and hydrated in the browser.
 - **Tailwind CSS 4** with a light and a dark theme, set in SOLIX, my own typeface.
-- **Express 5** (`src/server.ts`) serves the page and its files, with health checks and Prometheus metrics.
+- **Express 5** (`src/server.ts`) serves the page and its files, with security headers (a CSP with a nonce per
+  response), health checks and Prometheus metrics.
 - **Kubernetes**, deployed by Flux from `freek-mencke-web.yaml`.
 
 ## Running it locally
@@ -44,6 +45,12 @@ CI runs `npm run lint`, `npm run prettier:ci`, `npx knip`, `npm test` and `npm r
 Merging to `main` deploys: CD pushes the image to Docker Hub and commits its digest to `freek-mencke-web.yaml`, and Flux
 rolls it out. Change the cluster only through this repo, as Flux reverts anything else. To roll back, `git revert` the
 `chore(deploy)` commit and push.
+
+## Renew security.txt
+
+`public/.well-known/security.txt` (RFC 9116) carries an `Expires` date, and finders may ignore an expired file. The
+monthly `security.txt check` workflow fails once it's under 45 days away. Move it about 11 months on (the RFC wants it
+under a year ahead), check the contact address still works, and merge.
 
 ## Licence
 

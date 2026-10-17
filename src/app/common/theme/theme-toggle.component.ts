@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { LucideMoon, LucideSun } from '@lucide/angular';
 import { ThemeStore } from './theme-store';
 
 /**
@@ -8,6 +9,7 @@ import { ThemeStore } from './theme-store';
 @Component({
   selector: 'theme-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [LucideMoon, LucideSun],
   host: { class: 'flex' },
   template: `
     <button
@@ -17,33 +19,8 @@ import { ThemeStore } from './theme-store';
       [attr.aria-pressed]="themeStore.dark()"
       (click)="themeStore.toggle()"
     >
-      <svg
-        class="size-4.5 dark:hidden"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <circle cx="12" cy="12" r="4" />
-        <path
-          d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
-        />
-      </svg>
-      <svg
-        class="hidden size-4.5 dark:block"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-      </svg>
+      <svg lucideSun class="size-4.5 dark:hidden" />
+      <svg lucideMoon class="hidden size-4.5 dark:block" />
     </button>
   `,
 })
