@@ -1,8 +1,9 @@
-// Ported from osrs-tracker-web's scripts/a11y/a11y-scan.mjs (same author and licence), scanning both themes instead of
-// one, as this page follows the system's.
-// Scans pages of a running server with axe-core on the WCAG 2.2 AA tags, in the light and the dark theme, and prints
-// one line per violation (rule, impact, node count, selectors) and each page's incomplete count. Exits 1 on violations,
-// 2 when a page can't be scanned.
+// Ported from osrs-tracker-web's scripts/a11y/a11y-scan.mjs (same author and licence), scanning both themes and the
+// browser check's two widths instead of one each, as this page follows the system's theme and changes layout on phones.
+// Scans pages of a running server with axe-core on the WCAG 2.2 AA tags, in each theme and width, and prints one line
+// per violation (rule, impact, node count, selectors) and each scan's incomplete count. Exits 1 on violations, 2 when
+// a page can't be scanned. To turn a rule off, add `.disableRules([...])` to the AxeBuilder call with a comment saying
+// why; never `.exclude()`, which turns off every rule for that part of the page.
 //   npm run a11y -- [--click=<selector>]... <url>...
 // Each --click clicks that element after the page loads, in order, to scan an open state. Needs Playwright's headless
 // Chromium once: `npx playwright install --only-shell chromium`.
@@ -13,6 +14,7 @@ import { chromium } from 'playwright';
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']; // without wcag22aa, target-size never runs
 const THEMES = ['light', 'dark'];
+const WIDTHS = [1280, 390];
 const MAX_SELECTORS = 5;
 
 const USAGE = 'Usage: npm run a11y -- [--click=<selector>]... <url>...';
@@ -36,10 +38,14 @@ if (!urls.length) {
 }
 
 let exitCode = 0;
-const browser = await chromium.launch();
+const browser = await chromium.launch().catch(error => {
+  console.error(`Can't start Chromium: ${error.message.split('\n')[0]}`);
+  process.exit(2);
+});
 try {
-  for (const theme of THEMES) {
-    const context = await browser.newContext({ colorScheme: theme, viewport: { width: 1280, height: 800 } });
+  for (const [theme, width] of THEMES.flatMap(theme => WIDTHS.map(width => [theme, width]))) {
+    const context = await browser.newContext({ colorScheme: theme, viewport: { width, height: 800 } });
+    const label = `${theme} ${width}px`;
     for (const url of urls) {
       const page = await context.newPage();
       try {
@@ -54,13 +60,13 @@ try {
           const targets = nodes.map(node => node.target.join(' >> '));
           const more = targets.length > MAX_SELECTORS ? ` (+${targets.length - MAX_SELECTORS} more)` : '';
           console.log(
-            `${url} ${theme} ${id} ${impact} ${nodes.length}: ${targets.slice(0, MAX_SELECTORS).join(', ')}${more}`,
+            `${url} ${label} ${id} ${impact} ${nodes.length}: ${targets.slice(0, MAX_SELECTORS).join(', ')}${more}`,
           );
         }
-        console.log(`${url} ${theme} incomplete ${incomplete.length}`);
+        console.log(`${url} ${label} incomplete ${incomplete.length}`);
         if (violations.length) exitCode ||= 1;
       } catch (error) {
-        console.log(`${url} ${theme} ERROR ${error.message.split('\n')[0]}`);
+        console.log(`${url} ${label} ERROR ${error.message.split('\n')[0]}`);
         exitCode = 2;
       } finally {
         await page.close();

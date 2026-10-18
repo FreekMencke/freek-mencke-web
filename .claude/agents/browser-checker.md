@@ -170,8 +170,9 @@ The axe scan (`npm run a11y`) runs in the caller's session, as you have no Bash.
 the flagged elements in your snapshot and screenshots. The walk checks what a scan can't:
 
 - **Tab** (`browser_press_key`) from just before the change through it, then Shift+Tab back. After each press, pass the
-  script below to `browser_evaluate`. The order should follow the layout, and Tab must not stop on hidden elements or
-  get stuck.
+  script below to `browser_evaluate`, after `browser_wait_for` of 1 second when the Tab scrolled the page: it scrolls
+  smoothly, and a reading mid-scroll shows a false `0/5` and the ring mid-transition. The order should follow the
+  layout, and Tab must not stop on hidden elements or get stuck.
 - **Focus visible** (WCAG 2.4.7): `ring` names the outline or shadow (`outline auto` is the browser's own ring); `NONE`
   is an issue unless the screenshot shows another indicator. Take one screenshot with focus on a changed control.
 - **Not covered** (2.4.11): `uncovered` counts how many of the element's four corners and its centre are not under

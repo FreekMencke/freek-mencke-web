@@ -131,11 +131,12 @@ sees the server's HTML). If Playwright is unavailable, say so rather than fallin
 
 1. Start the server yourself (see Running locally); for production, wait for the deploy.
 2. Scan the page with axe yourself, as the agent has no Bash: `npm run a11y -- <url>...` (`scripts/a11y/a11y-scan.mjs`)
-   prints one line per WCAG 2.2 AA violation (theme, rule, impact, selectors) and each theme's `incomplete` count, in
-   both themes, and exits 1 on violations. `--click=<selector>` (repeatable, in order) opens a state first. Once per
-   machine: `npx playwright install --only-shell chromium`. Fix a finding, or turn its rule off with `disableRules` and
-   a reason, never `exclude()`, which turns off every rule for that part of the page. No Playwright Test suite: the
-   browser check already visits the page.
+   prints one line per WCAG 2.2 AA violation (theme, width, rule, impact, selectors) and each scan's `incomplete` count,
+   in both themes at 1280 and 390px, and exits 1 on violations, 2 when it can't scan. `--click=<selector>` (repeatable,
+   in order) opens a state first. Once per machine: `npx playwright install --only-shell chromium`. Fix a finding, or
+   turn its rule off as the script's header says, never with `exclude()`. It doesn't see the solid bar (the page loads
+   at the top): `browser-checker`'s contrast script measures that. No Playwright Test suite: the browser check already
+   visits the page.
 3. Delegate every round to the `browser-checker` agent (without a `model`), with the URLs, what changed (colours, the
    state to show, the changed elements) and the scan's lines, so its screenshots stay out of the main session. It starts
    its own headless, isolated browser.
