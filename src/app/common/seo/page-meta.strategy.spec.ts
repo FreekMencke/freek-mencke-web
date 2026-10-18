@@ -46,7 +46,11 @@ describe('PageMetaStrategy', () => {
     expect(canonical()).toBe('https://freekmencke.com/');
     expect(content('property="og:url"')).toBe('https://freekmencke.com/');
     expect(content('property="og:title"')).toBe('Home - Freek Mencke');
-    expect(content('name="twitter:card"')).toBe('summary');
+    expect(content('property="og:image"')).toBe('https://freekmencke.com/og.png?v=1');
+    expect(content('property="og:image:width"')).toBe('1200');
+    expect(content('property="og:image:height"')).toBe('630');
+    expect(content('property="og:image:alt"')).toBeTruthy();
+    expect(content('name="twitter:card"')).toBe('summary_large_image');
   });
 
   // Otherwise a page without meta keeps the previous page's canonical and tags
@@ -57,6 +61,8 @@ describe('PageMetaStrategy', () => {
     expect(document.title).toBe('Bare');
     expect(content('name="description"')).toBeUndefined();
     expect(content('property="og:url"')).toBeUndefined();
+    expect(content('property="og:image"')).toBeUndefined();
+    expect(content('property="og:image:alt"')).toBeUndefined();
     expect(canonical()).toBeUndefined();
   });
 });

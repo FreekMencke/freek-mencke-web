@@ -11,6 +11,15 @@ export interface PageMeta {
 
 const SITE_NAME = 'Freek Mencke';
 const SITE_URL = 'https://freekmencke.com';
+/**
+ * The site's link-preview card (`public/og.png`), for every page. Platforms cache it by URL: bump `v` when it changes.
+ */
+const OG_IMAGE = {
+  url: `${SITE_URL}/og.png?v=1`,
+  width: '1200',
+  height: '630',
+  alt: 'FREEK MENCKE in white on a deep green field, over the line "Doing the coding thing. Creating cool shit."',
+};
 
 /** Every tag this strategy sets apart from the description, so a page without meta can remove them all */
 const SOCIAL_TAGS = [
@@ -19,6 +28,10 @@ const SOCIAL_TAGS = [
   'property="og:url"',
   'property="og:type"',
   'property="og:site_name"',
+  'property="og:image"',
+  'property="og:image:width"',
+  'property="og:image:height"',
+  'property="og:image:alt"',
   'name="twitter:card"',
 ];
 
@@ -53,9 +66,13 @@ export class PageMetaStrategy extends TitleStrategy {
       'og:url': url,
       'og:type': 'website',
       'og:site_name': SITE_NAME,
+      'og:image': OG_IMAGE.url,
+      'og:image:width': OG_IMAGE.width,
+      'og:image:height': OG_IMAGE.height,
+      'og:image:alt': OG_IMAGE.alt,
     };
     Object.entries(tags).forEach(([property, content]) => this.meta.updateTag({ property, content }));
-    this.meta.updateTag({ name: 'twitter:card', content: 'summary' });
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.setCanonical(url);
   }
 
