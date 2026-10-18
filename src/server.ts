@@ -158,7 +158,8 @@ if (isMainModule(import.meta.url)) {
   // Node as PID 1 ignores SIGTERM without a handler, so Kubernetes would kill it only after the 30 s grace period
   for (const signal of ['SIGINT', 'SIGTERM']) {
     process.once(signal, () => {
-      closeServers(server, metricsServer).then(() => process.exit(0));
+      // Never rejects: `close` errors resolve too, and the timer below ends a shutdown that hangs
+      void closeServers(server, metricsServer).then(() => process.exit(0));
       setTimeout(() => process.exit(1), 10_000).unref();
     });
   }
