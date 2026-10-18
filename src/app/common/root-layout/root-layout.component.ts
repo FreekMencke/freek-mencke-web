@@ -34,17 +34,20 @@ import { BarStore } from './bar-store';
         opacity 0.25s,
         visibility 0.25s;
     }
+    /* A word break between the names that takes no room: an sr-only space doesn't count as the visible label */
+    .mark .gap {
+      font-size: 0;
+      letter-spacing: 0;
+    }
     .is-scrolled .mark {
       opacity: 1;
       visibility: visible;
     }
-    .bar:not(.is-scrolled) a:hover,
-    :host-context(.dark) .bar a:hover {
-      color: var(--color-field-accent);
-    }
-    .bar:not(.is-scrolled) :focus-visible,
-    :host-context(.dark) .bar :focus-visible {
-      outline-color: var(--color-field-accent);
+    /* On green (over the hero, and the solid bar in dark) hovers and focus rings take the field's accent. As a token,
+       so it reaches the theme toggle's ring too: a selector here stops at its component boundary. */
+    .bar:not(.is-scrolled),
+    :host-context(.dark) .bar {
+      --color-accent: var(--color-field-accent);
     }
     @media (prefers-reduced-motion: reduce) {
       .bar,
@@ -65,7 +68,8 @@ import { BarStore } from './bar-store';
         fragment="top"
         aria-label="Freek Mencke, back to top"
       >
-        <span class="font-semibold">Freek</span><span class="font-thin">Mencke</span>
+        <!-- A space shrunk to nothing (.gap) makes the text "Freek Mencke", as the label starts (WCAG 2.5.3) -->
+        <span class="font-semibold">Freek</span><span class="gap">&ngsp;</span><span class="font-thin">Mencke</span>
       </a>
 
       <div class="flex items-center gap-6">
