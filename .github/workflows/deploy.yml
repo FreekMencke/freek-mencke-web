@@ -54,7 +54,7 @@ jobs:
           CI_WORKFLOW_ID: ${{ github.event.workflow_run.workflow_id }}
           # Files that don't end up in the image: a change to only these needs no new image. Flux applies
           # freek-mencke-web.yaml by itself.
-          NOT_IN_IMAGE: '^(freek-mencke-web\.yaml|\.claude/.*|\.github/.*|\.vscode/.*|README\.md|CLAUDE\.md|\.mcp\.json|\.gitignore|knip\.jsonc|LICENSE)$'
+          NOT_IN_IMAGE: '^(freek-mencke-web\.yaml|\.claude/.*|\.github/.*|\.vscode/.*|README\.md|CLAUDE\.md|\.mcp\.json|\.gitignore|knip\.jsonc|scripts/.*|LICENSE)$'
         run: .github/scripts/deploy-plan.sh
 
       - if: steps.plan.outputs.deploy == 'true'
