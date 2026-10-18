@@ -115,14 +115,17 @@ app.use(
   },
 );
 
-// Hashed bundles are cached for a year, everything else (fonts, images, robots.txt, security.txt) for a day.
-// Compression is left to Traefik (freek-mencke-web.yaml).
+// Hashed bundles and the link-preview card (versioned by `?v=` in its og:image URL) are cached for a year, everything
+// else (fonts, images, robots.txt, security.txt) for a day. The card also lifts helmet's same-origin CORP, so preview
+// tools that show it in their own page can load it. Compression is left to Traefik (freek-mencke-web.yaml).
 const staticOptions: Parameters<typeof express.static>[1] = {
   index: false,
   cacheControl: false,
   setHeaders: (res, path) => {
     const url = '/' + relative(browserDistFolder, path).split(sep).join('/');
-    if (HASHED_FILE.test(url)) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    const isCard = url === '/og.png';
+    if (isCard) res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    if (isCard || HASHED_FILE.test(url)) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     else res.setHeader('Cache-Control', 'public, max-age=86400');
   },
 };
