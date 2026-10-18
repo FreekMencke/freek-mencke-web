@@ -145,7 +145,7 @@ app.use(async (req, res, next) => {
 
 // Log errors and respond with a generic 500: Express' default handler leaks the stack trace unless NODE_ENV=production
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
-  console.error(`${req.method} ${req.originalUrl} failed`, err); // eslint-disable-line no-console
+  console.error('%s %s failed', req.method, req.originalUrl, err); // eslint-disable-line no-console
   if (res.headersSent) return next(err);
   res.status(500).send('Internal Server Error');
 });
