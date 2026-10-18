@@ -191,6 +191,20 @@ The flow and the rollback are in `README.md`. For a session:
   the code before fixing it. Then `gh pr checks <n> --watch` as a background command, and `gh pr merge <n> --squash`
   once they pass (the repo squash-merges: titles end in `(#n)`).
 
+## Security rules
+
+The slips coding agents make most (claude-kb WEBSEC-011). `/security-review` skips hardening, so these get reviewed only
+because they're stated here.
+
+- No `bypassSecurityTrust*`, and no markup written through the DOM (`nativeElement.innerHTML`), to make markup Angular
+  strips render: it strips it on purpose. Put the markup in the template.
+- Never loosen the CSP to silence a console error (`'unsafe-inline'`, `'unsafe-eval'`, a wildcard, a host the page
+  doesn't mean to load from): give the code the nonce or remove the inline code. `style-src`'s `'unsafe-inline'` is the
+  existing exception, for Angular's inline styles.
+- No token, `Authorization` header or whole request body in a log line or an error message: pass the request's details
+  as separate arguments, as the error handler in `src/server.ts` does.
+- No hard-coded secret as a fallback (`process.env.X || '…'`): fail when it's missing.
+
 ## Review rules
 
 What `conventions-reviewer` checks beyond the rules above. It reads this section; keep repo rules here, not in the
