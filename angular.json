@@ -72,8 +72,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "buildTarget": "::development",
-            "runnerConfig": true
+            "buildTarget": "::development"
           }
         },
         "lint": {
