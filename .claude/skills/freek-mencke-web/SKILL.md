@@ -167,8 +167,9 @@ The flow and the rollback are in `README.md`. For a session:
   its `export`; a false positive goes in `knip.jsonc` with a comment saying why.
 - Conventional commits (`feat(scope): …`, `chore(deps): …`); `chore(deploy)` is reserved for CD's digest commits. No
   changelog.
-- What goes straight to `main` and what needs a PR: `CLAUDE.md`. `main` isn't protected, so a direct push is a deploy
-  once CI passes.
+- What goes straight to `main` and what needs a PR: `CLAUDE.md`. `main`'s ruleset requires a PR and the `lint`, `build`
+  and `test` checks; the admin account bypasses it for direct pushes, and CD's digest commits use the `DEPLOY_KEY`
+  deploy key. A direct push is a deploy once CI passes.
 - PRs: branch `<type>/<short-name>` (in a worktree, `git switch -c` from the `claude/…` branch), push,
   `gh pr create --base main`. Review with two subagents in parallel, without `model`: `conventions-reviewer`, and a
   `general-purpose` agent that runs `/code-review high <n>` and returns only its findings. Check each finding against
