@@ -165,6 +165,9 @@ The flow and the rollback are in `README.md`. For a session:
 
 - `npx knip` (in the verify list) reports unused files, exports and dependencies. An export only its own file uses loses
   its `export`; a false positive goes in `knip.jsonc` with a comment saying why.
+- npm updates are by hand (Dependabot covers only Actions and the base image). `allowScripts` in `package.json` pins
+  each approved install script to a version: when an update moves one (`npm install-scripts ls` lists it), re-approve it
+  in the same PR with `npm install-scripts approve <pkg>`, never by bare name.
 - Conventional commits (`feat(scope): …`, `chore(deps): …`); `chore(deploy)` is reserved for CD's digest commits. No
   changelog.
 - What goes straight to `main` and what needs a PR: `CLAUDE.md`. `main`'s ruleset requires a PR and the `lint`, `build`
