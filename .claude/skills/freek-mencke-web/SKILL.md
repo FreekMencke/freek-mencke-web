@@ -62,7 +62,7 @@ changing the page's look, and keep the two in step.
   website years, `edge` the hairline around screenshots, `shade` their shadow; `field` the green, `on-field`,
   `field-muted` and `field-accent` on it. Dark is a near-black in the field's own green (`#0b1613`), not OSRS Tracker's
   navy: navy clashes with the green. A tint is `color-mix(in oklch, <token> N%, transparent)`.
-- **Type**: SOLIX 3.03, cut to weights 100–700 from the release (osrs-tracker-web's skill has the commands; this repo
+- **Type**: SOLIX 4.0.0, cut to weights 100–700 from the release (osrs-tracker-web's skill has the commands; this repo
   cuts `wght=100:700`, for MENCKE's 100), preloaded in `index.html` and declared in `base.css`, both with `?v=`. Project
   names `text-display` (OSRS Tracker) and `text-title`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the
   footer's first line `text-statement`. The wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked
