@@ -68,7 +68,7 @@ import { BarStore } from './bar-store';
         fragment="top"
         aria-label="Freek Mencke, back to top"
       >
-        <!-- The zero-width space makes the text "Freek Mencke", as the label starts (WCAG 2.5.3) -->
+        <!-- A space shrunk to nothing (.gap) makes the text "Freek Mencke", as the label starts (WCAG 2.5.3) -->
         <span class="font-semibold">Freek</span><span class="gap">&ngsp;</span><span class="font-thin">Mencke</span>
       </a>
 
