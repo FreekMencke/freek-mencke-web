@@ -87,9 +87,12 @@
   .wordmark span {
     display: block;
   }
-  /* Regular at 1.32em has the same stroke as semibold at 1em, and makes FREEK as wide as MENCKE */
+  /*
+   * Regular at 1.36em has about the stroke of semibold at 1em, and makes FREEK's ink as wide as MENCKE's: 2.868em
+   * against 3.814em, plus one more gap of the wordmark's letter-spacing, which FREEK inherits unscaled
+   */
   .first {
-    font-size: 1.32em;
+    font-size: 1.36em;
     font-weight: 400;
   }
   .last {

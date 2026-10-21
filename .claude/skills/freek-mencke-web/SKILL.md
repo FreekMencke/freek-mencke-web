@@ -66,7 +66,7 @@ changing the page's look, and keep the two in step.
   cuts `wght=100:700`, for MENCKE's 100), preloaded in `index.html` and declared in `base.css`, both with `?v=`. Project
   names `text-display` (OSRS Tracker) and `text-title`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the
   footer's first line `text-statement`. The wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked
-  at 20vw, FREEK at 1.32em and weight 400 so both lines are as wide. Monospace only for the tagline and the terminals.
+  at 20vw, FREEK at 1.36em and weight 400 so both lines are as wide. Monospace only for the tagline and the terminals.
 - **Layout**: `px-page` (the gutter plus the side safe areas), `max-w-page` sections, `max-w-152` text columns centred.
   Space between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and
   footer slide under it. `scroll-pt-bar` on `<html>` keeps focused elements out from under it; the router's anchor
