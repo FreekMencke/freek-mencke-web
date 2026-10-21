@@ -1,8 +1,8 @@
 # freek-mencke-web
 
 The personal site at https://freekmencke.com: one Angular 22 page (zoneless, standalone, Tailwind 4, light and dark),
-pre-rendered at build time and served by a small Express server (`src/server.ts`) on the home Kubernetes cluster.
-Develop, deploy and rollback steps are in `README.md`.
+pre-rendered at build time and served by a small Express server (`src/server.ts`) on the fremen-server Kubernetes
+cluster (a VPS). Develop, deploy and rollback steps are in `README.md`.
 
 **Load the `freek-mencke-web` skill before writing, reviewing, running, deploying or committing anything here.** It
 holds this repo's specifics on top of `angular-conventions` and `angular-developer` (load those too): where the repo
