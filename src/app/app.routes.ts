@@ -15,7 +15,7 @@ export const routes: Routes = [
         data: {
           meta: {
             description:
-              'Freek Mencke, a full-stack TypeScript developer from Belgium. Builds OSRS Tracker, a Node TS starter CLI and the Kubernetes cluster in his house.',
+              'Freek Mencke, a full-stack TypeScript developer from Belgium. Builds OSRS Tracker, a Node TS starter CLI and the Kubernetes cluster that runs this site.',
             canonicalPath: '/',
           } satisfies PageMeta,
         },

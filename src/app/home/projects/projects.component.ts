@@ -55,8 +55,8 @@ import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
             <p class="mt-1 text-sm/5 text-muted">Kubernetes, Flux, Traefik, Grafana Cloud</p>
           </header>
           <p class="mt-4">
-            The single-node Kubernetes cluster in my house. It runs this site, OSRS Tracker, its API and its database.
-            Flux deploys whatever lands on main, CrowdSec bans whoever knocks too hard, and Grafana Cloud tells me when
+            My single-node Kubernetes cluster, on a VPS. It runs this site, OSRS Tracker, its API and its database. Flux
+            deploys whatever lands on main, CrowdSec bans whoever knocks too hard, and Grafana Cloud tells me when
             something falls over.
           </p>
           <terminal-card
@@ -64,7 +64,7 @@ import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
             [output]="workloads"
             label="Terminal: some of the workloads running on the cluster"
           />
-          <p class="mt-5 text-sm/5 text-muted">No public repo: it's my house.</p>
+          <p class="mt-5 text-sm/5 text-muted">No public repo: it holds the keys to everything else.</p>
         </article>
       </div>
     </section>
