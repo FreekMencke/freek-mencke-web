@@ -90,7 +90,7 @@
   /*
    * Regular at 1.36em has about the stroke of semibold at 1em, and makes FREEK's ink as wide as MENCKE's: 2.868em
    * against 3.814em (SOLIX 4.0.1, kerned, measured in Chromium), plus one more gap of the wordmark's letter-spacing,
-   * which FREEK inherits unscaled
+   * which FREEK inherits unscaled. The bar's stacked wordmark (root-layout) copies this: re-derive both together.
    */
   .first {
     font-size: 1.36em;

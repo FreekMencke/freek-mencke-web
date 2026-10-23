@@ -44,7 +44,8 @@ import { BarStore } from './bar-store';
       visibility: visible;
     }
     /* Stacked below xs, a small copy of the hero's wordmark on phones: its tracking and line height, FREEK regular and
-       as wide as MENCKE */
+       as wide as MENCKE. At 1.34em, not the hero's 1.36em: at 16px glyphs snap to whole pixels, and 1.36em measured
+       about 3px wider than MENCKE in Chromium at 320px, 1.34em about 1px narrower. */
     @media (width < 24rem) {
       .mark {
         letter-spacing: 0.08em;

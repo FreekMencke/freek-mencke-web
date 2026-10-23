@@ -92,9 +92,11 @@
     grid-row: auto;
     grid-column: 1;
   }
+  /* Not over the home page any more: no lift, only the hairline */
   .shots .detail {
     border-radius: 8px;
     transform: none;
+    box-shadow: 0 0 0 1px var(--color-edge);
   }
 
   /* Vertical on phones */
