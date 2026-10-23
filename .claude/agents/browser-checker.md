@@ -51,7 +51,10 @@ servers. The "Design" and "Browser check" sections of the preloaded skill are yo
 6. Take one screenshot per URL and width with `browser_take_screenshot`. Always pass `filename` with the folder:
    `.playwright-mcp/<section>-<width>.png` (a bare `home-1280.png` lands in the checkout's root). Element screenshots
    when the change is one component. `Read` each screenshot to look at it: without that you haven't seen the page.
-   Report the path the tool returned, not one you assume. The numbers don't replace it: they miss images and layout.
+   Report the path the tool returned, not one you assume. The numbers don't replace it: they miss images and layout. The
+   tagline's cursor blinks, so a screenshot misses it half the time: before each one, hold it in its visible phase by
+   passing this to `browser_evaluate` (Angular prefixes the name with its style scope):
+   `() => document.getAnimations().filter((a) => a.animationName?.endsWith('blink')).forEach((a) => { a.pause(); a.currentTime = 0; })`.
 7. Collect console errors and failed requests.
 8. Compare what you see with the caller's description of the change and the skill's design rules. Report differences you
    can point to; don't redesign.
