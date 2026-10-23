@@ -17,6 +17,9 @@
 .shots .home {
   grid-column: 2 / span 10;
   border-radius: 12px;
+  box-shadow:
+    0 0 0 1px var(--color-edge),
+    0 24px 48px -16px var(--color-shade);
 }
 .shots .detail {
   z-index: 1;
