@@ -92,11 +92,16 @@
     grid-row: auto;
     grid-column: 1;
   }
-  /* Not over the home page any more: no lift, only the hairline */
+  /* All three lifted off the ground alike, with a shadow small enough for the gaps between them */
+  .shots .home,
+  .shots .detail {
+    box-shadow:
+      0 0 0 1px var(--color-edge),
+      0 12px 24px -12px var(--color-shade);
+  }
   .shots .detail {
     border-radius: 8px;
     transform: none;
-    box-shadow: 0 0 0 1px var(--color-edge);
   }
 
   /* Vertical on phones */
