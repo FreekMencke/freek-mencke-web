@@ -53,7 +53,9 @@ Decided after a review of the whole codebase against both skills (2026-10-14):
 ## Design
 
 Designed on the canvas https://claude.ai/artifact/DP3jSVavjuymjpv5zc4oBS (direction "Colour field"): look there before
-changing the page's look, and keep the two in step.
+changing the page's look, and keep the two in step. Its shared boards match the code: `Theme` is `theme.css` and
+`base.css` (tokens, font, links), `Bar` is `common/root-layout/`, `Terminal` is `home/projects/terminal-card`, and
+`Main` imports all three. Change a piece in its own board, not in `Main`.
 
 - **Idea**: one bold thing, a deep green field, opens the page (the hero) and closes it (the footer). Everything between
   is quiet: the light ground, thin type, centred project heads.
