@@ -20,7 +20,9 @@
   min-width: 0;
   width: 100%;
   height: auto;
-  box-shadow: 0 0 0 1px var(--color-edge);
+  /* An outline, not a box-shadow ring: forced colours drop shadows but repaint an outline, so the screenshots keep an
+     edge there and the details stay apart from the home page */
+  outline: 1px solid var(--color-edge);
 }
 .shots .home {
   grid-column: 2 / span 10;
@@ -33,9 +35,7 @@
   border-radius: 10px;
   transform: translateY(24%);
   /* Only the details cast a shadow, a soft one: they lie over the home page */
-  box-shadow:
-    0 0 0 1px var(--color-edge),
-    0 12px 32px -12px var(--color-shade);
+  box-shadow: 0 12px 32px -12px var(--color-shade);
 }
 .shots .player {
   grid-column: 8 / span 5;
@@ -110,7 +110,7 @@
   .shots .home,
   .shots .detail {
     border-radius: 8px;
-    box-shadow: 0 0 0 1px var(--color-edge);
+    box-shadow: none;
   }
   .shots .detail {
     transform: none;
