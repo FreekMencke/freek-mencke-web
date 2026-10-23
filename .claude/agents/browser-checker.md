@@ -37,7 +37,8 @@ servers. The "Design" and "Browser check" sections of the preloaded skill are yo
 ## Procedure
 
 1. For each URL the caller gives: desktop width (1280px) first, then 390px (`browser_resize`), each in light and dark
-   (`browser_emulate_media`).
+   (`browser_emulate_media`, then `browser_navigate` to the URL again: `index.html`'s inline script picks the theme only
+   at load).
 2. Use `browser_snapshot` for structure and to pick targets by ref, for clicks, hovers and key presses. Never click
    guessed elements. For a state the caller names (hover, focus, the bar after scrolling), put the page in it with those
    tools or `browser_press_key` and screenshot it in that state. Measure sizes and gaps the caller asks about with
