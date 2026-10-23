@@ -25,6 +25,9 @@ differs from them, the design, local runs, the browser check and the commit step
   worktree, `git fetch origin && git rebase origin/main`, then `git push origin HEAD:main`. For anything else, ask:
   `main` or a PR. `.claude/hooks/` and `.claude/settings.json` are tooling, not docs: they get that question too.
 - Deploying is merging to `main` (GitHub Actions `CD` → Flux). Never build or push an image or `kubectl apply` by hand.
+- A change to how the site looks or reads (layout, styles, copy, a breakpoint) goes on the design canvas too, in the
+  same session, so the canvas never falls behind the site. The skill's `## Design` has the link and which board is which
+  piece.
 
 ## Where things live
 
