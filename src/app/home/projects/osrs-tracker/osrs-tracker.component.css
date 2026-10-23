@@ -21,6 +21,9 @@
   width: 100%;
   height: auto;
   box-shadow: 0 0 0 1px var(--color-edge);
+  /* Unseen until forced colours, which drop the shadows and paint this in a system colour: the screenshots keep an
+     edge, and the details stay apart from the home page */
+  outline: 1px solid transparent;
 }
 .shots .home {
   grid-column: 2 / span 10;

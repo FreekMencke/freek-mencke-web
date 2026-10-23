@@ -27,6 +27,12 @@ import { BarStore } from './bar-store';
       color: var(--color-on-field);
       box-shadow: none;
     }
+    /* Forced colours drop the shadow: a line instead, so the bar stays apart from the page under it */
+    @media (forced-colors: active) {
+      .bar.is-scrolled {
+        border-bottom: 1px solid CanvasText;
+      }
+    }
     .mark {
       opacity: 0;
       visibility: hidden;

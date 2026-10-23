@@ -87,7 +87,8 @@ changing the page's look, and keep the two in step. Its shared boards match the 
   screenshots over its home page get a `shade` shadow (`0 12px 32px -12px`) on top of the `edge` hairline every
   screenshot has. Stacked on phones nothing overlaps, so none there. Nothing else casts one: the terminals are flat
   green, the solid bar has a `line` hairline in light and none in dark, and hover never adds a shadow. Forced colours
-  drops shadows, so nothing may depend on one to be seen.
+  drops shadows, hairlines included, so each one has a fallback that shows only there: a transparent `outline` on the
+  screenshots, a `CanvasText` bottom border on the solid bar under `@media (forced-colors: active)`.
 - **Icons**: Lucide's, through `@lucide/angular`, as in osrs-tracker-web: import the icon's component (`LucideSun`) and
   write `<svg lucideSun class="size-4.5" />`; pick from https://lucide.dev/icons, never hand-draw one or take it from
   another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default, 1.5 for the hero's
