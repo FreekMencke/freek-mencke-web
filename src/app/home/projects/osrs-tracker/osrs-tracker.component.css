@@ -1,6 +1,6 @@
 /*
  * The home page across 10 of 12 columns, the two detail pages over its bottom corners (5 columns each) and hanging below
- * it. On phones the home page takes the full width and the details sit side by side under its lower half.
+ * it. On phones the three stack at full width.
  */
 .shots {
   display: grid;
@@ -81,21 +81,20 @@
 }
 
 @media (width < 40rem) {
+  /* Stacked at full width: side by side, the details are too small to read */
   .shots {
-    padding-bottom: 20%;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding-bottom: 0;
   }
-  .shots .home {
-    grid-column: 1 / -1;
+  .shots .home,
+  .shots .detail {
+    grid-row: auto;
+    grid-column: 1;
   }
   .shots .detail {
-    grid-column: 1 / span 6;
-    width: calc(100% - 4px);
-    border-radius: 6px;
-    transform: translateY(45%);
-  }
-  .shots .player {
-    grid-column: 7 / span 6;
-    justify-self: end;
+    border-radius: 8px;
+    transform: none;
   }
 
   /* Vertical on phones */

@@ -22,7 +22,7 @@ import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
         <article class="min-w-0 grow basis-104 text-lg/7.5">
           <header>
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <h3 class="text-title font-light tracking-wide">Node TS Starter CLI</h3>
+              <h3 class="text-title font-light tracking-wide text-balance">Node TS Starter CLI</h3>
               <span class="rounded-full border border-line px-2.5 text-xs/5.5 text-muted">Archived</span>
             </div>
             <p class="mt-1 text-sm/5 text-muted">Node.js, TypeScript, esbuild</p>
@@ -52,7 +52,7 @@ import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
 
         <article class="min-w-0 grow basis-104 text-lg/7.5">
           <header>
-            <h3 class="text-title font-light tracking-wide">fremen-server</h3>
+            <h3 class="text-title font-light tracking-wide text-balance">fremen-server</h3>
             <p class="mt-1 text-sm/5 text-muted">Kubernetes, Flux, Traefik, Grafana Cloud</p>
           </header>
           <p class="mt-4">
