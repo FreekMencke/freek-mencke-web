@@ -17,9 +17,6 @@
 .shots .home {
   grid-column: 2 / span 10;
   border-radius: 12px;
-  box-shadow:
-    0 0 0 1px var(--color-edge),
-    0 24px 48px -16px var(--color-shade);
 }
 .shots .detail {
   z-index: 1;
@@ -27,9 +24,10 @@
   align-self: end;
   border-radius: 10px;
   transform: translateY(24%);
+  /* Only the details cast a shadow, a soft one: they lie over the home page */
   box-shadow:
     0 0 0 1px var(--color-edge),
-    0 24px 48px -16px var(--color-shade);
+    0 12px 32px -12px var(--color-shade);
 }
 .shots .player {
   grid-column: 8 / span 5;
@@ -95,13 +93,11 @@
     grid-row: auto;
     grid-column: 1;
   }
-  /* All three lifted off the ground alike, with a shadow small enough for the gaps between them */
+  /* Nothing overlaps any more: no shadow, one radius */
   .shots .home,
   .shots .detail {
     border-radius: 8px;
-    box-shadow:
-      0 0 0 1px var(--color-edge),
-      0 12px 24px -12px var(--color-shade);
+    box-shadow: 0 0 0 1px var(--color-edge);
   }
   .shots .detail {
     transform: none;

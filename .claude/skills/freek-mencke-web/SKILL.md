@@ -83,10 +83,11 @@ changing the page's look, and keep the two in step. Its shared boards match the 
 - **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
   reduced motion; the bar fades from see-through to blurred when the hero leaves it: the ground in light, the field's
   green in dark (a dark ground over the light screenshots reads as a black band).
-- **Depth**: only OSRS Tracker's screenshots are lifted, all alike: the `edge` hairline plus a `shade` shadow
-  (`0 24px 48px -16px`; stacked on phones `0 12px 24px -12px`, small enough for the 16px gaps). Nothing else casts one:
-  the terminals are flat green, the solid bar has a `line` hairline in light and none in dark, and hover never adds a
-  shadow. Forced colours drops shadows, so nothing may depend on one to be seen.
+- **Depth**: a shadow only where something lies over something else, and a soft one: OSRS Tracker's two detail
+  screenshots over its home page get a `shade` shadow (`0 12px 32px -12px`) on top of the `edge` hairline every
+  screenshot has. Stacked on phones nothing overlaps, so none there. Nothing else casts one: the terminals are flat
+  green, the solid bar has a `line` hairline in light and none in dark, and hover never adds a shadow. Forced colours
+  drops shadows, so nothing may depend on one to be seen.
 - **Icons**: Lucide's, through `@lucide/angular`, as in osrs-tracker-web: import the icon's component (`LucideSun`) and
   write `<svg lucideSun class="size-4.5" />`; pick from https://lucide.dev/icons, never hand-draw one or take it from
   another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default, 1.5 for the hero's
