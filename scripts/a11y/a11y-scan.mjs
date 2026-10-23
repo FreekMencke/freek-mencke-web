@@ -1,5 +1,5 @@
 // Ported from osrs-tracker-web's scripts/a11y/a11y-scan.mjs (same author and licence), scanning both themes and the
-// browser check's two widths instead of one each, as this page follows the system's theme and changes layout on phones.
+// browser check's widths instead of one each, as this page follows the system's theme and changes layout on phones.
 // Scans pages of a running server with axe-core on the WCAG 2.2 AA tags, in each theme and width, and prints one line
 // per violation (rule, impact, node count, selectors) and each scan's incomplete count. Exits 1 on violations, 2 when
 // a page can't be scanned. To turn a rule off, add `.disableRules([...])` to the AxeBuilder call with a comment saying
@@ -14,7 +14,7 @@ import { chromium } from 'playwright';
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']; // without wcag22aa, target-size never runs
 const THEMES = ['light', 'dark'];
-const WIDTHS = [1280, 390];
+const WIDTHS = [1440, 390, 320];
 const MAX_SELECTORS = 5;
 
 const USAGE = 'Usage: npm run a11y -- [--click=<selector>]... <url>...';

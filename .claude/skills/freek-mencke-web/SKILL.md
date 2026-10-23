@@ -74,6 +74,10 @@ changing the page's look, and keep the two in step.
   scrolling ignores it, so the sections' own top padding clears the bar. `viewport-fit=cover`, as in osrs-tracker-web:
   the bar's `sa-t` covers the top safe area (the `bar` tokens include it, and `root-layout` offsets anchor scrolling by
   it) and the footer's `sa-b` the bottom one, so the green or the bar fills them, never a strip of ground.
+- **Widths**: the canvas's artboards and a `ui-review` run use 1440 (the widest layout: `max-w-page`, and every clamp
+  peaks by 1280), 1100 (the same layout at its tightest), 820 (from `sm` to about 960px: the desktop hero, the small
+  projects stacked, as `basis-104` wraps them), 390 (below `sm`) and 320 (below `xs`: the bar's wordmark stacks, the
+  terminals scroll sideways). The browser check uses 1440, 390 and 320.
 - **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
   reduced motion; the bar fades from see-through to blurred when the hero leaves it: the ground in light, the field's
   green in dark (a dark ground over the light screenshots reads as a black band).
@@ -133,11 +137,11 @@ sees the server's HTML). If Playwright is unavailable, say so rather than fallin
 1. Start the server yourself (see Running locally); for production, wait for the deploy.
 2. Scan the page with axe yourself, as the agent has no Bash: `npm run a11y -- <url>...` (`scripts/a11y/a11y-scan.mjs`)
    prints one line per WCAG 2.2 AA violation (theme, width, rule, impact, selectors) and each scan's `incomplete` count,
-   in both themes at 1280 and 390px, and exits 1 on violations, 2 when it can't scan. `--click=<selector>` (repeatable,
-   in order) opens a state first. Once per machine: `npx playwright install --only-shell chromium`. Fix a finding, or
-   turn its rule off as the script's header says, never with `exclude()`. It doesn't see the solid bar (the page loads
-   at the top): `browser-checker`'s contrast script measures that. No Playwright Test suite: the browser check already
-   visits the page.
+   in both themes at 1440, 390 and 320px, and exits 1 on violations, 2 when it can't scan. `--click=<selector>`
+   (repeatable, in order) opens a state first. Once per machine: `npx playwright install --only-shell chromium`. Fix a
+   finding, or turn its rule off as the script's header says, never with `exclude()`. It doesn't see the solid bar (the
+   page loads at the top): `browser-checker`'s contrast script measures that. No Playwright Test suite: the browser
+   check already visits the page.
 3. Delegate every round to the `browser-checker` agent (without a `model`), with the URLs, what changed (colours, the
    state to show, the changed elements) and the scan's lines, so its screenshots stay out of the main session. It starts
    its own headless, isolated browser.
@@ -147,8 +151,9 @@ sees the server's HTML). If Playwright is unavailable, say so rather than fallin
 
 The rules it follows (it reads them here):
 
-- Desktop (1280px) and phone (390px), each in light and dark (emulate `prefers-color-scheme`, or click the toggle): the
-  wordmark, the tagline, the screenshots and the timeline change layout between the widths.
+- Desktop (1440px), phone (390px) and the smallest phone (320px), each in light and dark (emulate
+  `prefers-color-scheme`, or click the toggle): the wordmark, the tagline, the screenshots and the timeline change
+  layout below `sm`, and below `xs` the bar's wordmark stacks and the terminals scroll sideways.
 - Measure the contrast of changed text and icons, and which tokens their colours are, in the page: a screenshot can't
   settle a ratio or a colour.
 - Click the bar's links, the hero's arrow and the theme toggle from snapshot refs, never by guessing. After a toggle,

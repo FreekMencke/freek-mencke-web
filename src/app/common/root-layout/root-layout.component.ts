@@ -62,14 +62,16 @@ import { BarStore } from './bar-store';
       class="bar sticky top-0 z-10 flex h-bar-phone items-center justify-between gap-4 px-page sa-t text-on-field sm:h-bar"
       [class.is-scrolled]="!barStore.overField()"
     >
+      <!-- Hidden, the wordmark still takes its width: below xs it stacks, or it would push the toggle off the screen -->
       <a
-        class="mark text-base tracking-widest whitespace-nowrap uppercase hover:text-accent"
+        class="mark text-base tracking-widest whitespace-nowrap uppercase hover:text-accent max-xs:leading-5"
         routerLink="/"
         fragment="top"
         aria-label="Freek Mencke, back to top"
       >
         <!-- A space shrunk to nothing (.gap) makes the text "Freek Mencke", as the label starts (WCAG 2.5.3) -->
-        <span class="font-semibold">Freek</span><span class="gap">&ngsp;</span><span class="font-thin">Mencke</span>
+        <span class="font-semibold max-xs:block">Freek</span><span class="gap">&ngsp;</span
+        ><span class="font-thin max-xs:block">Mencke</span>
       </a>
 
       <div class="flex items-center gap-6">

@@ -3,8 +3,9 @@ import { OsrsTrackerComponent } from './osrs-tracker/osrs-tracker.component';
 import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
 
 /**
- * OSRS Tracker first and large, then the two smaller projects side by side. The terminal shows a few of the real
- * workloads from `kubectl get all -A`, without the kind kubectl puts before each name.
+ * OSRS Tracker first and large, then the two smaller projects side by side once each is wide enough for its whole
+ * terminal at `sm:text-sm` (`basis-104`; the kubectl table needs about 400px), stacked below that. The terminal shows
+ * a few of the real workloads from `kubectl get all -A`, without the kind kubectl puts before each name.
  */
 @Component({
   selector: 'projects',
@@ -18,7 +19,7 @@ import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
       <osrs-tracker />
 
       <div class="mx-auto mt-section flex max-w-wide flex-wrap gap-x-16 gap-y-18">
-        <article class="min-w-0 grow basis-80 text-lg/7.5">
+        <article class="min-w-0 grow basis-104 text-lg/7.5">
           <header>
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
               <h3 class="text-title font-light tracking-wide">Node TS Starter CLI</h3>
@@ -49,7 +50,7 @@ import { TerminalCardComponent, TerminalLine } from './terminal-card.component';
           </p>
         </article>
 
-        <article class="min-w-0 grow basis-80 text-lg/7.5">
+        <article class="min-w-0 grow basis-104 text-lg/7.5">
           <header>
             <h3 class="text-title font-light tracking-wide">fremen-server</h3>
             <p class="mt-1 text-sm/5 text-muted">Kubernetes, Flux, Traefik, Grafana Cloud</p>

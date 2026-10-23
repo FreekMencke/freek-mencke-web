@@ -12,6 +12,10 @@
   --spacing-bar: calc(4rem + env(safe-area-inset-top));
   --spacing-bar-phone: calc(3.5rem + env(safe-area-inset-top));
 
+  /* The width from which the bar fits its wordmark on one line beside the links and the toggle (about 355px, plus room
+     for a fallback font or larger text); below it the wordmark stacks */
+  --breakpoint-xs: 24rem;
+
   --container-page: 90rem;
   --container-shots: 74rem;
   --container-wide: 65rem;
