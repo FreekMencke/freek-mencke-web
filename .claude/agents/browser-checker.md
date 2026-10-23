@@ -36,9 +36,9 @@ servers. The "Design" and "Browser check" sections of the preloaded skill are yo
 
 ## Procedure
 
-1. For each URL the caller gives: desktop width (1280px) first, then 390px (`browser_resize`), each in light and dark
-   (`browser_emulate_media`, then `browser_navigate` to the URL again: `index.html`'s inline script picks the theme only
-   at load).
+1. For each URL the caller gives: desktop width (1440px) first, then 390px and 320px (`browser_resize`), each in light
+   and dark (`browser_emulate_media`, then `browser_navigate` to the URL again: `index.html`'s inline script picks the
+   theme only at load).
 2. Use `browser_snapshot` for structure and to pick targets by ref, for clicks, hovers and key presses. Never click
    guessed elements. For a state the caller names (hover, focus, the bar after scrolling), put the page in it with those
    tools or `browser_press_key` and screenshot it in that state. Measure sizes and gaps the caller asks about with
@@ -49,7 +49,7 @@ servers. The "Design" and "Browser check" sections of the preloaded skill are yo
    check, in one theme. See Keyboard.
 5. Once per URL, at desktop width in one theme, check reduced motion. See Reduced motion.
 6. Take one screenshot per URL and width with `browser_take_screenshot`. Always pass `filename` with the folder:
-   `.playwright-mcp/<section>-<width>.png` (a bare `home-1280.png` lands in the checkout's root). Element screenshots
+   `.playwright-mcp/<section>-<width>.png` (a bare `home-1440.png` lands in the checkout's root). Element screenshots
    when the change is one component. `Read` each screenshot to look at it: without that you haven't seen the page.
    Report the path the tool returned, not one you assume. The numbers don't replace it: they miss images and layout. The
    tagline's cursor blinks, so a screenshot misses it half the time: before each one, hold it in its visible phase by
