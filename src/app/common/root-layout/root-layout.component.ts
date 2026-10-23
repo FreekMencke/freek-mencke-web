@@ -27,9 +27,10 @@ import { BarStore } from './bar-store';
       color: var(--color-on-field);
       box-shadow: none;
     }
-    /* Forced colours drop the shadow: a line instead, so the bar stays apart from the page under it */
+    /* Forced colours drop the shadow and paint every background Canvas, in both themes: a line instead, so the bar
+       stays apart from the page under it. Always there, so nothing shifts when the bar turns solid. */
     @media (forced-colors: active) {
-      .bar.is-scrolled {
+      .bar {
         border-bottom: 1px solid CanvasText;
       }
     }

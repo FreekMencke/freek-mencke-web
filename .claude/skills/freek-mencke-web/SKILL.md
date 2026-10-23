@@ -85,10 +85,12 @@ changing the page's look, and keep the two in step. Its shared boards match the 
   green in dark (a dark ground over the light screenshots reads as a black band).
 - **Depth**: a shadow only where something lies over something else, and a soft one: OSRS Tracker's two detail
   screenshots over its home page get a `shade` shadow (`0 12px 32px -12px`) on top of the `edge` hairline every
-  screenshot has. Stacked on phones nothing overlaps, so none there. Nothing else casts one: the terminals are flat
-  green, the solid bar has a `line` hairline in light and none in dark, and hover never adds a shadow. Forced colours
-  drops shadows, hairlines included, so each one has a fallback that shows only there: a transparent `outline` on the
-  screenshots, a `CanvasText` bottom border on the solid bar under `@media (forced-colors: active)`.
+  screenshot has (an `outline`, not a `box-shadow` ring). Stacked on phones nothing overlaps, so none there. Nothing
+  else casts one: the terminals are flat green, the solid bar has a `line` hairline in light and none in dark, and hover
+  never adds a shadow. Forced colours drop every shadow and paint every background Canvas, so nothing may depend on
+  either to be seen: the screenshots' `outline` is repainted there, and the bar and the terminals get a border only
+  there (`@media (forced-colors: active)`, `forced-colors:border`). Check a change to edges, shadows or backgrounds in
+  Playwright with `forcedColors: 'active'`.
 - **Icons**: Lucide's, through `@lucide/angular`, as in osrs-tracker-web: import the icon's component (`LucideSun`) and
   write `<svg lucideSun class="size-4.5" />`; pick from https://lucide.dev/icons, never hand-draw one or take it from
   another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default, 1.5 for the hero's
