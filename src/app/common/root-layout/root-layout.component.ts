@@ -43,6 +43,19 @@ import { BarStore } from './bar-store';
       opacity: 1;
       visibility: visible;
     }
+    /* Stacked below xs, a small copy of the hero's wordmark on phones: its tracking and line height, FREEK regular and
+       as wide as MENCKE. At 1.34em, not the hero's 1.36em: at 16px glyphs snap to whole pixels, and 1.36em measured
+       about 3px wider than MENCKE in Chromium at 320px, 1.34em about 1px narrower. */
+    @media (width < 24rem) {
+      .mark {
+        letter-spacing: 0.08em;
+        line-height: 0.98;
+      }
+      .mark .first {
+        font-size: 1.34em;
+        font-weight: 400;
+      }
+    }
     /* On green (over the hero, and the solid bar in dark) hovers and focus rings take the field's accent. As a token,
        so it reaches the theme toggle's ring too: a selector here stops at its component boundary. */
     .bar:not(.is-scrolled),
@@ -64,13 +77,13 @@ import { BarStore } from './bar-store';
     >
       <!-- Hidden, the wordmark still takes its width: below xs it stacks, or it would push the toggle off the screen -->
       <a
-        class="mark text-base tracking-widest whitespace-nowrap uppercase hover:text-accent max-xs:leading-5"
+        class="mark text-base tracking-widest whitespace-nowrap uppercase hover:text-accent"
         routerLink="/"
         fragment="top"
         aria-label="Freek Mencke, back to top"
       >
         <!-- A space shrunk to nothing (.gap) makes the text "Freek Mencke", as the label starts (WCAG 2.5.3) -->
-        <span class="font-semibold max-xs:block">Freek</span><span class="gap">&ngsp;</span
+        <span class="first font-semibold max-xs:block">Freek</span><span class="gap">&ngsp;</span
         ><span class="font-thin max-xs:block">Mencke</span>
       </a>
 

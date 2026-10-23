@@ -5,12 +5,15 @@ interface SocialLink {
   url: string;
 }
 
-/** Where else to find me, as words: in the hero and again in the footer */
+/** Where else to find me, as words: in the hero and again in the footer. A narrower gap below xs keeps them on one line at 320px */
 @Component({
   selector: 'social-links',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm/5 font-medium" [attr.aria-label]="label()">
+    <nav
+      class="flex flex-wrap justify-center gap-x-6 gap-y-2 max-xs:gap-x-4 text-sm/5 font-medium"
+      [attr.aria-label]="label()"
+    >
       @for (link of links; track link.name) {
         <a [href]="link.url" target="_blank" rel="noopener">{{ link.name }}</a>
       }
