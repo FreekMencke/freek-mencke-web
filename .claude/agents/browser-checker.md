@@ -181,8 +181,9 @@ the flagged elements in your snapshot and screenshots. The walk checks what a sc
 - **Scrolled Tab**, once per width, from a Tab stop below the hero (reach it in the walk, or focus a link in `main` with
   `browser_evaluate` and `focus({ preventScroll: true })`): pass the second script below to `browser_evaluate`, which
   scrolls the next focusable element under the bar, then press Tab, wait 1 second and run the first script. The focus
-  scroll must move it out from under the bar (`scroll-pt-bar` on `<html>`, WCAG technique C43), so anything under `5/5`
-  is an issue here: the Tab walk alone never starts with its target under the bar.
+  scroll must move it out from under the bar (`scroll-pt-bar-phone`, from `sm` `scroll-pt-bar`, on `<html>`, WCAG
+  technique C43), so anything under `5/5` is an issue here: the Tab walk alone never starts with its target under the
+  bar.
 - **Focus visible** (WCAG 2.4.7): `ring` names the outline or shadow (`outline auto` is the browser's own ring); `NONE`
   is an issue unless the screenshot shows another indicator. Take one screenshot with focus on a changed control.
 - **Not covered** (2.4.11): `uncovered` counts how many of the element's four corners and its centre are not under
