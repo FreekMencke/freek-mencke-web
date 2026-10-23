@@ -67,7 +67,7 @@ interface Milestone {
         <a class="link" href="https://github.com/osrs-tracker" target="_blank" rel="noopener">Source on GitHub</a>
       </p>
 
-      <figure class="mx-auto mt-18 max-w-wide">
+      <figure class="mx-auto mt-12 max-w-wide">
         <ol class="timeline">
           @for (milestone of milestones; track milestone.year) {
             <li [class.web]="milestone.web">

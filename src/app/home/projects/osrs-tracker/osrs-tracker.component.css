@@ -5,7 +5,15 @@
 .shots {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  padding-bottom: 7%;
+}
+/* Room for the details' overhang, so the next block's margin is the whole gap below them: 24% of the taller one
+   (1400x857, 5 of 12 columns wide). A row of its own, as a padding percentage there is of the grid's width; on .shots
+   it would be of the wider parent's. */
+.shots::after {
+  content: '';
+  grid-row: 2;
+  grid-column: 1 / -1;
+  padding-top: calc(24% * 5 / 12 * 857 / 1400);
 }
 .shots img {
   grid-row: 1;
@@ -37,7 +45,8 @@
   filter: brightness(0.9);
 }
 
-/* Five years on a line: grey for the Android app, the accent for the website */
+/* Five years on a line, each under its dot, so the line is centred like the page: grey for the Android app, the accent
+   for the website */
 .timeline {
   position: relative;
   display: grid;
@@ -54,24 +63,26 @@
   border-radius: 2px;
 }
 .timeline::before {
-  left: 0;
+  left: 10%;
   width: 40%;
   background: var(--color-muted);
 }
 .timeline::after {
-  left: 60%;
+  left: 70%;
   right: 0;
   background: linear-gradient(90deg, var(--color-accent), transparent);
 }
 .timeline li {
   position: relative;
-  padding-right: 24px;
+  padding: 0 12px;
+  text-align: center;
 }
 .timeline li::before {
   content: '';
   position: absolute;
   top: -29px;
-  left: -4px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -86,7 +97,9 @@
   .shots {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
-    padding-bottom: 0;
+  }
+  .shots::after {
+    display: none;
   }
   .shots .home,
   .shots .detail {
@@ -116,10 +129,12 @@
     display: none;
   }
   .timeline li {
-    padding-right: 0;
+    padding: 0;
+    text-align: left;
   }
   .timeline li::before {
     top: 6px;
     left: -29px;
+    transform: none;
   }
 }
