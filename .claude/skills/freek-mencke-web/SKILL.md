@@ -156,7 +156,8 @@ The rules it follows (it reads them here):
 - Scroll past the hero: the bar turns solid (light ground, or green in dark) and shows the wordmark.
 - A screenshot per URL, width and theme, plus failed requests (an image under `/projects/`) and console errors.
 - Walk changed focusable parts by keyboard: Tab order, focus visible and not under the sticky bar (WCAG 2.4.11), Enter
-  and Space.
+  and Space, and once per width a Tab onto an element scrolled under the bar.
+- Under reduced motion, no infinite animation runs (the tagline's caret, the arrow's bounce).
 - A clean scan and walk don't make the page accessible: list what wasn't checked (alt text and label meaning, reading
   order, screen-reader output, zoom and reflow).
 - Close the browser as soon as the round of checks is done.
