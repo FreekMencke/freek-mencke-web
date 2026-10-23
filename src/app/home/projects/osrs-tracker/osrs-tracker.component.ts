@@ -60,7 +60,7 @@ interface Milestone {
           Jagex has published.
         </p>
       </div>
-      <p class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-2 text-lg/7.5">
+      <p class="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-lg/7.5 sm:justify-center">
         <a class="link" href="https://osrs-tracker.freekmencke.com/" target="_blank" rel="noopener"
           >Open OSRS Tracker</a
         >
@@ -76,7 +76,7 @@ interface Milestone {
             </li>
           }
         </ol>
-        <figcaption class="mx-auto mt-12 max-w-152 text-center text-lg/7.5">
+        <figcaption class="mx-auto mt-12 max-w-152 text-lg/7.5 sm:text-center">
           I pulled the plug on the Android app while it was still growing: the backend cost too much and needed too much
           babysitting, mostly because I’d designed it badly. The website is built properly this time.
         </figcaption>

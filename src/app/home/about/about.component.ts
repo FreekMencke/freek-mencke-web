@@ -11,10 +11,10 @@ import { SocialLinksComponent } from '@app/common/social-links/social-links.comp
     <footer id="about" class="field mt-section sa-b" aria-labelledby="about-title">
       <div class="mx-auto flex max-w-page flex-col items-center px-page pt-section-sm pb-10 text-center">
         <h2 id="about-title" class="sr-only">About me</h2>
-        <p class="max-w-147 text-statement font-light text-balance">
+        <p class="max-w-152 text-statement font-light text-balance">
           I’m Freek, a full-stack TypeScript developer from Belgium.
         </p>
-        <p class="mt-6 max-w-xl text-lg/7.5 text-balance text-field-muted">
+        <p class="mt-6 max-w-152 text-lg/7.5 text-balance text-field-muted">
           By day I build Angular apps for a private bank. By night I build whatever I feel like and host it on my own
           Kubernetes cluster. When I’m not coding, I’m reading, gaming or messing around with my 3D printer.
         </p>
