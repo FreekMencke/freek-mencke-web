@@ -7,13 +7,13 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 /* Room for the details' overhang, so the next block's margin is the whole gap below them: 24% of the taller one
-   (1400x857, 5 of 12 columns wide). A row of its own, as a padding percentage there is of the grid's width; on .shots
+   (1400x854, 5 of 12 columns wide). A row of its own, as a padding percentage there is of the grid's width; on .shots
    it would be of the wider parent's. */
 .shots::after {
   content: '';
   grid-row: 2;
   grid-column: 1 / -1;
-  padding-top: calc(24% * 5 / 12 * 857 / 1400);
+  padding-top: calc(24% * 5 / 12 * 854 / 1400);
 }
 .shots img {
   grid-row: 1;

@@ -38,14 +38,14 @@ interface Milestone {
           class="detail"
           ngSrc="/projects/osrs-tracker/item.webp"
           width="1400"
-          height="819"
+          height="825"
           alt="The Abyssal whip’s price page"
         />
         <img
           class="detail player"
           ngSrc="/projects/osrs-tracker/player.webp"
           width="1400"
-          height="857"
+          height="854"
           alt="The stats page of the player The Fraking"
         />
       </div>
