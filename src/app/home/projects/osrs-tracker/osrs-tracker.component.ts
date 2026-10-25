@@ -61,9 +61,7 @@ interface Milestone {
         </p>
       </div>
       <p class="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-lg/7.5 sm:justify-center">
-        <a class="link" href="https://osrs-tracker.freekmencke.com/" target="_blank" rel="noopener"
-          >Open OSRS Tracker</a
-        >
+        <a class="link" href="https://osrs-tracker.net/" target="_blank" rel="noopener">Open OSRS Tracker</a>
         <a class="link" href="https://github.com/osrs-tracker" target="_blank" rel="noopener">Source on GitHub</a>
       </p>
 
