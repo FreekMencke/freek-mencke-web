@@ -42,11 +42,17 @@ export default defineConfig(
   },
   {
     // Layers: home builds on common, never the other way round, and only app.config.server.ts reaches the Express
-    // server. Resolved paths, so relative imports count too.
+    // server; and no circular imports, which load a module half-initialised. Resolved paths, so relative imports count
+    // too.
     files: ['src/**/*.ts'],
     plugins: { 'import-x': importX },
-    settings: { 'import-x/resolver-next': [createTypeScriptImportResolver({ project: 'tsconfig.json' })] },
+    settings: {
+      'import-x/resolver-next': [createTypeScriptImportResolver({ project: 'tsconfig.json' })],
+      // The files no-cycle parses to follow their imports; it skips the others, and the default is only .js
+      'import-x/extensions': ['.ts'],
+    },
     rules: {
+      'import-x/no-cycle': 'error',
       'import-x/no-restricted-paths': [
         'error',
         {
