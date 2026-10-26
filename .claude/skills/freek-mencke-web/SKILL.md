@@ -185,8 +185,8 @@ The flow and the rollback are in `README.md`. For a session:
   failure shows as a failed `CD` run titled after the change.
 - CD skips a commit that changes only files outside the image: `NOT_IN_IMAGE` in `.github/workflows/deploy.yml` (the
   manifest, `.claude/`, `.github/`, `.vscode/`, `README.md`, `CLAUDE.md`, `.mcp.json`, `.gitignore`, `knip.jsonc`,
-  `scripts/`, `LICENSE`). A new file that isn't part of the build goes in that list and in `.dockerignore`, or every
-  change to it redeploys.
+  `.jscpd.json`, `scripts/`, `LICENSE`). A new file that isn't part of the build goes in that list and in
+  `.dockerignore`, or every change to it redeploys.
 - `freek-mencke-web.yaml` reaches the cluster through Flux without a new image, and CI ignores pushes that change only
   it.
 
@@ -194,6 +194,9 @@ The flow and the rollback are in `README.md`. For a session:
 
 - `npx knip` (in the verify list) reports unused files, exports and dependencies. An export only its own file uses loses
   its `export`; a false positive goes in `knip.jsonc` with a comment saying why.
+- `npx jscpd` (in the verify list) fails when more than 1% of `src/`'s lines (TypeScript, templates and CSS, the specs
+  left out; `.jscpd.json`) are copies: move the copy into one place, never raise the threshold to pass. Lint's
+  `import-x/no-cycle` fails on a circular import.
 - npm updates are by hand (Dependabot covers only Actions and the base image). `allowScripts` in `package.json` pins
   each approved install script to a version: when an update moves one (`npm install-scripts ls` lists it), re-approve it
   in the same PR with `npm install-scripts approve <pkg>`, never by bare name.

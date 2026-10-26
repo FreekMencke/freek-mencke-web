@@ -38,8 +38,8 @@ npm run build                      # then the production server on :8080, metric
 npm run serve:ssr:freek-mencke-web
 ```
 
-CI runs `npm run lint`, `npm run prettier:ci`, `npx knip`, `npm test`, `npm run build`, ShellCheck on the scripts and
-hooks, and zizmor on the workflows (`.github/workflows/zizmor.yml`).
+CI runs `npm run lint`, `npm run prettier:ci`, `npx knip`, `npx jscpd`, `npm test`, `npm run build`, ShellCheck on the
+scripts and hooks, and zizmor on the workflows (`.github/workflows/zizmor.yml`).
 
 ## Deploy
 

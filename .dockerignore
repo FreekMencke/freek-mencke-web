@@ -51,6 +51,7 @@ CLAUDE.md
 
 # Lint config
 knip.jsonc
+.jscpd.json
 
 # Dev scripts (the axe scan)
 scripts
