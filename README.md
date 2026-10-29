@@ -29,7 +29,7 @@
 
 ## Running it locally
 
-With Node 24 or later:
+With Node 26 or later:
 
 ```bash
 npm ci
