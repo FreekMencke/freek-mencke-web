@@ -189,8 +189,8 @@ the flagged elements in your snapshot and screenshots. The walk checks what a sc
 - **Not covered** (2.4.11): `uncovered` counts how many of the element's four corners and its centre are not under
   another element, such as the sticky bar. `0/5` is an issue, a partial cover a note.
 - **Keys:** Enter follows a link and activates a button, Space activates a button. Press them only on controls the
-  caller names or the bar's links and the hero's arrow, which only scroll the page; the theme toggle only when the
-  caller asks, then reload as the skill says.
+  caller names or the bar's links, which only scroll the page; the theme toggle only when the caller asks, then reload
+  as the skill says.
 
 <!-- prettier-ignore -->
 ```js

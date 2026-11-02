@@ -1,48 +1,27 @@
-/*
- * The home page across 10 of 12 columns, the two detail pages over its bottom corners (5 columns each) and hanging below
- * it. On phones the three stack at full width.
- */
-.shots {
+/* Beside each other from where both fit: the heading and what it says, centred against each other */
+.head {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px clamp(2rem, 5vw, 5rem);
+  align-items: center;
 }
-/* Room for the details' overhang, so the next block's margin is the whole gap below them: 24% of the taller one
-   (1400x854, 5 of 12 columns wide). A row of its own, as a padding percentage there is of the grid's width; on .shots
-   it would be of the wider parent's. */
-.shots::after {
-  content: '';
-  grid-row: 2;
-  grid-column: 1 / -1;
-  padding-top: calc(24% * 5 / 12 * 854 / 1400);
+@media (width >= 62rem) {
+  .head {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  }
 }
-.shots img {
-  grid-row: 1;
-  min-width: 0;
-  width: 100%;
-  height: auto;
-  /* An outline, not a box-shadow ring: forced colours drop shadows but repaint an outline, so the screenshots keep an
-     edge there and the details stay apart from the home page */
-  outline: 1px solid var(--color-edge);
+
+.deck {
+  margin-top: clamp(3.5rem, 6.5vw, 6rem);
 }
-.shots .home {
-  grid-column: 2 / span 10;
-  border-radius: 12px;
+/* The same room on both sides of the stack: the 16px is the deck's own bottom padding */
+.stack {
+  margin-top: clamp(4.5rem, 8vw, 7rem);
 }
-.shots .detail {
-  z-index: 1;
-  grid-column: 1 / span 5;
-  align-self: end;
-  border-radius: 10px;
-  transform: translateY(24%);
-  /* Only the details cast a shadow, a soft one: they lie over the home page */
-  box-shadow: 0 12px 32px -12px var(--color-shade);
+.story {
+  margin-top: calc(clamp(4.5rem, 8vw, 7rem) + 16px);
 }
-.shots .player {
-  grid-column: 8 / span 5;
-}
-/* Light screenshots on a dark page: a little dimmer, so they don't glare */
-:host-context(.dark) .shots img {
-  filter: brightness(0.9);
+figcaption {
+  color: color-mix(in oklch, var(--color-muted) 65%, var(--color-ink));
 }
 
 /* Five years on a line, each under its dot, so the line is centred like the page: grey for the Android app, the accent
@@ -93,29 +72,6 @@
 }
 
 @media (width < 40rem) {
-  /* Stacked at full width: side by side, the details are too small to read */
-  .shots {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
-  }
-  .shots::after {
-    display: none;
-  }
-  .shots .home,
-  .shots .detail {
-    grid-row: auto;
-    grid-column: 1;
-  }
-  /* Nothing overlaps any more: no shadow, one radius */
-  .shots .home,
-  .shots .detail {
-    border-radius: 8px;
-    box-shadow: none;
-  }
-  .shots .detail {
-    transform: none;
-  }
-
   /* Vertical on phones */
   .timeline {
     grid-template-columns: 1fr;
@@ -136,5 +92,16 @@
     top: 6px;
     left: -29px;
     transform: none;
+  }
+}
+
+/* Forced colours paint backgrounds away, and the dots and the years' line are nothing else */
+@media (forced-colors: active) {
+  .timeline::before,
+  .timeline::after,
+  .timeline li::before,
+  .timeline li.web::before {
+    background: CanvasText;
+    forced-color-adjust: none;
   }
 }

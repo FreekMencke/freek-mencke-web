@@ -1,0 +1,47 @@
+/* Centred in its cell on the map, which can be taller than the list */
+:host {
+  display: grid;
+  align-content: center;
+}
+ul {
+  display: grid;
+  gap: 8px;
+  font-size: 0.875rem;
+  line-height: 1.2;
+  color: var(--color-field-muted);
+}
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+svg {
+  flex: none;
+  width: 36px;
+  height: 12px;
+  fill: none;
+  stroke: var(--color-field-muted);
+  stroke-width: 1.5;
+}
+.is-deploy {
+  stroke: var(--color-field-accent);
+}
+/* The map's widths: see cluster-map.component.css */
+@container map (min-width: 720px) {
+  ul {
+    grid-template-columns: repeat(2, max-content);
+    gap: 8px 32px;
+  }
+}
+@container map (min-width: 1160px) {
+  ul {
+    grid-template-columns: 1fr;
+  }
+}
+/* Forced colours would otherwise leave the samples in their green */
+@media (forced-colors: active) {
+  svg,
+  .is-deploy {
+    stroke: CanvasText;
+  }
+}

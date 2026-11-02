@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# CD's plan step (deploy.yml): picks the commit to deploy and checks it out. Writes deploy=true and sha=<commit> to
-# $GITHUB_OUTPUT, or deploy=false when there's nothing to deploy. Reads RUN_SHA, CI_WORKFLOW_ID, NOT_IN_IMAGE, GH_TOKEN
-# and REPO; runs in a checkout of main.
+# CD's plan step (deploy.yml): picks the commit to deploy, checks it out and records it for the page. Writes deploy=true
+# and sha=<commit> to $GITHUB_OUTPUT, or deploy=false when there's nothing to deploy. Reads RUN_SHA, CI_WORKFLOW_ID,
+# NOT_IN_IMAGE, GH_TOKEN and REPO; runs in a checkout of main.
 # -e like GitHub's default `run` shell (bash -e), which a script run from it doesn't inherit
 set -e
 
@@ -41,5 +41,9 @@ fi
 
 echo "Deploying $target (last deployed: ${deployed:-unknown})."
 git checkout --quiet --detach "$target"
+# The page shows its last deploy and is pre-rendered, so the build needs it. This overwrites the checked-in value in the
+# image's build context only: it's never committed.
+jq -n --arg date "$(git log -1 --format=%cs)" --arg message "$(git log -1 --format=%s)" \
+  '{date: $date, message: $message}' > src/app/home/fremen-server/last-deploy.json
 echo "deploy=true" >> "$GITHUB_OUTPUT"
 echo "sha=$target" >> "$GITHUB_OUTPUT"

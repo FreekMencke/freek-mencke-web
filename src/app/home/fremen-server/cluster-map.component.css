@@ -1,0 +1,242 @@
+/* One map, drawn three ways by the width of its container: each drawing is its grid-template. The phone's tall one is
+   the base. The boxes name their own grid area, from their key, in the template. */
+:host {
+  display: block;
+  container: map / inline-size;
+}
+
+.map {
+  --mode: tall;
+  --c: minmax(0, 1fr);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template:
+    '. main . visitors .'
+    '. label label label .'
+    '. flux . traefik .'
+    '. more . crowdsec .'
+    '. deploy deploy deploy .'
+    '. web web web .'
+    '. osrsweb osrsweb osrsweb .'
+    '. api api api .'
+    '. mongo mongo mongo .'
+    '. ingester ingester ingester .'
+    '. . . . .'
+    '. queue . grafana .'
+    '. lambda . legend .'
+    / 26px var(--c) 12px var(--c) 26px;
+  row-gap: 28px;
+  max-width: 560px;
+  margin-inline: auto;
+}
+.map > * {
+  min-width: 0;
+}
+.map > :not(.lines) {
+  position: relative;
+  z-index: 2;
+}
+.lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.frame {
+  grid-column: 1 / -1;
+  grid-row: 2 / 12;
+  pointer-events: none;
+}
+.label {
+  grid-area: label;
+  /* Between the two lines coming in from above */
+  padding: 16px calc(25% + 8px) 0;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--color-field-muted);
+}
+
+.deploy {
+  grid-area: deploy;
+}
+.more {
+  grid-area: more;
+}
+.legend {
+  grid-area: legend;
+}
+
+.hint {
+  max-width: 40em;
+  margin: 32px auto 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--color-field-muted);
+}
+@media (hover: none) {
+  .hint__hover {
+    display: none;
+  }
+}
+
+/* Stroke and fill inherit from the group, for the line and its head alike */
+.edge {
+  fill: none;
+  stroke: var(--color-field-muted);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  transition:
+    opacity 0.15s,
+    stroke 0.15s,
+    stroke-width 0.15s;
+}
+.edge--deploy {
+  stroke: var(--color-field-accent);
+}
+.edge--deploy .edge__line {
+  stroke-dasharray: 6 5;
+  stroke-linecap: butt;
+}
+.edge--bans .edge__line {
+  stroke-dasharray: 3 5;
+  stroke-linecap: butt;
+}
+.edge--watch .edge__line {
+  stroke-dasharray: 0.1 6;
+  stroke-width: 2;
+}
+.edge.on {
+  stroke: var(--color-on-field);
+  stroke-width: 2.5;
+}
+.edge--deploy.on {
+  stroke: var(--color-field-accent);
+}
+.map[data-trace] .edge:not(.on) {
+  opacity: 0.2;
+}
+.bound {
+  fill: none;
+  stroke: var(--color-field-muted);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 9;
+  transition: stroke 0.15s;
+}
+.bound.on {
+  stroke: var(--color-on-field);
+}
+.trace {
+  fill: none;
+  stroke: var(--color-field-accent);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: opacity 0.15s;
+}
+.trace.is-drawn {
+  stroke-dashoffset: 0;
+  transition:
+    stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s;
+}
+.map[data-trace] .trace {
+  opacity: 0.2;
+}
+
+/* The four apps in a row, with the ways in above and below the boundary. Grafana sits in the bottom row, because its
+   line to the boundary would run under the button at the top right. */
+@container map (min-width: 720px) {
+  .map {
+    --mode: mid;
+    --g: 20px;
+    --p: 16px;
+    /* The four apps' columns: a grid-template with named areas doesn't allow repeat() */
+    --apps: var(--c) var(--g) var(--c) var(--g) var(--c) var(--g) var(--c);
+    grid-template:
+      '. main . legend legend legend legend legend .' auto
+      '. . . . . . . . .' 32px
+      '. . . label label label label label .' auto
+      '. flux . deploy deploy deploy deploy deploy .' auto
+      '. . . . . . . . .' 44px
+      '. web . osrsweb . api . mongo .' auto
+      '. . . . . . . . .' 44px
+      '. traefik . crowdsec . more . ingester .' auto
+      '. . . . . . . . .' 24px
+      '. . . . . . . . .' 32px
+      '. visitors . grafana . lambda . queue .' auto
+      / var(--p) var(--apps) var(--p);
+    max-width: none;
+    row-gap: 0;
+  }
+  .frame {
+    grid-row: 3 / 10;
+  }
+  .label {
+    padding: 16px 0 20px;
+    text-align: left;
+  }
+}
+@container map (min-width: 860px) {
+  .map {
+    --g: 24px;
+    --p: 20px;
+  }
+}
+
+/* The ways in and out at the sides of the boundary. Starts where freek-mencke-web still fits on one line. */
+@container map (min-width: 1160px) {
+  .map {
+    --mode: wide;
+    --s: 136px;
+    --o: 44px;
+    --g: 24px;
+    --p: 24px;
+    grid-template:
+      '. . . label label label label label label label . . .' auto
+      'main . . flux . deploy deploy deploy deploy deploy . . grafana' auto
+      '. . . . . . . . . . . . .' 44px
+      'legend . . web . osrsweb . api . mongo . . lambda' auto
+      '. . . . . . . . . . . . .' 44px
+      'visitors . . traefik . crowdsec . more . ingester . . queue' auto
+      '. . . . . . . . . . . . .' 24px
+      / var(--s) var(--o) var(--p) var(--apps) var(--p) var(--o) var(--s);
+  }
+  .frame {
+    grid-column: 3 / 12;
+    grid-row: 1 / 8;
+  }
+}
+@container map (min-width: 1280px) {
+  .map {
+    --s: 156px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edge,
+  .bound,
+  .trace,
+  .trace.is-drawn {
+    transition: none;
+  }
+}
+/* Forced colours would otherwise leave the lines in their green */
+@media (forced-colors: active) {
+  .edge,
+  .edge.on,
+  .edge--deploy.on,
+  .bound,
+  .trace {
+    stroke: CanvasText;
+  }
+}

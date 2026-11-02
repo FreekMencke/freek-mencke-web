@@ -15,17 +15,20 @@ import { BarStore } from './bar-store';
         color 0.25s,
         box-shadow 0.25s;
     }
+    /* Glass, about as thin as AA allows. Thinner, the focus ring drops below 3:1 over the mid-page field in light, and
+       the text below 4.5:1 over the light screenshots in dark. A wider blur smears bright things into a glow, and
+       without the hairline whatever slides under the bar looks cut off. */
     .bar.is-scrolled {
-      background-color: color-mix(in oklch, var(--color-ground) 86%, transparent);
-      backdrop-filter: blur(12px);
+      background-color: color-mix(in oklch, var(--color-ground) 75%, transparent);
+      backdrop-filter: blur(8px);
       color: var(--color-ink);
       box-shadow: 0 1px 0 var(--color-line);
     }
     /* Dark: the field's green carries on. The dark ground over the light screenshots reads as a black band. */
     :host-context(.dark) .bar.is-scrolled {
-      background-color: color-mix(in oklch, var(--color-field) 92%, transparent);
+      background-color: color-mix(in oklch, var(--color-field) 72%, transparent);
       color: var(--color-on-field);
-      box-shadow: none;
+      box-shadow: 0 1px 0 var(--color-field-line);
     }
     /* Forced colours drop the shadow and paint every background Canvas, in both themes: a line instead, so the bar
        stays apart from the page under it. Always there, so nothing shifts when the bar turns solid. */
@@ -97,7 +100,7 @@ import { BarStore } from './bar-store';
       <div class="flex items-center gap-6">
         <nav class="flex gap-6 text-sm/5 font-medium" aria-label="Sections">
           <a class="hover:text-accent" routerLink="/" fragment="projects">Projects</a>
-          <a class="hover:text-accent" routerLink="/" fragment="about">About</a>
+          <a class="hover:text-accent" routerLink="/" fragment="cluster">Cluster</a>
         </nav>
         <theme-toggle />
       </div>

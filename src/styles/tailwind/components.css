@@ -13,7 +13,7 @@
     }
   }
 
-  /* The green field: the hero and the footer. Links on it hover and focus in the field's accent. */
+  /* The green field: the hero, the server map and the footer. Links on it hover and focus in the field's accent. */
   .field {
     background-color: var(--color-field);
     background-image: radial-gradient(

@@ -1,0 +1,164 @@
+/* Stretches to its grid cell, so the boxes in a row are as tall as each other and the lines meet their edges */
+:host {
+  display: flex;
+}
+.part {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 96px;
+  padding: 12px 14px;
+  background: color-mix(in oklch, var(--color-on-field) 7%, var(--color-field));
+  border: 1px solid var(--color-field-line);
+  border-radius: 10px;
+  color: var(--color-on-field);
+  transition:
+    background-color 0.12s,
+    border-color 0.12s,
+    opacity 0.15s;
+}
+.part--flux {
+  border-color: var(--color-field-accent);
+}
+.part--live {
+  background: color-mix(in oklch, var(--color-field-accent) 16%, var(--color-field));
+  border-color: var(--color-field-accent);
+}
+.part--more {
+  background: transparent;
+  border: 1px dotted var(--color-field-muted);
+}
+.ref {
+  position: absolute;
+  top: -11px;
+  left: -11px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--color-field-muted);
+  border-radius: 50%;
+  background: var(--color-field-deep);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.note {
+  font-size: 0.875rem;
+  line-height: 1.3;
+  text-wrap: balance;
+  color: var(--color-field-muted);
+}
+.part--live .note {
+  color: color-mix(in oklch, var(--color-on-field) 82%, var(--color-field-accent));
+}
+.pods {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+.pods i {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color-field-accent);
+  border-radius: 50%;
+  background: var(--color-field-accent);
+  transition: background-color 0.2s;
+}
+.pods i.is-rolling {
+  background: transparent;
+}
+.pods b {
+  margin-left: auto;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+a.part:hover,
+.part.is-hot {
+  background: color-mix(in oklch, var(--color-on-field) 15%, var(--color-field));
+  border-color: var(--color-on-field);
+}
+a.part--live:hover,
+.part--live.is-hot {
+  background: color-mix(in oklch, var(--color-field-accent) 28%, var(--color-field));
+}
+.part.is-lit {
+  border-color: var(--color-on-field);
+}
+.part.is-dim {
+  opacity: 0.5;
+}
+.part.is-played {
+  border-color: var(--color-field-accent);
+}
+/* A ring just inside the box's edge. A border, as forced colours drop a box-shadow, and not an outline, which CSS lets
+   a browser paint over the number. */
+.part.is-lit::before,
+.part.is-played::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-on-field);
+  border-radius: 9px;
+}
+.part.is-played::before {
+  border: 2px solid var(--color-field-accent);
+}
+
+/* The map's widths: see cluster-map.component.css */
+@container map (min-width: 720px) {
+  .part {
+    padding: 12px;
+  }
+  .name {
+    font-size: 0.9375rem;
+  }
+}
+@container map (min-width: 860px) {
+  .part {
+    padding: 12px 14px;
+  }
+  .name {
+    font-size: 1rem;
+  }
+}
+@container map (min-width: 1280px) {
+  .part {
+    min-height: 112px;
+    padding: 16px;
+  }
+  .name {
+    font-size: 1.0625rem;
+  }
+  .note {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .part,
+  .pods i {
+    transition: none;
+  }
+}
+/* Forced colours drop the fill that shows a pod */
+@media (forced-colors: active) {
+  .pods i {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+}

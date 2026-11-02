@@ -1,28 +1,26 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { LucideCircleArrowDown } from '@lucide/angular';
 import { BarStore } from '@app/common/root-layout/bar-store';
 import { SocialLinksComponent } from '@app/common/social-links/social-links.component';
 
 /**
- * The full-screen green field: the name, the tagline typed out in two sentences, the socials and an arrow down. The
- * typing is CSS only: each sentence types its length in characters (`--c`, 50ms each) after its delay (`--d`), the cursor
- * moves on when the first is done (1750ms = 600ms + 23 × 50ms), and the page rests on the finished text.
+ * The green field: the name, the tagline typed out in two sentences, who I am and the socials. The typing is CSS only:
+ * each sentence types its length in characters (`--c`, 50ms each) after its delay (`--d`), the cursor moves on when the
+ * first is done (1750ms = 600ms + 23 × 50ms), and the page rests on the finished text.
  */
 @Component({
   selector: 'hero',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LucideCircleArrowDown, RouterLink, SocialLinksComponent],
+  imports: [SocialLinksComponent],
   styleUrl: './hero.component.css',
   host: { class: 'block' },
   template: `
-    <header id="top" class="field -mt-bar-phone flex min-h-svh flex-col px-page pt-bar-phone pb-8 sm:-mt-bar sm:pt-bar">
-      <div class="flex grow flex-col items-center justify-center gap-6 py-12 text-center">
-        <h1 class="wordmark" aria-label="Freek Mencke">
+    <header id="top" class="field -mt-bar-phone px-page pt-bar-phone sm:-mt-bar sm:pt-bar">
+      <div class="flex flex-col items-center pb-12 text-center sm:pb-24">
+        <h1 class="wordmark mt-12 sm:mt-24" aria-label="Freek Mencke">
           <span class="first">Freek</span><span class="last">Mencke</span>
         </h1>
 
-        <p class="tagline font-mono">
+        <p class="tagline mt-6 font-mono">
           <span class="line">
             <span class="type" style="--c: 23; --d: 600ms; width: 23ch">Doing the coding thing.</span>
             <span class="cursor first-cursor" aria-hidden="true"></span>
@@ -34,17 +32,13 @@ import { SocialLinksComponent } from '@app/common/social-links/social-links.comp
           </span>
         </p>
 
-        <social-links class="mt-2 text-field-muted" label="Elsewhere" />
-      </div>
+        <p class="mt-14 max-w-152 text-lg/7.5 font-light text-balance text-field-muted sm:mt-20">
+          Full-stack TypeScript developer from Belgium. Angular for a private bank by day, my own Kubernetes cluster by
+          night.
+        </p>
 
-      <a
-        class="flex flex-col items-center gap-1 self-center px-3 py-2 text-sm/5 font-medium text-field-muted hover:text-field-accent motion-safe:animate-bounce"
-        routerLink="/"
-        fragment="projects"
-      >
-        Projects
-        <svg lucideCircleArrowDown class="size-6" strokeWidth="1.5" />
-      </a>
+        <social-links class="mt-6 text-field-muted" label="Elsewhere" />
+      </div>
     </header>
   `,
 })
