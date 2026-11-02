@@ -15,7 +15,7 @@ import { PartContent } from './cluster-parts';
     </ng-template>
 
     @if (part().workload; as workload) {
-      <a class="part" [class]="classes()" [attr.href]="'#part-' + workload.ref">
+      <a class="part" [class]="classes()" [attr.href]="'#part-' + workload.name">
         <span class="ref">{{ workload.ref }}</span>
         <ng-container [ngTemplateOutlet]="body" />
         <span class="pods" aria-hidden="true">

@@ -123,7 +123,7 @@ const narrowRest = deckLayout(
             [lead]="index === 0"
             [current]="view() === 'desk'"
             [wanted]="bothSides() || view() === 'desk'"
-            [exposed]="index === top() && view() === 'desk'"
+            [exposed]="index === top() && view() !== 'phone'"
           />
           <deck-side
             kind="phone"
@@ -132,7 +132,7 @@ const narrowRest = deckLayout(
             [lead]="index === 0"
             [current]="view() === 'phone'"
             [wanted]="bothSides() || view() === 'phone'"
-            [exposed]="index === top() && view() === 'phone'"
+            [exposed]="index === top() && view() !== 'desk'"
           />
         </figure>
       }

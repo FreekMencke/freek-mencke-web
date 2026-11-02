@@ -8,19 +8,19 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <div class="stack" role="group" aria-label="What OSRS Tracker is built with">
       <div class="bound"><p>On my cluster</p></div>
-      <a class="box box--live angular" href="#part-3">
+      <a class="box box--live angular" href="#part-osrs-tracker-web">
         <b>Angular</b>
         <span>The website you open at osrs-tracker.net</span>
         <span class="sr-only">, jumps to its row under What runs on it</span>
       </a>
       <i class="arrow angular-to-nest" aria-hidden="true"></i>
-      <a class="box box--live nest" href="#part-4">
+      <a class="box box--live nest" href="#part-osrs-tracker-api">
         <b>NestJS</b>
         <span>The API behind it</span>
         <span class="sr-only">, jumps to its row under What runs on it</span>
       </a>
       <i class="arrow nest-to-mongo" aria-hidden="true"></i>
-      <a class="box mongo" href="#part-5">
+      <a class="box mongo" href="#part-mongodb">
         <b>MongoDB</b>
         <span>Where every player’s history is kept</span>
         <span class="sr-only">, jumps to its row under What runs on it</span>

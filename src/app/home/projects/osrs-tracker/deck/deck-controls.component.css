@@ -111,6 +111,17 @@
   color: var(--color-accent);
 }
 
+/* The smallest phones: the switch and the arrows only share a row with less room around them */
+@container deck (width < 24rem) {
+  :host {
+    column-gap: 8px;
+  }
+  .switch button {
+    gap: 6px;
+    padding: 0 8px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .switch button,
   .thumb,

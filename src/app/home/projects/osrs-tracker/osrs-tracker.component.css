@@ -94,3 +94,14 @@ figcaption {
     transform: none;
   }
 }
+
+/* Forced colours paint backgrounds away, and the dots and the years' line are nothing else */
+@media (forced-colors: active) {
+  .timeline::before,
+  .timeline::after,
+  .timeline li::before,
+  .timeline li.web::before {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+}

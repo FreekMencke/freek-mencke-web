@@ -100,7 +100,7 @@ import { BarStore } from './bar-store';
       <div class="flex items-center gap-6">
         <nav class="flex gap-6 text-sm/5 font-medium" aria-label="Sections">
           <a class="hover:text-accent" routerLink="/" fragment="projects">Projects</a>
-          <a class="hover:text-accent" routerLink="/" fragment="about">About</a>
+          <a class="hover:text-accent" routerLink="/" fragment="cluster">Cluster</a>
         </nav>
         <theme-toggle />
       </div>

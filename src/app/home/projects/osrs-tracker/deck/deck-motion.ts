@@ -156,13 +156,11 @@ export class DeckMotion {
   }
 
   /** Every card turns over, the top one first: a page's desktop screen is on one side, its phone screen on the other */
-  setView(view: DeckView, chosen = true): void {
+  setView(view: DeckView): void {
     if (view === this.view) return;
     this.view = view;
-    if (chosen) {
-      this.viewChosen = true;
-      this.interacted();
-    }
+    this.viewChosen = true;
+    this.interacted();
     const to = view === 'phone' ? 1 : 0;
     if (this.reduced) {
       this.cards.forEach(card => {
@@ -491,7 +489,10 @@ export class DeckMotion {
   }
 
   private press(event: PointerEvent): void {
-    if (event.button) return;
+    // One hand at a time: a second finger taking over would leave the first one's card stuck where it was dragged to
+    if (event.button || this.drag) return;
+    // From the press, not the first move: let go outside the stage and it still hears about it
+    this.stage.setPointerCapture(event.pointerId);
     const top = this.order[0];
     const pressed = this.cardAt(event);
     this.drag = {
@@ -525,7 +526,6 @@ export class DeckMotion {
     if (!drag.moved) {
       if (Math.abs(dx) < 6) return;
       drag.moved = true;
-      this.stage.setPointerCapture(drag.id);
       this.stage.classList.add('is-dragging');
       top.pending = null;
       top.layer = IN_THE_AIR + ++this.flights * 10;

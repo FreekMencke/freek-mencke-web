@@ -20,8 +20,8 @@ app: look there for a pattern this repo doesn't have yet.
 
 ## The app
 
-- One page, `home/`, inside `common/root-layout/` (the sticky bar: wordmark, Projects, About and the theme toggle). In
-  order: `hero/` (the green field, `#top`), `projects/` (`#projects`: `osrs-tracker/`) and `fremen-server/` (`#server`:
+- One page, `home/`, inside `common/root-layout/` (the sticky bar: wordmark, Projects, Cluster and the theme toggle). In
+  order: `hero/` (the green field, `#top`), `projects/` (`#projects`: `osrs-tracker/`) and `fremen-server/` (`#cluster`:
   the cluster map and the table of what runs on it) in `<main>`, and `about/` (`#about`, the green footer). The bar's
   links are fragments of `/`, scrolled to by `withInMemoryScrolling`; every other path redirects to `/`
   (`app.routes.ts`, a 302 from the server).
@@ -105,11 +105,13 @@ changing the page's look, and keep the two in step. Its shared boards match the 
   lie on each other, so they get a `shade` shadow (`0 18px 40px -22px`) on top of the `edge` hairline every screenshot
   has (an `outline`, not a `box-shadow` ring), and a lifted one fades in a stronger shadow drawn once (`.lifted`). The
   card of what runs on the cluster lies across the field's edge, so it gets one too (`0 30px 60px -26px`), on an `edge`
-  outline. Nothing else casts one: the map's boxes are flat, the glass bar has a hairline (`line` in light, `field-line`
-  in dark), and hover never adds a shadow. Forced colours drop every shadow and paint every background Canvas, so
-  nothing may depend on either to be seen: the screenshots' and the card's `outline` are repainted there, the map's
-  lines and pods are set to `CanvasText`, and the bar gets a border only there (`@media (forced-colors: active)`). Check
-  a change to edges, shadows or backgrounds in Playwright with `forcedColors: 'active'`.
+  outline. The deck switch's thumb lies on its track, so it gets a small one (`0 2px 6px -2px`). Nothing else casts one:
+  the map's boxes are flat (their lit and played rings are borders on `::before`), the glass bar has a hairline (`line`
+  in light, `field-line` in dark), and hover never adds a shadow. Forced colours drop every shadow and paint every
+  background Canvas, so nothing may depend on either to be seen: the screenshots' and the card's `outline` are repainted
+  there, the map's lines and pods and the timeline's dots and line are set to `CanvasText`, and the bar gets a border
+  only there (`@media (forced-colors: active)`). Check a change to edges, shadows or backgrounds in Playwright with
+  `forcedColors: 'active'`.
 - **Icons**: Lucide's, through `@lucide/angular`, as in osrs-tracker-web: import the icon's component (`LucideSun`) and
   write `<svg lucideSun class="size-4.5" />`; pick from https://lucide.dev/icons, never hand-draw one or take it from
   another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default. Changing classes go

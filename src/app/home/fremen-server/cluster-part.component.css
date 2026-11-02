@@ -18,7 +18,6 @@
   transition:
     background-color 0.12s,
     border-color 0.12s,
-    box-shadow 0.12s,
     opacity 0.15s;
 }
 .part--flux {
@@ -99,14 +98,25 @@ a.part--live:hover,
 }
 .part.is-lit {
   border-color: var(--color-on-field);
-  box-shadow: inset 0 0 0 1px var(--color-on-field);
 }
 .part.is-dim {
   opacity: 0.5;
 }
 .part.is-played {
   border-color: var(--color-field-accent);
-  box-shadow: inset 0 0 0 2px var(--color-field-accent);
+}
+/* A ring just inside the box's edge. A border, as forced colours drop a box-shadow, and not an outline, which CSS lets
+   a browser paint over the number. */
+.part.is-lit::before,
+.part.is-played::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-on-field);
+  border-radius: 9px;
+}
+.part.is-played::before {
+  border: 2px solid var(--color-field-accent);
 }
 
 /* The map's widths: see cluster-map.component.css */
