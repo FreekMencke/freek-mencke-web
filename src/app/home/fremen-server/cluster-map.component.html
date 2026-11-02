@@ -1,0 +1,85 @@
+<div
+  #map
+  class="map"
+  role="group"
+  aria-label="Map of fremen-server. A text version follows it."
+  [attr.data-trace]="hovered()"
+  (pointerover)="hoverFrom($event)"
+  (pointerleave)="hovered.set(null)"
+  (focusin)="hoverFrom($event)"
+  (focusout)="hovered.set(null)"
+>
+  <svg class="lines" aria-hidden="true" focusable="false">
+    @if (drawing(); as drawn) {
+      <rect
+        class="bound"
+        rx="18"
+        [class.on]="hovered() === 'grafana'"
+        [attr.x]="drawn.frame.l + 2"
+        [attr.y]="drawn.frame.t + 2"
+        [attr.width]="drawn.frame.r - drawn.frame.l - 4"
+        [attr.height]="drawn.frame.b - drawn.frame.t - 4"
+      />
+      @for (edge of drawn.edges; track edge.id) {
+        <g
+          class="edge"
+          [class]="'edge--' + edge.kind"
+          [class.on]="hovered() && (edge.from === hovered() || edge.to === hovered())"
+        >
+          <path class="edge__line" [attr.d]="edge.line" />
+          <path class="edge__head" [attr.d]="edge.head" />
+        </g>
+      }
+      @for (edge of drawn.route; track edge.id; let i = $index) {
+        <path class="trace" pathLength="1" [attr.d]="edge.line" [class.is-drawn]="i < tracesDrawn()" />
+      }
+    }
+  </svg>
+  <div #frame class="frame"></div>
+  <p class="label">fremen-server, one node on a VPS</p>
+
+  @for (box of boxes(); track box.part.key) {
+    <cluster-part
+      [part]="box.part"
+      [state]="box.state"
+      [rollingPod]="box.part.key === 'web' ? rollingPod() : null"
+      [style.grid-area]="box.part.key"
+      [attr.data-part]="box.part.key"
+    />
+    <!-- In the DOM right after Flux, so Tab reaches the button where the drawing has it -->
+    @if (box.part.key === 'flux') {
+      <deploy-plate class="deploy" [replaying]="replaying()" [textHidden]="deployTextHidden()" (replay)="replay()" />
+    }
+  }
+
+  <cluster-part class="more" [part]="otherWorkloads" [state]="hovered() ? 'is-dim' : ''" />
+
+  <cluster-legend class="legend" />
+</div>
+
+<div class="sr-only">
+  <h3>The map as text</h3>
+  <ul>
+    <li>
+      I push to main. Flux, inside the cluster, deploys the three apps from it: freek-mencke-web, osrs-tracker-web and
+      osrs-tracker-api. MongoDB, Traefik and CrowdSec aren’t Flux’s.
+    </li>
+    <li>
+      Visitors reach the cluster through Traefik, which serves the three apps. CrowdSec sits beside it and bans whoever
+      knocks too hard.
+    </li>
+    <li>osrs-tracker-web talks to osrs-tracker-api, and osrs-tracker-api uses MongoDB.</li>
+    <li>
+      AWS Lambda jobs, outside the cluster, collect player snapshots and counts and send them to a queue, also outside
+      it. osrs-tracker-ingester takes them from the queue and writes them to MongoDB.
+    </li>
+    <li>A few more workloads run on the node and aren’t drawn.</li>
+    <li>Grafana Cloud, outside the cluster, watches the whole thing.</li>
+  </ul>
+</div>
+
+<p class="hint">
+  <span class="hint__hover">Hover a box, or tab to it, to see what it connects to. </span>The numbered boxes run on the
+  node and link to their row below.
+</p>
+<p class="sr-only" role="status">{{ status() }}</p>

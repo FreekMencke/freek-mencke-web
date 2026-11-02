@@ -21,10 +21,14 @@ app: look there for a pattern this repo doesn't have yet.
 ## The app
 
 - One page, `home/`, inside `common/root-layout/` (the sticky bar: wordmark, Projects, About and the theme toggle). In
-  order: `hero/` (the green field, `#top`), `projects/` (`#projects`: `osrs-tracker/` featured, then the two smaller
-  ones with `terminal-card`) in `<main>`, and `about/` (`#about`, the green footer). The bar's links are fragments of
-  `/`, scrolled to by `withInMemoryScrolling`; every other path redirects to `/` (`app.routes.ts`, a 302 from the
-  server).
+  order: `hero/` (the green field, `#top`), `projects/` (`#projects`: `osrs-tracker/`) and `fremen-server/` (`#server`:
+  the cluster map and the table of what runs on it) in `<main>`, and `about/` (`#about`, the green footer). The bar's
+  links are fragments of `/`, scrolled to by `withInMemoryScrolling`; every other path redirects to `/`
+  (`app.routes.ts`, a 302 from the server).
+- **Cluster map**: `fremen-server/cluster-parts.ts` is written by hand from the private `fremen-cluster` repo, the apps'
+  manifests and `osrs-tracker-aws`; a part's `pods` is its workload's `replicas`, not a live count. The cluster's repo
+  is private, so add nothing else from it to a page. `cluster-edges.ts` draws the lines from where the boxes ended up,
+  so the page has none until it runs in the browser.
 - **State**: `common/theme/ThemeStore` (light or dark, kept in `localStorage` under `theme`) and
   `common/root-layout/BarStore` (whether the hero is under the bar, which the hero sets with an `IntersectionObserver`).
 - **Theme**: the inline script in `src/index.html` sets `.dark` on `<html>` and the `theme-color` meta before the first
@@ -54,63 +58,86 @@ Decided after a review of the whole codebase against both skills (2026-10-14):
 
 Designed on the canvas https://claude.ai/artifact/DP3jSVavjuymjpv5zc4oBS (direction "Colour field"): look there before
 changing the page's look, and keep the two in step. Its shared boards match the code: `Theme` is `theme.css` and
-`base.css` (tokens, font, links), `Bar` is `common/root-layout/`, `Terminal` is `home/projects/terminal-card`, and
-`Main` imports all three. Change a piece in its own board, not in `Main`.
+`base.css` (tokens, font, links), `Bar` is `common/root-layout/`, `Cluster map` is `home/fremen-server/cluster-map`,
+`Deck` is `home/projects/osrs-tracker/deck/`, and `Main` imports all four. Change a piece in its own board, not in
+`Main`.
 
-- **Idea**: one bold thing, a deep green field, opens the page (the hero) and closes it (the footer). Everything between
-  is quiet: the light ground, thin type, centred project heads.
+- **Idea**: one bold thing, a deep green field, opens the page (the hero), carries the cluster map and closes the page
+  (the footer). Everything between is quiet: the light ground, thin type, centred project heads.
 - **Colours**: semantic tokens only (`theme.css`, the light values; `.dark` in `base.css` swaps them; the stock palette
   is cleared). `ground` the page, `line` hairlines, `ink` text, `muted` secondary text, `accent` links' hover and the
-  website years, `edge` the hairline around screenshots, `shade` their shadow; `field` the green, `on-field`,
-  `field-muted` and `field-accent` on it. Dark is a near-black in the field's own green (`#0b1613`), not OSRS Tracker's
-  navy: navy clashes with the green. A tint is `color-mix(in oklch, <token> N%, transparent)`.
+  website years, `on-accent` text on a solid accent, `paper` a surface one step above the ground, `edge` the hairline
+  around screenshots, `shade` their shadow; `field` the green, `on-field`, `field-muted`, `field-accent` and
+  `field-line` (hairlines) on it, `field-deep` a plate set into it. Dark is a near-black in the field's own green
+  (`#0b1613`), not OSRS Tracker's navy: navy clashes with the green. A tint is
+  `color-mix(in oklch, <token> N%, transparent)`.
 - **Type**: SOLIX 4.0.1, cut to weights 100–700 from the release (osrs-tracker-web's skill has the commands; this repo
-  cuts `wght=100:700`, for MENCKE's 100), preloaded in `index.html` and declared in `base.css`, both with `?v=`. Project
-  names `text-display` (OSRS Tracker) and `text-title`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the
-  footer's first line `text-statement`. The wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked
-  at 20vw, FREEK at 1.36em and weight 400 so both lines are as wide (re-derive it, as `hero.component.css` says, when a
-  font update changes widths). Monospace only for the tagline and the terminals.
+  cuts `wght=100:700`, for MENCKE's 100), preloaded in `index.html` and declared in `base.css`, both with `?v=`. OSRS
+  Tracker's heading `text-display`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the footer's first line
+  `text-statement`; the cluster's heading `text-headline`, its intro `text-lead`, the card's heading `text-subhead`. The
+  wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked at 20vw, FREEK at 1.36em and weight 400
+  so both lines are as wide (re-derive it, as `hero.component.css` says, when a font update changes widths). Monospace
+  only for the tagline.
 - **Layout**: `px-page` (the gutter plus the side safe areas), `max-w-page` sections, `max-w-152` text columns centred.
   Space between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and
   footer slide under it. `scroll-pt-bar` on `<html>` keeps focused elements out from under it; the router's anchor
-  scrolling ignores it, so the sections' own top padding clears the bar. `viewport-fit=cover`, as in osrs-tracker-web:
-  the bar's `sa-t` covers the top safe area (the `bar` tokens include it, and `root-layout` offsets anchor scrolling by
-  it) and the footer's `sa-b` the bottom one, so the green or the bar fills them, never a strip of ground.
+  scrolling ignores it, so the sections' own top padding clears the bar, and a table row's anchor sits above the row
+  (`.anchor` in `fremen-server.component.css`). `viewport-fit=cover`, as in osrs-tracker-web: the bar's `sa-t` covers
+  the top safe area (the `bar` tokens include it, and `root-layout` offsets anchor scrolling by it) and the footer's
+  `sa-b` the bottom one, so the green or the bar fills them, never a strip of ground.
 - **Widths**: the canvas's artboards and a `ui-review` run use 1440 (the widest layout: `max-w-page`, and every clamp
-  peaks by 1280), 1100 (the same layout at its tightest), 820 (from `sm` to about 960px: the desktop hero, the small
-  projects stacked, as `basis-104` wraps them), 390 (below `sm`) and 320 (below `xs`: the bar's wordmark stacks, the
-  terminals scroll sideways). The browser check uses 1440, 390 and 320.
-- **Motion**: only the hero's typed tagline (CSS, resting on the finished text) and the bouncing arrow, both off under
-  reduced motion; the bar fades from see-through to blurred when the hero leaves it: the ground in light, the field's
-  green in dark (a dark ground over the light screenshots reads as a black band).
-- **Depth**: a shadow only where something lies over something else, and a soft one: OSRS Tracker's two detail
-  screenshots over its home page get a `shade` shadow (`0 12px 32px -12px`) on top of the `edge` hairline every
-  screenshot has (an `outline`, not a `box-shadow` ring). Stacked on phones nothing overlaps, so none there. Nothing
-  else casts one: the terminals are flat green, the solid bar has a `line` hairline in light and none in dark, and hover
-  never adds a shadow. Forced colours drop every shadow and paint every background Canvas, so nothing may depend on
-  either to be seen: the screenshots' `outline` is repainted there, and the bar and the terminals get a border only
-  there (`@media (forced-colors: active)`, `forced-colors:border`). Check a change to edges, shadows or backgrounds in
-  Playwright with `forcedColors: 'active'`.
+  peaks by 1280), 1100 (the same layout at its tightest), 820 (from `sm` to about 960px: the desktop hero), 390 (below
+  `sm`) and 320 (below `xs`: the bar's wordmark stacks). The cluster map has three drawings of its own, by its
+  container's width (`cluster-map.component.css`): wide at 1440, mid at 1100 and 820, tall at 390 and 320. A change to
+  the map also needs 1255 (wide at its tightest) and 780 (mid at its tightest). OSRS Tracker's deck has two sizes, by
+  its own width (`deck.component.css`, `--fit`): below 42.5rem it starts on the phone screens. The browser check uses
+  1440, 390 and 320.
+- **Motion**: the hero's typed tagline (CSS, resting on the finished text), off under reduced motion; the cluster map's
+  tracing on hover or focus, and its replay of the last deploy, which jumps to the end under reduced motion. OSRS
+  Tracker's deck (`deck/deck-motion.ts`) runs on springs, because a flick has to keep its speed and a card has to be
+  catchable mid-flight, which an ease can't do; `spring.ts` says why no library. Cards stay flat and on one line: the
+  top card slides over the fan and past its far edge, changes layer once nothing overlaps it, and comes back under; the
+  previous button is that path in reverse. Only the Desktop/Phone switch turns cards, and only the first sight of the
+  deck moves by itself, once. Under reduced motion nothing travels: the new top card fades in. The bar fades from
+  see-through to frosted glass when the hero leaves it: the ground in light, the field's green in dark (a dark ground
+  over the light screenshots reads as a black band). Its comment says how thin the glass can go.
+- **Depth**: a shadow only where something lies over something else, and a soft one: the cards in OSRS Tracker's deck
+  lie on each other, so they get a `shade` shadow (`0 18px 40px -22px`) on top of the `edge` hairline every screenshot
+  has (an `outline`, not a `box-shadow` ring), and a lifted one fades in a stronger shadow drawn once (`.lifted`). The
+  card of what runs on the cluster lies across the field's edge, so it gets one too (`0 30px 60px -26px`), on an `edge`
+  outline. Nothing else casts one: the map's boxes are flat, the glass bar has a hairline (`line` in light, `field-line`
+  in dark), and hover never adds a shadow. Forced colours drop every shadow and paint every background Canvas, so
+  nothing may depend on either to be seen: the screenshots' and the card's `outline` are repainted there, the map's
+  lines and pods are set to `CanvasText`, and the bar gets a border only there (`@media (forced-colors: active)`). Check
+  a change to edges, shadows or backgrounds in Playwright with `forcedColors: 'active'`.
 - **Icons**: Lucide's, through `@lucide/angular`, as in osrs-tracker-web: import the icon's component (`LucideSun`) and
   write `<svg lucideSun class="size-4.5" />`; pick from https://lucide.dev/icons, never hand-draw one or take it from
-  another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default, 1.5 for the hero's
-  arrow. Changing classes go in one `[class]="…"` binding, never `[class.x]`: the component rewrites its `class`
-  attribute on creation and drops one that's already true. They're `aria-hidden`: label the control around them.
-- **Images**: WebP in `public/`, through `NgOptimizedImage` with `width` and `height`. OSRS Tracker's screenshots are
-  its light theme in both page themes, dimmed to 90% on a dark page. They show live data (a price, a player), so retake
-  them now and then: the home page at 1440x800 at 1.5x, the item (`/trackers/price/4151`) and player
-  (`/trackers/xp/The%20Fraking`) pages at 1440x1100 at 2x, cropped to the header, stat cards and chart, without the
-  cookie banner, 1400px wide.
+  another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default. Changing classes go
+  in one `[class]="…"` binding, never `[class.x]`: the component rewrites its `class` attribute on creation and drops
+  one that's already true. They're `aria-hidden`: label the control around them.
+- **Images**: WebP in `public/`. OSRS Tracker's screens are in `public/projects/osrs-tracker/deck/`: every page at both
+  sizes (`<page>.webp` 2160x1350, `phone-<page>.webp` 780x1688) in both of its themes (`-dark`). The page always shows
+  the opposite theme of its own, which is what makes the deck stand out on both, with the light screens dimmed to 90% on
+  a dark page. They're plain lazy `<img>`s, with the reason in `deck-side.component.ts`, so only the theme and size
+  showing load. They show live data (a price, a player), so retake them now and then, all in one go: Playwright at
+  1440x900 at 1.5x and 390x844 at 2x, in both colour schemes, without the cookie banner and with the pointer moved off
+  the page first, or the row under the banner's button keeps its hover style. A new page is an entry in
+  `deck.component.ts`'s `PAGES` and its four files.
 
-| Piece                                | Where                                                           |
-| ------------------------------------ | --------------------------------------------------------------- |
-| Sticky bar, nav, theme toggle        | `common/root-layout/`, `common/theme/theme-toggle.component.ts` |
-| Social links (hero and footer)       | `common/social-links/`                                          |
-| Green field background, link style   | `.field`, `.link` in `components.css`                           |
-| Hero: wordmark, typed tagline, arrow | `home/hero/`                                                    |
-| Screenshots and timeline             | `home/projects/osrs-tracker/`                                   |
-| Terminal cards                       | `home/projects/terminal-card.component.ts`                      |
-| Footer bio                           | `home/about/`                                                   |
+| Piece                              | Where                                                              |
+| ---------------------------------- | ------------------------------------------------------------------ |
+| Sticky bar, nav, theme toggle      | `common/root-layout/`, `common/theme/theme-toggle.component.ts`    |
+| Social links (hero and footer)     | `common/social-links/`                                             |
+| Green field background, link style | `.field`, `.link` in `components.css`                              |
+| Hero: wordmark, typed tagline, bio | `home/hero/`                                                       |
+| OSRS Tracker: heading, timeline    | `home/projects/osrs-tracker/`                                      |
+| Its deck of screens                | `home/projects/osrs-tracker/deck/`, moved by `deck-motion.ts`      |
+| Its stack, a piece of the map      | `home/projects/osrs-tracker/osrs-stack.component.ts`               |
+| The cluster section and its table  | `home/fremen-server/fremen-server.component.ts`                    |
+| The map: lines, hover, replay      | `home/fremen-server/cluster-map.component.ts`, `cluster-edges.ts`  |
+| The map's boxes and what they say  | `home/fremen-server/cluster-part.component.ts`, `cluster-parts.ts` |
+| The last deploy and its button     | `home/fremen-server/deploy-plate.component.ts`, `last-deploy.ts`   |
+| Footer bio                         | `home/about/`                                                      |
 
 ## Tests
 
@@ -149,7 +176,7 @@ sees the server's HTML). If Playwright is unavailable, say so rather than fallin
    prints one line per WCAG 2.2 AA violation (theme, width, rule, impact, selectors) and each scan's `incomplete` count,
    in both themes at 1440, 390 and 320px, and exits 1 on violations, 2 when it can't scan. `--click=<selector>`
    (repeatable, in order) opens a state first. Once per machine: `npx playwright install --only-shell chromium`. Fix a
-   finding, or turn its rule off as the script's header says, never with `exclude()`. It doesn't see the solid bar (the
+   finding, or turn its rule off as the script's header says, never with `exclude()`. It doesn't see the glass bar (the
    page loads at the top): `browser-checker`'s contrast script measures that. No Playwright Test suite: the browser
    check already visits the page.
 3. Delegate every round to the `browser-checker` agent (without a `model`), with the URLs, what changed (colours, the
@@ -162,17 +189,25 @@ sees the server's HTML). If Playwright is unavailable, say so rather than fallin
 The rules it follows (it reads them here):
 
 - Desktop (1440px), phone (390px) and the smallest phone (320px), each in light and dark (emulate
-  `prefers-color-scheme`, or click the toggle): the wordmark, the tagline, the screenshots and the timeline change
-  layout below `sm`, and below `xs` the bar's wordmark stacks and the terminals scroll sideways.
+  `prefers-color-scheme`, or click the toggle): the wordmark, the tagline, the deck and the timeline change layout below
+  `sm`, the cluster map is its tall drawing there, and below `xs` the bar's wordmark stacks.
 - Measure the contrast of changed text and icons, and which tokens their colours are, in the page: a screenshot can't
   settle a ratio or a colour.
-- Click the bar's links, the hero's arrow and the theme toggle from snapshot refs, never by guessing. After a toggle,
-  reload: the page must open in the chosen theme without a flash of the other.
-- Scroll past the hero: the bar turns solid (light ground, or green in dark) and shows the wordmark.
+- Click the bar's links and the theme toggle from snapshot refs, never by guessing. After a toggle, reload: the page
+  must open in the chosen theme without a flash of the other.
+- Scroll past the hero: the bar turns to glass (light ground, or green in dark) and shows the wordmark. Its text stays
+  readable with the field and a light screenshot under it.
+- OSRS Tracker's deck: drag or flick the top card and it goes under the pile; a short drag springs back. The arrows and
+  the left and right keys go through it, an edge pulls its card to the top, and the switch turns every card over with
+  the page still on top. The theme toggle swaps the screens to the page's opposite. The bar stays over it with a card in
+  the air, and a stack box lands on its row in the table.
+- The cluster map: hovering or focusing a box lights its lines and neighbours and dims the rest. The replay button
+  ignores a second click while it runs and ends with focus still on it. A numbered box jumps to its row, which lands
+  below the bar with a tint, and Back returns to the map.
 - A screenshot per URL, width and theme, plus failed requests (an image under `/projects/`) and console errors.
 - Walk changed focusable parts by keyboard: Tab order, focus visible and not under the sticky bar (WCAG 2.4.11), Enter
   and Space, and once per width a Tab onto an element scrolled under the bar.
-- Under reduced motion, no infinite animation runs (the tagline's caret, the arrow's bounce).
+- Under reduced motion, no infinite animation runs (the tagline's caret).
 - A clean scan and walk don't make the page accessible: list what wasn't checked (alt text and label meaning, reading
   order, screen-reader output, zoom and reflow).
 - Close the browser as soon as the round of checks is done.
@@ -189,6 +224,9 @@ The flow and the rollback are in `README.md`. For a session:
   `.dockerignore`, or every change to it redeploys.
 - `freek-mencke-web.yaml` reaches the cluster through Flux without a new image, and CI ignores pushes that change only
   it.
+- CD's plan step (`deploy-plan.sh`) writes the commit it builds into `home/fremen-server/last-deploy.json`, in the build
+  context only and never committed, so the map's last deploy is the image's own. The checked-in value only shows in
+  local and CI builds.
 
 ## Commit and push
 

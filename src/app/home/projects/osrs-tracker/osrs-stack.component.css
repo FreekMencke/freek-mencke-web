@@ -1,0 +1,200 @@
+:host {
+  display: block;
+  container: stack / inline-size;
+}
+
+/* One grid, so all four boxes are the same size and the boundary is just a frame around the first three */
+.stack {
+  display: grid;
+  grid-template-columns:
+    20px minmax(0, 1fr) 30px minmax(0, 1fr) 30px minmax(0, 1fr) 20px clamp(72px, 7vw, 92px)
+    minmax(0, 1fr);
+  grid-template-rows: 24px auto 24px;
+}
+/* Only a frame: it paints over the boxes, so it mustn't catch their clicks */
+.bound {
+  position: relative;
+  grid-column: 1 / 8;
+  grid-row: 1 / -1;
+  pointer-events: none;
+  border: 3px dotted color-mix(in oklch, var(--color-ink) 16%, transparent);
+  border-radius: 18px;
+}
+.bound p {
+  position: absolute;
+  top: 0;
+  left: 18px;
+  padding-inline: 8px;
+  background: var(--color-ground);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  color: var(--color-muted);
+  transform: translateY(calc(-50% - 1.5px));
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in oklch, var(--color-ink) 16%, transparent);
+  border-radius: 10px;
+  background: color-mix(in oklch, var(--color-ink) 4%, var(--color-paper));
+  transition: border-color 0.15s;
+}
+.box--live {
+  background: color-mix(in oklch, var(--color-accent) 10%, var(--color-paper));
+  border-color: color-mix(in oklch, var(--color-accent) 45%, transparent);
+}
+/* Its border is a pixel thicker: the padding keeps its text level with the other boxes' */
+.box--out {
+  grid-column: 9;
+  grid-row: 2;
+  padding: 13px 15px;
+  border-style: dotted;
+  border-width: 2px;
+}
+a.box:hover {
+  border-color: var(--color-accent);
+}
+.box b {
+  font-size: 1.1875rem;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.box span:not(.sr-only) {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.angular {
+  grid-column: 2;
+  grid-row: 2;
+}
+.angular-to-nest {
+  grid-column: 3;
+  grid-row: 2;
+}
+.nest {
+  grid-column: 4;
+  grid-row: 2;
+}
+.nest-to-mongo {
+  grid-column: 5;
+  grid-row: 2;
+}
+.mongo {
+  grid-column: 6;
+  grid-row: 2;
+}
+
+.arrow {
+  position: relative;
+  align-self: center;
+  height: 0;
+  border-top: 1.5px solid var(--color-muted);
+}
+.arrow::after {
+  content: '';
+  position: absolute;
+  top: -0.75px;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-top: 1.5px solid var(--color-muted);
+  border-right: 1.5px solid var(--color-muted);
+  transform: translateY(-50%) rotate(45deg);
+}
+.arrow--back {
+  grid-column: 7 / 9;
+  grid-row: 2;
+}
+.arrow--back::after {
+  right: auto;
+  left: 0;
+  transform: translateY(-50%) rotate(-135deg);
+}
+.arrow--back span {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+/* It stands up, as the cluster map does on phones */
+@container stack (width < 57rem) {
+  .stack {
+    grid-template-columns: 20px minmax(0, 1fr) 20px;
+    grid-template-rows: 24px auto 28px auto 28px auto 24px 44px auto;
+  }
+  .bound {
+    grid-column: 1 / -1;
+    grid-row: 1 / 8;
+  }
+  .angular {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .angular-to-nest {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .nest {
+    grid-column: 2;
+    grid-row: 4;
+  }
+  .nest-to-mongo {
+    grid-column: 2;
+    grid-row: 5;
+  }
+  .mongo {
+    grid-column: 2;
+    grid-row: 6;
+  }
+  .box--out {
+    grid-column: 1 / -1;
+    grid-row: 9;
+  }
+  .arrow {
+    justify-self: center;
+    align-self: stretch;
+    height: auto;
+    border-top: 0;
+    border-left: 1.5px solid var(--color-muted);
+  }
+  .arrow::after {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: -0.75px;
+    transform: translateX(-50%) rotate(135deg);
+  }
+  .arrow--back {
+    grid-column: 2;
+    grid-row: 7 / 9;
+  }
+  .arrow--back::after {
+    top: 0;
+    bottom: auto;
+    transform: translateX(-50%) rotate(-45deg);
+  }
+  .arrow--back span {
+    top: 66%;
+    right: auto;
+    bottom: auto;
+    left: 10px;
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .box {
+    transition: none;
+  }
+}

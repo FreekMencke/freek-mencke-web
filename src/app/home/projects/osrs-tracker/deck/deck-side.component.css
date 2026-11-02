@@ -1,0 +1,111 @@
+/* Sized here, not in code: --tall and --span come from the deck, and DeckMotion reads the result. 1.376 and 0.462 are
+   deck-layout.ts's ratios. It hangs off the card's centre point, so every transform turns about the middle. */
+:host {
+  --w: calc(var(--tall) * 1.376);
+  --h: var(--tall);
+  position: absolute;
+  top: calc(var(--h) / -2);
+  left: calc(var(--w) / -2);
+  width: var(--w);
+  height: var(--h);
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+:host(.side--phone) {
+  --w: calc(var(--tall) * 0.462);
+  transform: rotateY(180deg);
+}
+:host(.is-current) {
+  pointer-events: auto;
+}
+@container deck (width < 42.5rem) {
+  :host(.side--desk) {
+    --w: calc(var(--span) * 0.78);
+    --h: calc(var(--w) / 1.376);
+  }
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--color-line);
+  outline: 1px solid var(--color-edge);
+  box-shadow: 0 18px 40px -22px var(--color-shade);
+}
+:host(.side--phone) .screen {
+  border-radius: 22px;
+}
+
+/* Lazy images only load once they have a box: the side a width doesn't start on waits until it's wanted */
+:host(.side--phone) .shots {
+  display: none;
+}
+@container deck (width < 42.5rem) {
+  :host(.side--phone) .shots {
+    display: block;
+  }
+  :host(.side--desk) .shots {
+    display: none;
+  }
+}
+:host(.is-wanted) .shots {
+  display: block;
+}
+
+/* Always the opposite of the page: it's what makes the deck stand out on both */
+.shot {
+  display: block;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.shot--light {
+  display: none;
+}
+:host-context(.dark) .shot--light {
+  display: block;
+  /* Light screens on a dark page: a little dimmer, so they don't glare */
+  filter: brightness(0.9);
+}
+:host-context(.dark) .shot--dark {
+  display: none;
+}
+/* The desktop pages have wide empty margins: cut them, so the edges that show in the deck have something on them */
+:host(.side--desk) .shot {
+  width: calc(100% / 0.86);
+  margin-left: calc(-0.07 / 0.86 * 100%);
+}
+:host(.side--phone) .shot {
+  width: 100%;
+}
+
+/* What a lifted card casts, drawn once and faded in: animating a real shadow repaints every frame. Inside the card: a
+   box-shadow isn't drawn under its own box, which would show as a pale strip below the card. */
+.lifted {
+  position: absolute;
+  inset: 5% 3% 2%;
+  border-radius: 20px;
+  box-shadow: 0 46px 90px -18px var(--color-shade);
+  opacity: 0;
+  pointer-events: none;
+}
+/* Deeper in the deck means closer to the page's own colour */
+.veil {
+  position: absolute;
+  inset: 0;
+  background: var(--color-ground);
+  opacity: var(--veil, 0);
+  pointer-events: none;
+}
+/* A turning card's far side falls into shade: on a white page that's what shows it's turning */
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--color-field-deep) 55%, transparent), transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+}
