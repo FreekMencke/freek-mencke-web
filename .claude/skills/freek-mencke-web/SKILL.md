@@ -28,7 +28,8 @@ app: look there for a pattern this repo doesn't have yet.
 - **Cluster map**: `fremen-server/cluster-parts.ts` is written by hand from the private `fremen-cluster` repo, the apps'
   manifests and `osrs-tracker-aws`; a part's `pods` is its workload's `replicas`, not a live count. The cluster's repo
   is private, so add nothing else from it to a page. `cluster-edges.ts` draws the lines from where the boxes ended up,
-  so the page has none until it runs in the browser.
+  so the page has none until it runs in the browser. The table's rows are anchored by workload name (`#part-<name>`),
+  and `osrs-stack.component.ts` links to three of them by hand, so renaming a workload changes it too.
 - **State**: `common/theme/ThemeStore` (light or dark, kept in `localStorage` under `theme`) and
   `common/root-layout/BarStore` (whether the hero is under the bar, which the hero sets with an `IntersectionObserver`).
 - **Theme**: the inline script in `src/index.html` sets `.dark` on `<html>` and the `theme-color` meta before the first
