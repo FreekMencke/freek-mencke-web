@@ -33,8 +33,10 @@ app: look there for a pattern this repo doesn't have yet.
 - **State**: `common/theme/ThemeStore` (light or dark, kept in `localStorage` under `theme`) and
   `common/root-layout/BarStore` (whether the hero is under the bar, which the hero sets with an `IntersectionObserver`).
 - **Theme**: the inline script in `src/index.html` sets `.dark` on `<html>` and the `theme-color` meta before the first
-  paint, from the stored choice or the system's. `ThemeStore` reads the class after render and toggles both; its ground
-  colours are copies of the script's and `base.css`'s, so change all three together.
+  paint, from the stored choice or the system's. `ThemeStore` reads the class after render and toggles both. The ground
+  colours have five copies, as they must exist before the CSS loads: the script's two in `src/index.html` (the
+  `theme-color` meta and the script), `ThemeStore`'s (`theme-store.ts`), `theme.css`'s `ground` (light) and `base.css`'s
+  `.dark` `ground` (dark); change them together.
 - **Page meta**: `PageMetaStrategy` (`common/seo/page-meta.strategy.ts`) sets the title from the route's `title`, and
   the description, canonical link and `og:`/`twitter:` tags from the deepest route's `data['meta']` (a `PageMeta`). A
   new page's lazy route gets both; `src/index.html` holds no meta.
@@ -241,9 +243,10 @@ The flow and the rollback are in `README.md`. For a session:
 - `npx jscpd` (in the verify list) fails when more than 1% of `src/`'s lines (TypeScript, templates and CSS, the specs
   left out; `.jscpd.json`) are copies: move the copy into one place, never raise the threshold to pass. Lint's
   `import-x/no-cycle` fails on a circular import.
-- npm updates are by hand (Dependabot covers only Actions and the base image). `allowScripts` in `package.json` pins
-  each approved install script to a version: when an update moves one (`npm install-scripts ls` lists it), re-approve it
-  in the same PR with `npm install-scripts approve <pkg>`, never by bare name.
+- Dependabot opens one grouped npm PR a month for minor and patch updates (`.github/dependabot.yml`, 7-day cooldown);
+  majors stay by hand (`npx ng update` for Angular's). `allowScripts` in `package.json` pins each approved install
+  script to a version: when an update moves one (`npm install-scripts ls` lists it), re-approve it in the same PR with
+  `npm install-scripts approve <pkg>@<version>`, never by bare name.
 - Conventional commits (`feat(scope): …`, `chore(deps): …`); `chore(deploy)` is reserved for CD's digest commits. No
   changelog.
 - What goes straight to `main` and what needs a PR: `CLAUDE.md`. `main`'s ruleset requires a PR and the `lint`, `build`,
