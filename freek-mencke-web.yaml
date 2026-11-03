@@ -29,7 +29,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: freek-mencke-web
-          image: freekmencke/freek-mencke-web@sha256:7a3021af9eab5d6fb330fa5b7434292b3cc17e0ed4333027db58d6d8eec12bc6
+          image: freekmencke/freek-mencke-web@sha256:9ac04d1604021ec6b3b97c66a785e4935cdb5a080ef12f25e1a52bc1a4c39199
           imagePullPolicy: IfNotPresent
           env:
             - name: HOST
