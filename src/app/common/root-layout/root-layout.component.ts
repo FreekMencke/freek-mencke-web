@@ -53,17 +53,47 @@ import { BarStore } from './bar-store';
       opacity: 1;
       visibility: visible;
     }
+    /* The bar's breakpoints are its own width in rem, not the screen's: a container query's rem follows the root font
+       size, so larger text moves them too. At the default size they match the screen's (xs, with the 16px gutters). */
+    .bar {
+      container: bar / inline-size;
+    }
     /* Stacked below xs, a small copy of the hero's wordmark on phones: its tracking and line height, FREEK regular and
        as wide as MENCKE. At 1.34em, not the hero's 1.36em: at 16px glyphs snap to whole pixels, and 1.36em measured
        about 3px wider than MENCKE in Chromium at 320px, 1.34em about 1px narrower. */
-    @media (width < 24rem) {
+    @container bar (width < 22rem) {
       .mark {
         letter-spacing: 0.08em;
         line-height: 0.98;
       }
+      .mark .first,
+      .mark .last {
+        display: block;
+      }
       .mark .first {
         font-size: 1.34em;
         font-weight: 400;
+      }
+    }
+    /* Too narrow even stacked (about 200% text on a phone): the links drop to a row of their own under the wordmark and
+       the toggle. 17rem is the stacked row's width; the bar tokens' bar-wrap grows the bar by the second row. */
+    @container bar (width < 17rem) {
+      .row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: 3.5rem 1.75rem;
+        row-gap: 0;
+      }
+      .mark {
+        justify-self: start;
+      }
+      .links {
+        display: contents;
+      }
+      nav {
+        grid-row: 2;
+        grid-column: 1 / -1;
+        align-self: start;
       }
     }
     /* On green (over the hero, and the solid bar in dark) hovers and focus rings take the field's accent. As a token,
@@ -82,27 +112,29 @@ import { BarStore } from './bar-store';
   template: `
     <div
       #bar
-      class="bar sticky top-0 z-10 flex h-bar-phone items-center justify-between gap-4 px-page sa-t text-on-field sm:h-bar"
+      class="bar sticky top-0 z-10 flex min-h-bar-phone flex-col justify-center px-page sa-t text-on-field sm:min-h-bar"
       [class.is-scrolled]="!barStore.overField()"
     >
-      <!-- Hidden, the wordmark still takes its width: below xs it stacks, or it would push the toggle off the screen -->
-      <a
-        class="mark text-base tracking-widest whitespace-nowrap uppercase hover:text-accent"
-        routerLink="/"
-        fragment="top"
-        aria-label="Freek Mencke, back to top"
-      >
-        <!-- A space shrunk to nothing (.gap) makes the text "Freek Mencke", as the label starts (WCAG 2.5.3) -->
-        <span class="first font-semibold max-xs:block">Freek</span><span class="gap">&ngsp;</span
-        ><span class="font-thin max-xs:block">Mencke</span>
-      </a>
+      <div class="row flex items-center justify-between gap-4">
+        <!-- Hidden, the wordmark still takes its width: it stacks on narrow bars, or it would push the toggle off -->
+        <a
+          class="mark text-base tracking-widest whitespace-nowrap uppercase hover:text-accent"
+          routerLink="/"
+          fragment="top"
+          aria-label="Freek Mencke, back to top"
+        >
+          <!-- A space shrunk to nothing (.gap) makes the text "Freek Mencke", as the label starts (WCAG 2.5.3) -->
+          <span class="first font-semibold">Freek</span><span class="gap">&ngsp;</span
+          ><span class="last font-thin">Mencke</span>
+        </a>
 
-      <div class="flex items-center gap-6">
-        <nav class="flex gap-6 text-sm/5 font-medium" aria-label="Sections">
-          <a class="hover:text-accent" routerLink="/" fragment="projects">Projects</a>
-          <a class="hover:text-accent" routerLink="/" fragment="cluster">Cluster</a>
-        </nav>
-        <theme-toggle />
+        <div class="links flex items-center gap-6">
+          <nav class="flex gap-6 text-sm/5 font-medium" aria-label="Sections">
+            <a class="hover:text-accent" routerLink="/" fragment="projects">Projects</a>
+            <a class="hover:text-accent" routerLink="/" fragment="cluster">Cluster</a>
+          </nav>
+          <theme-toggle />
+        </div>
       </div>
     </div>
 

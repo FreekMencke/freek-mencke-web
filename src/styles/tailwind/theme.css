@@ -8,9 +8,12 @@
   --spacing-section: clamp(6rem, 12.5vw, 10rem);
   --spacing-section-sm: clamp(5rem, 10vw, 8rem);
   /* The sticky bar with the top safe area it covers (sa-t): the hero and footer slide under it, and fragment links stop
-     below it */
-  --spacing-bar: calc(4rem + env(safe-area-inset-top));
-  --spacing-bar-phone: calc(3.5rem + env(safe-area-inset-top));
+     below it. bar-wrap is the row the links drop to when the bar is narrower than 17rem (root-layout's container
+     query), which is about 200% text on a phone: 17rem plus the two 1rem gutters, as a step from 0 to 1.75rem.
+     It measures the screen, so it misses a classic scrollbar or a side safe area; the bar then grows by itself. */
+  --spacing-bar-wrap: clamp(0rem, (19rem - 100vw) * 1000, 1.75rem);
+  --spacing-bar: calc(4rem + var(--spacing-bar-wrap) + env(safe-area-inset-top));
+  --spacing-bar-phone: calc(3.5rem + var(--spacing-bar-wrap) + env(safe-area-inset-top));
 
   /* The width from which the bar fits its wordmark on one line beside the links and the toggle (about 355px, plus room
      for a fallback font or larger text); below it the wordmark stacks */
