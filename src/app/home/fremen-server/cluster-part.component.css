@@ -13,12 +13,12 @@
   padding: 12px 14px;
   background: color-mix(in oklch, var(--color-on-field) 7%, var(--color-field));
   border: 1px solid var(--color-field-line);
-  border-radius: 10px;
+  border-radius: var(--radius-box);
   color: var(--color-on-field);
   transition:
-    background-color 0.12s,
-    border-color 0.12s,
-    opacity 0.15s;
+    background-color var(--duration-hover),
+    border-color var(--duration-hover),
+    opacity var(--duration-hover);
 }
 .part--flux {
   border-color: var(--color-field-accent);
@@ -74,7 +74,7 @@
   border: 1px solid var(--color-field-accent);
   border-radius: 50%;
   background: var(--color-field-accent);
-  transition: background-color 0.2s;
+  transition: background-color var(--duration-hover);
 }
 .pods i.is-rolling {
   background: transparent;
@@ -113,7 +113,7 @@ a.part--live:hover,
   position: absolute;
   inset: 0;
   border: 1px solid var(--color-on-field);
-  border-radius: 9px;
+  border-radius: calc(var(--radius-box) - 1px);
 }
 .part.is-played::before {
   border: 2px solid var(--color-field-accent);

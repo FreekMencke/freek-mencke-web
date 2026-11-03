@@ -30,7 +30,7 @@
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
-    border-radius: 2px;
+    border-radius: var(--radius-focus);
   }
 
   /* SOLIX, from the releases of https://github.com/FreekMencke/solix, cut to weights 100–700 */

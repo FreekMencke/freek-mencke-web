@@ -20,7 +20,7 @@
   line-height: 1.35;
   text-wrap: balance;
   clip-path: inset(0);
-  transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: clip-path 0.5s var(--ease-standard);
 }
 /* No transition on the way out: a replay starts by wiping it at once */
 .line.is-hidden {
@@ -38,13 +38,13 @@
   padding: 0 16px;
   /* Transparent until forced colours paint it: they drop the fill that shows the button otherwise */
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: var(--radius-box);
   background: var(--color-field-accent);
   color: var(--color-field-deep);
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.2;
-  transition: background-color 0.12s;
+  transition: background-color var(--duration-hover);
 }
 .replay:hover {
   background: var(--color-on-field);

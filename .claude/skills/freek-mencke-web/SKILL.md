@@ -105,16 +105,17 @@ changing the page's look, and keep the two in step. Its shared boards match the 
   see-through to frosted glass when the hero leaves it: the ground in light, the field's green in dark (a dark ground
   over the light screenshots reads as a black band). Its comment says how thin the glass can go.
 - **Depth**: a shadow only where something lies over something else, and a soft one: the cards in OSRS Tracker's deck
-  lie on each other, so they get a `shade` shadow (`0 18px 40px -22px`) on top of the `edge` hairline every screenshot
-  has (an `outline`, not a `box-shadow` ring), and a lifted one fades in a stronger shadow drawn once (`.lifted`). The
-  card of what runs on the cluster lies across the field's edge, so it gets one too (`0 30px 60px -26px`), on an `edge`
-  outline. The deck switch's thumb lies on its track, so it gets a small one (`0 2px 6px -2px`). Nothing else casts one:
+  lie on each other, so they get `--shadow-screen` on top of the `edge` hairline every screenshot has (an `outline`, not
+  a `box-shadow` ring), and a lifted one fades in a stronger shadow drawn once (`--shadow-lifted`, on `.lifted`). The
+  card of what runs on the cluster lies across the field's edge, so it gets one too (`--shadow-card`), on an `edge`
+  outline. The deck switch's thumb lies on its track, so it gets a small one (`--shadow-thumb`). Nothing else casts one:
   the map's boxes are flat (their lit and played rings are borders on `::before`), the glass bar has a hairline (`line`
   in light, `field-line` in dark), and hover never adds a shadow. Forced colours drop every shadow and paint every
   background Canvas, so nothing may depend on either to be seen: the screenshots' and the card's `outline` are repainted
   there, the map's lines and pods and the timeline's dots and line are set to `CanvasText`, and the bar gets a border
   only there (`@media (forced-colors: active)`). Check a change to edges, shadows or backgrounds in Playwright with
-  `forcedColors: 'active'`.
+  `forcedColors: 'active'`. They're the only shadow tokens (`theme.css`, all in `shade`; the stock ones are cleared),
+  and component CSS reads them with `var()`, as it does the radius, duration and fluid-spacing tokens beside them.
 - **Icons**: Lucide's, through `@lucide/angular`, as in osrs-tracker-web: import the icon's component (`LucideSun`) and
   write `<svg lucideSun class="size-4.5" />`; pick from https://lucide.dev/icons, never hand-draw one or take it from
   another set. Weight with `strokeWidth` (a `stroke-width` attribute is overwritten): 2 by default. Changing classes go

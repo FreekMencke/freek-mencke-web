@@ -11,9 +11,9 @@ import { BarStore } from './bar-store';
   styles: `
     .bar {
       transition:
-        background-color 0.25s,
-        color 0.25s,
-        box-shadow 0.25s;
+        background-color var(--duration-fade),
+        color var(--duration-fade),
+        box-shadow var(--duration-fade);
     }
     /* Glass, about as thin as AA allows. Thinner, the focus ring drops below 3:1 over the mid-page field in light, and
        the text below 4.5:1 over the light screenshots in dark. A wider blur smears bright things into a glow, and
@@ -41,8 +41,8 @@ import { BarStore } from './bar-store';
       opacity: 0;
       visibility: hidden;
       transition:
-        opacity 0.25s,
-        visibility 0.25s;
+        opacity var(--duration-fade),
+        visibility var(--duration-fade);
     }
     /* A word break between the names that takes no room: an sr-only space doesn't count as the visible label */
     .mark .gap {

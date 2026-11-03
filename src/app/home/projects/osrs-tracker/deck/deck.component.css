@@ -9,7 +9,7 @@
 }
 
 .stage {
-  --span: min(100cqw - 2 * max(var(--spacing-gutter), env(safe-area-inset-left)), var(--container-shots));
+  --span: var(--spacing-span);
   --tall: calc(var(--span) * 0.46);
   /* DeckMotion reads this, to size the deck the way the stylesheet does */
   --fit: wide;
@@ -59,7 +59,7 @@
 }
 
 .controls {
-  width: min(100cqw - 2 * max(var(--spacing-gutter), env(safe-area-inset-left)), var(--container-shots));
+  width: var(--spacing-span);
   margin: 24px auto 0;
 }
 
