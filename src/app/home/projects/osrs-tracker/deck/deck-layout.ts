@@ -66,6 +66,36 @@ export function deckMetrics(sizes: {
   };
 }
 
+/** The top card goes to the back */
+export function toBack<T>(order: readonly T[]): T[] {
+  return [...order.slice(1), order[0]];
+}
+
+/** A card from further down comes to the top, and the ones that were above it move down one */
+export function toTop<T>(order: readonly T[], from: number): T[] {
+  return [order[from], ...order.slice(0, from), ...order.slice(from + 1)];
+}
+
+/**
+ * Where the top card goes when the hand lets go of it: -1 thrown to the left, 1 to the right, 0 back onto the pile. A
+ * flick goes the way it was flicked, if that's the way the card was dragged; a slow drag needs to have taken the card
+ * far enough.
+ */
+export function throwDirection(release: {
+  /** How far the card was dragged, in px */
+  dx: number;
+  /** How fast the hand was moving as it let go, in px/s */
+  speed: number;
+  /** The card's width */
+  width: number;
+}): number {
+  const { dx, speed, width } = release;
+  const fastEnough = Math.abs(speed) > 420;
+  const agrees = Math.sign(speed) === Math.sign(dx);
+  const go = fastEnough ? agrees : Math.abs(dx) > width * 0.16;
+  return go ? Math.sign(fastEnough ? speed : dx) : 0;
+}
+
 export function deckLayout(cards: number, metrics: DeckMetrics, span: number): DeckLayout {
   const raw: { left: number; width: number; scale: number }[] = [];
   let right = 0;

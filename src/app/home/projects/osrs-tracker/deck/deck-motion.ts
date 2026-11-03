@@ -1,4 +1,14 @@
-import { CardPlace, DeckLayout, deckLayout, DeckMetrics, deckMetrics, DeckView } from './deck-layout';
+import {
+  CardPlace,
+  DeckLayout,
+  deckLayout,
+  DeckMetrics,
+  deckMetrics,
+  DeckView,
+  throwDirection,
+  toBack,
+  toTop,
+} from './deck-layout';
 import { advanceSpring, makeSpring, Spring, tune } from './spring';
 
 export interface DeckState {
@@ -178,8 +188,8 @@ export class DeckMotion {
 
   private toss(direction: number, velocity?: number): void {
     this.interacted();
-    const top = this.order.shift()!;
-    this.order.push(top);
+    const top = this.order[0];
+    this.order = toBack(this.order);
     if (this.reduced) {
       this.instead(this.order[0]);
       return;
@@ -203,8 +213,7 @@ export class DeckMotion {
     const from = this.order.indexOf(card);
     if (from <= 0) return;
     this.interacted();
-    this.order.splice(from, 1);
-    this.order.unshift(card);
+    this.order = toTop(this.order, from);
     if (this.reduced) {
       this.instead(card);
       return;
@@ -572,11 +581,9 @@ export class DeckMotion {
       this.wake();
       return;
     }
-    const fastEnough = Math.abs(speed) > 420;
-    const agrees = Math.sign(speed) === Math.sign(dx);
-    const go = !cancelled && (fastEnough ? agrees : Math.abs(dx) > this.sizes[this.view].width * 0.16);
-    if (go) {
-      this.toss(Math.sign(fastEnough ? speed : dx) || 1, clamp(-3600, 3600, speed));
+    const direction = cancelled ? 0 : throwDirection({ dx, speed, width: this.sizes[this.view].width });
+    if (direction) {
+      this.toss(direction, clamp(-3600, 3600, speed));
     } else if (this.reduced) {
       this.storeLayout();
       this.snapAll();

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { deckLayout, DeckMetrics, deckMetrics } from './deck-layout';
+import { deckLayout, DeckMetrics, deckMetrics, throwDirection, toBack, toTop } from './deck-layout';
 
 const metrics: DeckMetrics = { width: 100, peek: 20, falloff: 0.5, scaleStep: 0.1, nudge: 0, spread: 0 };
 
@@ -42,5 +42,52 @@ describe('deckMetrics', () => {
 
     expect(desk.nudge).toBeCloseTo(25.19, 2);
     expect(phone.nudge).toBeCloseTo(11.16, 2);
+  });
+});
+
+describe('the deck order', () => {
+  it('sends the top card to the back', () => {
+    expect(toBack(['a', 'b', 'c', 'd'])).toEqual(['b', 'c', 'd', 'a']);
+  });
+
+  it('brings a card to the top and moves the ones above it down one', () => {
+    expect(toTop(['a', 'b', 'c', 'd'], 2)).toEqual(['c', 'a', 'b', 'd']);
+  });
+
+  // Previous pulls the back card over the top, so it undoes next
+  it('is back where it started after next and then previous', () => {
+    expect(toTop(toBack(['a', 'b', 'c', 'd']), 3)).toEqual(['a', 'b', 'c', 'd']);
+  });
+
+  it('leaves the order it was given as it was', () => {
+    const order = ['a', 'b', 'c'];
+
+    toBack(order);
+    toTop(order, 2);
+
+    expect(order).toEqual(['a', 'b', 'c']);
+  });
+});
+
+describe('throwDirection', () => {
+  // A 100px card: a slow drag throws it from 16px on, a flick from 420px/s on
+  it('throws a slow drag that took the card far enough, the way it was dragged', () => {
+    expect(throwDirection({ dx: 17, speed: 100, width: 100 })).toBe(1);
+    expect(throwDirection({ dx: -17, speed: -100, width: 100 })).toBe(-1);
+  });
+
+  it('puts back a slow drag that stopped short', () => {
+    expect(throwDirection({ dx: 16, speed: 100, width: 100 })).toBe(0);
+    expect(throwDirection({ dx: 8, speed: 420, width: 100 })).toBe(0);
+  });
+
+  it('throws a short flick the way it was flicked', () => {
+    expect(throwDirection({ dx: 8, speed: 421, width: 100 })).toBe(1);
+    expect(throwDirection({ dx: -8, speed: -900, width: 100 })).toBe(-1);
+  });
+
+  // The hand turned back as it let go: it wants the card kept, however far it went
+  it('puts back a card flicked against the way it was dragged', () => {
+    expect(throwDirection({ dx: 60, speed: -900, width: 100 })).toBe(0);
   });
 });
