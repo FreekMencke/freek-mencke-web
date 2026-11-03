@@ -56,6 +56,8 @@
 @container map (min-width: 720px) {
   .replay {
     width: auto;
+    /* As wide as "Replay the last deploy", so the shorter "Replaying…" doesn't pull it out from under the pointer */
+    min-width: 12.25em;
   }
 }
 @media (prefers-reduced-motion: reduce) {

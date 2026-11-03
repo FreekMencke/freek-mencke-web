@@ -14,17 +14,23 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
   { name: 'Medium', url: 'https://medium.com/@freek_mencke' },
 ];
 
-/** Where else to find me, as words: in the hero and again in the footer. A narrower gap below xs keeps them on one line at 320px */
+/**
+ * Where else to find me, as words: in the hero and again in the footer. A narrower gap below xs keeps them on one line
+ * at 320px. Each link's py-2 makes a 36px target; the nav's -my-2 gives that padding back, so the links sit where
+ * they did.
+ */
 @Component({
   selector: 'social-links',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav
-      class="flex flex-wrap justify-center gap-x-6 gap-y-2 max-xs:gap-x-4 text-sm/5 font-medium"
+      class="-my-2 flex flex-wrap justify-center gap-x-6 max-xs:gap-x-4 text-sm/5 font-medium"
       [attr.aria-label]="label()"
     >
       @for (link of links; track link.name) {
-        <a [href]="link.url" target="_blank" rel="noopener">{{ link.name }}</a>
+        <a class="py-2" [href]="link.url" target="_blank" rel="noopener"
+          >{{ link.name }}<span class="sr-only"> (opens in a new tab)</span></a
+        >
       }
     </nav>
   `,
