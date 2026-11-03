@@ -44,7 +44,10 @@ export class ClusterMapComponent {
   protected readonly otherWorkloads = OTHER_WORKLOADS;
 
   protected readonly drawing = signal<Drawing | null>(null);
-  protected readonly hovered = signal<PartKey | null>(null);
+  protected readonly pointed = signal<PartKey | null>(null);
+  protected readonly focused = signal<PartKey | null>(null);
+  /** Pointer and focus are tracked apart, so one leaving doesn't clear the other's trace: the pointer's box wins */
+  protected readonly hovered = computed(() => this.pointed() ?? this.focused());
 
   protected readonly replaying = signal(false);
   protected readonly tracesDrawn = signal(0);
@@ -86,9 +89,9 @@ export class ClusterMapComponent {
     });
   }
 
-  protected hoverFrom(event: Event): void {
+  protected partOf(event: Event): PartKey | null {
     const box = (event.target as Element).closest<HTMLElement>('[data-part]');
-    this.hovered.set((box?.dataset['part'] as PartKey | undefined) ?? null);
+    return (box?.dataset['part'] as PartKey | undefined) ?? null;
   }
 
   private draw(): void {

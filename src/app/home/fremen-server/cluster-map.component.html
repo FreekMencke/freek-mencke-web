@@ -4,10 +4,10 @@
   role="group"
   aria-label="Map of fremen-server. A text version follows it."
   [attr.data-trace]="hovered()"
-  (pointerover)="hoverFrom($event)"
-  (pointerleave)="hovered.set(null)"
-  (focusin)="hoverFrom($event)"
-  (focusout)="hovered.set(null)"
+  (pointerover)="pointed.set(partOf($event))"
+  (pointerleave)="pointed.set(null)"
+  (focusin)="focused.set(partOf($event))"
+  (focusout)="focused.set(null)"
 >
   <svg class="lines" aria-hidden="true" focusable="false">
     @if (drawing(); as drawn) {
