@@ -15,8 +15,8 @@
   --spacing-bar: calc(4rem + var(--spacing-bar-wrap) + env(safe-area-inset-top));
   --spacing-bar-phone: calc(3.5rem + var(--spacing-bar-wrap) + env(safe-area-inset-top));
 
-  /* The width from which the bar fits its wordmark on one line beside the links and the toggle (about 355px, plus room
-     for a fallback font or larger text); below it the wordmark stacks */
+  /* The smallest phones, where the footer's links close up. The bar's wordmark stacks at the same width at default text
+     size, by its own container query (root-layout), so it follows larger text too */
   --breakpoint-xs: 24rem;
 
   --container-page: 90rem;
