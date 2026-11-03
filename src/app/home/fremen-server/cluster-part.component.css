@@ -3,6 +3,7 @@
   display: flex;
 }
 .part {
+  --ref-overhang: 11px;
   position: relative;
   flex: 1;
   min-width: 0;
@@ -31,10 +32,15 @@
   background: transparent;
   border: 1px dotted var(--color-field-muted);
 }
+/* The number hangs out past the focus ring (offset 4px + 2px), so it decides how far a focused box stays below the
+   bar: scroll-pt-bar alone lines up the box's own edge with the bar */
+a.part {
+  scroll-margin-top: calc(var(--ref-overhang) + 3px);
+}
 .ref {
   position: absolute;
-  top: -11px;
-  left: -11px;
+  top: calc(-1 * var(--ref-overhang));
+  left: calc(-1 * var(--ref-overhang));
   display: grid;
   place-items: center;
   width: 22px;
@@ -99,6 +105,8 @@ a.part--live:hover,
 .part.is-lit {
   border-color: var(--color-on-field);
 }
+/* Deliberately below text contrast (2.3–4.4:1): only for as long as another box is hovered or focused, to show what
+   it isn't connected to. Decided in #61; don't reopen it in an audit */
 .part.is-dim {
   opacity: 0.5;
 }
