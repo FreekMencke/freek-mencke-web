@@ -56,7 +56,7 @@
   /* Between the two lines coming in from above */
   padding: 16px calc(25% + 8px) 0;
   font-size: var(--text-note);
-  line-height: 1.125rem;
+  line-height: var(--leading-tight-note);
   text-align: center;
   color: var(--color-field-muted);
 }

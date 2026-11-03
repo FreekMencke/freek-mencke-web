@@ -56,11 +56,11 @@ a.part {
 .name {
   font-size: var(--text-body);
   font-weight: 600;
-  line-height: 1.25rem;
+  line-height: var(--leading-tight-body);
 }
 .note {
   font-size: var(--text-note);
-  line-height: 1.125rem;
+  line-height: var(--leading-tight-note);
   text-wrap: balance;
   color: var(--color-field-muted);
 }
@@ -134,7 +134,7 @@ a.part--live:hover,
   }
   .name {
     font-size: var(--text-note);
-    line-height: 1.125rem;
+    line-height: var(--leading-tight-note);
   }
 }
 @container map (min-width: 860px) {
@@ -143,7 +143,7 @@ a.part--live:hover,
   }
   .name {
     font-size: var(--text-body);
-    line-height: 1.25rem;
+    line-height: var(--leading-tight-body);
   }
 }
 @container map (min-width: 1280px) {

@@ -27,7 +27,7 @@
   padding-inline: 8px;
   background: var(--color-ground);
   font-size: var(--text-note);
-  line-height: 1.125rem;
+  line-height: var(--leading-tight-note);
   color: var(--color-muted);
   transform: translateY(calc(-50% - 1.5px));
 }

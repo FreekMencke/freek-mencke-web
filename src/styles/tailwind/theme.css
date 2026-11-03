@@ -86,8 +86,7 @@
   /* A deck card in the air, drawn once and faded in */
   --shadow-lifted: 0 46px 90px -18px var(--color-shade);
 
-  /* Type for the component styles, on Tailwind's 12/14/16/18px steps, each with a whole-pixel line height: tighter
-     ones are set beside their use, in rem */
+  /* Type for the component styles, on Tailwind's 12/14/16/18px steps, each with a whole-pixel line height */
   /* Numbers in a circle and the stack's back arrow */
   --text-tag: 0.75rem;
   --text-tag--line-height: 1rem;
@@ -100,6 +99,10 @@
   /* The stack's box names */
   --text-title: 1.125rem;
   --text-title--line-height: 1.375rem;
+  /* Tighter whole-pixel line heights, for the map's boxes, labels and the deploy button: 18px under note, 20px under
+     body */
+  --leading-tight-note: 1.125rem;
+  --leading-tight-body: 1.25rem;
 
   --radius-*: initial;
   /* The map's boxes, buttons and the switch's thumb */
