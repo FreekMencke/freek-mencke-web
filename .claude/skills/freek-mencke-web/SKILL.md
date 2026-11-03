@@ -77,10 +77,12 @@ changing the page's look, and keep the two in step. Its shared boards match the 
 - **Type**: SOLIX 4.0.1, cut to weights 100–700 from the release (osrs-tracker-web's skill has the commands; this repo
   cuts `wght=100:700`, for MENCKE's 100), preloaded in `index.html` and declared in `base.css`, both with `?v=`. OSRS
   Tracker's heading `text-display`, weight 300; body `text-lg/7.5`; meta `text-sm/5` in `muted`; the footer's first line
-  `text-statement`; the cluster's heading `text-headline`, its intro `text-lead`, the card's heading `text-subhead`. The
-  wordmark: FREEK 600, MENCKE 100, wide tracking, uppercase; on phones stacked at 20vw, FREEK at 1.36em and weight 400
-  so both lines are as wide (re-derive it, as `hero.component.css` says, when a font update changes widths). Monospace
-  only for the tagline.
+  `text-statement`; the cluster's heading `text-headline`, its intro `text-lead`, the card's heading `text-subhead`.
+  Component CSS sets small type with `var()` on `text-tag`, `text-note`, `text-body` and `text-title` (12, 14, 16 and
+  18px, `theme.css`), each with a whole-pixel line height, or a tighter `leading-tight-note`/`leading-tight-body`: no
+  size off that scale, no line height that lands on a fraction. The wordmark: FREEK 600, MENCKE 100, wide tracking,
+  uppercase; on phones stacked at 20vw, FREEK at 1.36em and weight 400 so both lines are as wide (re-derive it, as
+  `hero.component.css` says, when a font update changes widths). Monospace only for the tagline.
 - **Layout**: `px-page` (the gutter plus the side safe areas), `max-w-page` sections, `max-w-152` text columns centred.
   Space between big parts is `section`/`section-sm`; the bar is `bar` tall (`bar-phone` below `sm`), and the hero and
   footer slide under it. `scroll-pt-bar` on `<html>` keeps focused elements out from under it; the router's anchor

@@ -50,7 +50,7 @@
   padding: 0 14px;
   border-radius: var(--radius-box);
   color: var(--color-muted);
-  font-size: 0.9375rem;
+  font-size: var(--text-note);
   line-height: 1;
   transition: color var(--duration-hover);
 }
@@ -78,14 +78,15 @@
 
 .caption {
   min-width: 0;
-  font-size: 1rem;
-  line-height: 1.35;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
   text-align: center;
 }
 .hint {
   display: block;
   margin-top: 2px;
-  font-size: 0.875rem;
+  font-size: var(--text-note);
+  line-height: var(--text-note--line-height);
   color: var(--color-muted);
 }
 
