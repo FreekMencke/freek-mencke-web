@@ -144,8 +144,11 @@ changing the page's look, and keep the two in step. Its shared boards match the 
 
 ## Tests
 
-- Specs only for logic that's complex or important; `common/seo/page-meta.strategy.spec.ts` shows the pattern (`TestBed`
-  with `provideRouter`, then assert on the document). Break the code once to see a new spec fail.
+- Specs only for logic that's complex or important. Important includes the server's behaviour (`src/server.ts`: headers,
+  caching, status codes, errors; `src/server.spec.ts` runs the real Express app around a mocked engine and a temporary
+  `browser/` folder) and any branch that honours an accessibility setting (reduced motion).
+  `common/seo/page-meta.strategy.spec.ts` shows the component-side pattern (`TestBed` with `provideRouter`, then assert
+  on the document). Break the code once to see a new spec fail.
 - `ng test` fails with no spec at all, so don't delete the last one without a replacement.
 
 ## Running locally
