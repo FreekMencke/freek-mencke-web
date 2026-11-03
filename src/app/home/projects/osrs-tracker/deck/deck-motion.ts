@@ -369,7 +369,7 @@ export class DeckMotion {
     const turning = Math.sin(clamp(0, 1, card.flip.value) * Math.PI);
     const z = turning * 70 + card.lift.value * 24;
     // It leans a little into its speed, as something pushed across a table does
-    const sway = clamp(-1.6, 1.6, card.x.velocity * 0.001);
+    const sway = this.reduced ? 0 : clamp(-1.6, 1.6, card.x.velocity * 0.001);
     const angle = card.flip.value * 180 + card.tiltY.value;
     card.el.style.transform =
       `translate3d(${card.x.value.toFixed(2)}px, 0, 0) perspective(${(this.span * 2).toFixed(0)}px) ` +
@@ -540,9 +540,9 @@ export class DeckMotion {
     drag.lastTime = event.timeStamp;
     drag.dx = dx;
     top.x.target = top.place.x + dx;
-    top.spin.target = clamp(-1.5, 1.5, dx / 240);
-    top.lift.target = 0.8;
     if (!this.reduced) {
+      top.spin.target = clamp(-1.5, 1.5, dx / 240);
+      top.lift.target = 0.8;
       // The rest start moving up as it comes off them, so letting go only finishes what the hand began
       const { places } = deckLayout(this.order.length, this.sizes[this.view], this.span);
       const coming = clamp(0, 1, Math.abs(dx) / (this.sizes[this.view].width * 0.55));
@@ -577,6 +577,9 @@ export class DeckMotion {
     const go = !cancelled && (fastEnough ? agrees : Math.abs(dx) > this.sizes[this.view].width * 0.16);
     if (go) {
       this.toss(Math.sign(fastEnough ? speed : dx) || 1, clamp(-3600, 3600, speed));
+    } else if (this.reduced) {
+      this.storeLayout();
+      this.snapAll();
     } else {
       // Not far enough: back where it was, with a little give
       tune(top.x, 240, 0.6);
