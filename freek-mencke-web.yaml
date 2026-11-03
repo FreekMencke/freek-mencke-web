@@ -25,6 +25,8 @@ spec:
         prometheus.io/port: '9090'
         prometheus.io/scrape: 'true'
     spec:
+      # The app never calls the Kubernetes API
+      automountServiceAccountToken: false
       containers:
         - name: freek-mencke-web
           image: freekmencke/freek-mencke-web@sha256:26dd8b628b2e6f5129fe29e6c12772bc5d07a68c3b24f26c70f810cd782971e4
@@ -54,6 +56,8 @@ spec:
             readOnlyRootFilesystem: true
             capabilities:
               drop: [ALL]
+            seccompProfile:
+              type: RuntimeDefault
           # Checks the main app, so a pod whose app stopped serving is taken out of the service
           readinessProbe:
             httpGet:
@@ -116,8 +120,8 @@ metadata:
   namespace: freek-mencke
   annotations:
     cert-manager.io/cluster-issuer: 'letsencrypt-prod'
-    # The Middlewares below: per-client-IP rate limits, Forwarded header stripping, then compression (last, so rejected
-    # requests cost none).
+    # The Middlewares below: per-client-IP rate and in-flight limits, Forwarded header stripping, then compression (last,
+    # so rejected requests cost none).
     traefik.ingress.kubernetes.io/router.middlewares: freek-mencke-freek-mencke-web-ratelimit@kubernetescrd,freek-mencke-freek-mencke-web-inflight@kubernetescrd,freek-mencke-freek-mencke-web-strip-forwarded@kubernetescrd,freek-mencke-freek-mencke-web-compress@kubernetescrd
 spec:
   ingressClassName: traefik
@@ -194,7 +198,11 @@ metadata:
   namespace: freek-mencke
 spec:
   inFlightReq:
+    # A page load is about 40 requests. Without a sourceCriterion Traefik groups by request host, so every visitor
+    # would share these slots; an empty ipStrategy groups by the remote address, like rateLimit.
     amount: 200
+    sourceCriterion:
+      ipStrategy: {}
 ---
 # Traefik passes a client-sent RFC 7239 Forwarded header through unchanged (it only rewrites X-Forwarded-*), so drop it.
 apiVersion: traefik.io/v1alpha1

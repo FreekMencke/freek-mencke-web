@@ -49,9 +49,15 @@ README.md
 CLAUDE.md
 .mcp.json
 
-# Lint config
+# Lint, format and test config, and the specs
 knip.jsonc
 .jscpd.json
+eslint.config.mjs
+.prettierrc.json
+.prettierignore
+.editorconfig
+tsconfig.spec.json
+src/**/*.spec.ts
 
 # Dev scripts (the axe scan)
 scripts

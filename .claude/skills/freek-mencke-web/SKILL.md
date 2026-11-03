@@ -229,8 +229,8 @@ The flow and the rollback are in `README.md`. For a session:
   failure shows as a failed `CD` run titled after the change.
 - CD skips a commit that changes only files outside the image: `NOT_IN_IMAGE` in `.github/workflows/deploy.yml` (the
   manifest, `.claude/`, `.github/`, `.vscode/`, `README.md`, `CLAUDE.md`, `.mcp.json`, `.gitignore`, `knip.jsonc`,
-  `.jscpd.json`, `scripts/`, `LICENSE`). A new file that isn't part of the build goes in that list and in
-  `.dockerignore`, or every change to it redeploys.
+  `.jscpd.json`, the ESLint, Prettier, EditorConfig and spec configs, the specs, `scripts/`, `LICENSE`). A new file that
+  isn't part of the build goes in that list and in `.dockerignore`, or every change to it redeploys.
 - `freek-mencke-web.yaml` reaches the cluster through Flux without a new image, and CI ignores pushes that change only
   it.
 - CD's plan step (`deploy-plan.sh`) writes the commit it builds into `home/fremen-server/last-deploy.json`, in the build
