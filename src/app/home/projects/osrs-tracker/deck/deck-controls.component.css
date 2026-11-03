@@ -123,6 +123,26 @@
   }
 }
 
+/*
+ * Large text (200% on phones): the switch and the arrows no longer fit one row, so each gets its own; on the smallest
+ * phones the switch drops its icons to fit too. The deck runs to the screen's edges, so these widths are the screen's
+ * at 200% text (12.2rem at 390px, 10rem at 320px); at the default text size the deck is never this narrow.
+ */
+@container deck (width < 13rem) {
+  :host {
+    grid-template-columns: 1fr;
+  }
+  .switch,
+  .arrows {
+    justify-self: center;
+  }
+}
+@container deck (width < 10.5rem) {
+  .switch svg {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .switch button,
   .thumb,

@@ -15,19 +15,19 @@ import { SocialLinksComponent } from '@app/common/social-links/social-links.comp
   host: { class: 'block' },
   template: `
     <header id="top" class="field -mt-bar-phone px-page pt-bar-phone sm:-mt-bar sm:pt-bar">
-      <div class="flex flex-col items-center pb-12 text-center sm:pb-24">
+      <div class="hero flex flex-col items-center pb-12 text-center sm:pb-24">
         <h1 class="wordmark mt-12 sm:mt-24" aria-label="Freek Mencke">
           <span class="first">Freek </span><span class="last">Mencke</span>
         </h1>
 
         <p class="tagline mt-6 font-mono">
           <span class="line">
-            <span class="type" style="--c: 23; --d: 600ms; width: 23ch">Doing the coding thing.</span>
+            <span class="type" style="--c: 23; --d: 600ms">Doing the coding thing.</span>
             <span class="cursor first-cursor" aria-hidden="true"></span>
           </span>
           &ngsp;
           <span class="line">
-            <span class="type" style="--c: 19; --d: 2050ms; width: 19ch">Creating cool shit.</span>
+            <span class="type" style="--c: 19; --d: 2050ms">Creating cool shit.</span>
             <span class="cursor" aria-hidden="true"></span>
           </span>
         </p>

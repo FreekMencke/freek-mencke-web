@@ -29,6 +29,7 @@
 .type {
   display: inline-block;
   overflow: hidden;
+  width: calc(var(--c) * 1ch);
   white-space: nowrap;
   vertical-align: bottom;
   animation: type calc(var(--c) * 50ms) steps(var(--c), end) var(--d) both;
@@ -104,6 +105,29 @@
   }
   .line {
     display: block;
+  }
+}
+
+/*
+ * Large text (200% on phones): the font-size floor makes a sentence wider than the column, so it wraps instead,
+ * untyped, as a typed line can't wrap, with the cursor after its last word. The longer sentence is about 10.4rem at
+ * that floor (23 characters at 0.75rem); at the default text size the column never gets this narrow. A container
+ * query, because its rem follows the root's font size.
+ */
+.hero {
+  container: hero / inline-size;
+}
+@container hero (width < 10.5rem) {
+  .type {
+    display: inline;
+    white-space: normal;
+    animation: none;
+  }
+  .first-cursor {
+    animation: none;
+  }
+  .cursor {
+    animation: blink 1.1s steps(1) infinite;
   }
 }
 
