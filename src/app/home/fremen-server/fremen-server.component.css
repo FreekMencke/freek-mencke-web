@@ -8,6 +8,7 @@
   /* It lies across the field's edge, so it gets the page's soft shadow. The outline stays in forced colours. */
   outline: 1px solid var(--color-edge);
   box-shadow: var(--shadow-card);
+  container: card / inline-size;
 }
 
 .workloads {
@@ -59,6 +60,13 @@
   text-align: right;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+}
+/* Large text (200% on the smallest phones): the dots and the count no longer fit one line beside the names. At the
+   default text size the card is never this narrow. */
+@container card (width < 9rem) {
+  .workloads .ready {
+    white-space: normal;
+  }
 }
 .workloads .rest td {
   padding-bottom: 0;
