@@ -152,6 +152,17 @@ a.part--live:hover,
     padding: 16px;
   }
 }
+/* Large text on a phone: see cluster-map.component.css */
+@container map (max-width: 17rem) {
+  .part {
+    padding-inline: 10px;
+  }
+  .name,
+  .note {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .part,

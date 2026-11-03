@@ -38,6 +38,16 @@ svg {
     grid-template-columns: 1fr;
   }
 }
+/* Large text on a phone (see cluster-map.component.css): a label goes under its sample when they don't fit side by side */
+@container map (max-width: 17rem) {
+  ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  li {
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+}
 /* Forced colours would otherwise leave the samples in their green */
 @media (forced-colors: active) {
   svg,

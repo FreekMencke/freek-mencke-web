@@ -76,9 +76,10 @@ export function clusterEdges(mode: MapMode, b: Readonly<Record<PartKey, Box>>, f
     add('crowdsec', 'traefik', 'bans', up(b.crowdsec, b.traefik));
     add('lambda', 'queue', 'traffic', up(b.lambda, b.queue));
     add('queue', 'ingester', 'traffic', up(b.queue, b.ingester));
-    // Each app takes Flux's rail on its left and Traefik's on its right
-    const leftRail = frame.l + 13;
-    const rightRail = frame.r - 13;
+    // Each app takes Flux's rail on its left and Traefik's on its right, halfway across the side column, which
+    // narrows at large text
+    const leftRail = (frame.l + b.web.l) / 2;
+    const rightRail = (frame.r + b.web.r) / 2;
     for (const app of ['web', 'osrsweb', 'api'] as const) {
       const flux = b.flux;
       const traefik = b.traefik;

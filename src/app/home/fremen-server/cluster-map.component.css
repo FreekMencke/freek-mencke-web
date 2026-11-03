@@ -8,6 +8,7 @@
 .map {
   --mode: tall;
   --c: minmax(0, 1fr);
+  --side: 26px;
   position: relative;
   isolation: isolate;
   display: grid;
@@ -25,7 +26,7 @@
     '. . . . .'
     '. queue . grafana .'
     '. lambda . legend .'
-    / 26px var(--c) 12px var(--c) 26px;
+    / var(--side) var(--c) 12px var(--c) var(--side);
   row-gap: 28px;
   max-width: 560px;
   margin-inline: auto;
@@ -151,6 +152,19 @@
 }
 .map[data-trace] .trace {
   opacity: 0.2;
+}
+
+/* Large text on a phone (125% and up at 320px, 150% and up at 390px): the tall drawing's boxes take part of the side
+   columns, their text wraps (cluster-part.component.css) and the legend reaches into the empty column on its right. A
+   container query's rem follows the root font size, so at the default size no phone's container is this narrow. The
+   gap stays: a box's number hangs 11px into it. */
+@container map (max-width: 17rem) {
+  .map {
+    --side: 16px;
+  }
+  .legend {
+    grid-column-end: -1;
+  }
 }
 
 /* The four apps in a row, with the ways in above and below the boundary. Grafana sits in the bottom row, because its
