@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { PageMeta } from '@app/common/seo/page-meta.strategy';
+import { HOME_STRUCTURED_DATA } from '@app/common/seo/structured-data';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,7 @@ export const routes: Routes = [
             description:
               'Freek Mencke, a full-stack TypeScript developer from Belgium. Builds OSRS Tracker and the Kubernetes cluster that runs this site.',
             canonicalPath: '/',
+            structuredData: HOME_STRUCTURED_DATA,
           } satisfies PageMeta,
         },
       },

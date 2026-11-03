@@ -7,14 +7,16 @@ export interface PageMeta {
   description: string;
   /** Path only, no query or fragment: '/' */
   canonicalPath: string;
+  /** The nodes of the page's JSON-LD `@graph` */
+  structuredData?: object[];
 }
 
-const SITE_NAME = 'Freek Mencke';
-const SITE_URL = 'https://freekmencke.com';
+export const SITE_NAME = 'Freek Mencke';
+export const SITE_URL = 'https://freekmencke.com';
 /**
  * The site's link-preview card (`public/og.png`), for every page. Platforms cache it by URL: bump `v` when it changes.
  */
-const OG_IMAGE = {
+export const OG_IMAGE = {
   url: `${SITE_URL}/og.png?v=1`,
   width: '1200',
   height: '630',
@@ -55,6 +57,7 @@ export class PageMetaStrategy extends TitleStrategy {
       this.meta.removeTag('name="description"');
       SOCIAL_TAGS.forEach(selector => this.meta.removeTag(selector));
       this.canonicalLink()?.remove();
+      this.structuredDataScript()?.remove();
       return;
     }
 
@@ -74,6 +77,7 @@ export class PageMetaStrategy extends TitleStrategy {
     Object.entries(tags).forEach(([property, content]) => this.meta.updateTag({ property, content }));
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.setCanonical(url);
+    this.setStructuredData(pageMeta.structuredData);
   }
 
   private setCanonical(url: string): void {
@@ -84,6 +88,32 @@ export class PageMetaStrategy extends TitleStrategy {
       this.document.head.appendChild(link);
     }
     link.setAttribute('href', url);
+  }
+
+  /**
+   * Added from code because Angular's template compiler drops `<script>` elements; the pre-render keeps it in the page.
+   * A data block never runs, so it needs no CSP nonce.
+   */
+  private setStructuredData(graph: object[] | undefined): void {
+    let script = this.structuredDataScript();
+    if (!graph) {
+      script?.remove();
+      return;
+    }
+    if (!script) {
+      script = this.document.createElement('script');
+      script.setAttribute('type', 'application/ld+json');
+      this.document.head.appendChild(script);
+    }
+    // `<` escaped so no string in the data can close the script element
+    script.textContent = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll(
+      '<',
+      '\\u003c',
+    );
+  }
+
+  private structuredDataScript(): HTMLScriptElement | null {
+    return this.document.head.querySelector<HTMLScriptElement>('script[type="application/ld+json"]');
   }
 
   private canonicalLink(): HTMLLinkElement | null {

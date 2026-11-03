@@ -17,7 +17,7 @@ import { SocialLinksComponent } from '@app/common/social-links/social-links.comp
     <header id="top" class="field -mt-bar-phone px-page pt-bar-phone sm:-mt-bar sm:pt-bar">
       <div class="flex flex-col items-center pb-12 text-center sm:pb-24">
         <h1 class="wordmark mt-12 sm:mt-24" aria-label="Freek Mencke">
-          <span class="first">Freek</span><span class="last">Mencke</span>
+          <span class="first">Freek </span><span class="last">Mencke</span>
         </h1>
 
         <p class="tagline mt-6 font-mono">
