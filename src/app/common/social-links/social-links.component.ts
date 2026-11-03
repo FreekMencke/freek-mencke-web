@@ -5,6 +5,15 @@ interface SocialLink {
   url: string;
 }
 
+/** Also the `sameAs` of the page's structured data */
+export const SOCIAL_LINKS: readonly SocialLink[] = [
+  { name: 'GitHub', url: 'https://github.com/FreekMencke' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/freekmencke/' },
+  { name: 'YouTube', url: 'https://www.youtube.com/@Frakerd' },
+  { name: 'X', url: 'https://x.com/freekmencke' },
+  { name: 'Medium', url: 'https://medium.com/@freek_mencke' },
+];
+
 /** Where else to find me, as words: in the hero and again in the footer. A narrower gap below xs keeps them on one line at 320px */
 @Component({
   selector: 'social-links',
@@ -24,11 +33,5 @@ export class SocialLinksComponent {
   /** Each nav on a page needs its own label */
   readonly label = input.required<string>();
 
-  protected readonly links: SocialLink[] = [
-    { name: 'GitHub', url: 'https://github.com/FreekMencke' },
-    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/freekmencke/' },
-    { name: 'YouTube', url: 'https://www.youtube.com/@Frakerd' },
-    { name: 'X', url: 'https://x.com/freekmencke' },
-    { name: 'Medium', url: 'https://medium.com/@freek_mencke' },
-  ];
+  protected readonly links = SOCIAL_LINKS;
 }
