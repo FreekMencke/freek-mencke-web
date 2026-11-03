@@ -1,6 +1,6 @@
-/* FREEK MENCKE: one line, as wide as the screen allows up to 136px; stacked on phones, both lines equally wide */
+/* FREEK MENCKE: one line, as wide as the screen allows up to 8.5rem (136px at the default font size); stacked on phones, both lines equally wide */
 .wordmark {
-  font-size: min(9.6vw, 136px);
+  font-size: min(9.6vw, 8.5rem);
   line-height: 1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -22,7 +22,7 @@
  * on phones, where they stack. A character is about 0.62em wide.
  */
 .tagline {
-  font-size: clamp(12px, calc((100vw - 32px) / 45 / 0.62), 24px);
+  font-size: clamp(0.75rem, calc((100vw - 32px) / 45 / 0.62), 1.5rem);
   line-height: 1.5;
   color: var(--color-field-muted);
 }
@@ -100,7 +100,7 @@
     margin-left: 0;
   }
   .tagline {
-    font-size: clamp(12px, calc((100vw - 32px) / 25 / 0.62), 20px);
+    font-size: clamp(0.75rem, calc((100vw - 32px) / 25 / 0.62), 1.25rem);
   }
   .line {
     display: block;

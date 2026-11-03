@@ -14,8 +14,8 @@
   width: 100%;
   margin-top: 24px;
   border-collapse: collapse;
-  font-size: 1rem;
-  line-height: 1.35;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
 }
 .workloads th,
 .workloads td {
@@ -28,8 +28,9 @@
   padding-top: 0;
   border-top: 0;
   border-bottom: 2px solid var(--color-ink);
-  font-size: 0.875rem;
+  font-size: var(--text-note);
   font-weight: 500;
+  line-height: var(--text-note--line-height);
   color: var(--color-muted);
 }
 .workloads tbody th {
@@ -78,7 +79,7 @@
   height: 22px;
   border: 1px solid var(--color-muted);
   border-radius: 50%;
-  font-size: 0.75rem;
+  font-size: var(--text-tag);
   font-weight: 600;
   line-height: 1;
   color: var(--color-muted);

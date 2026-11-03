@@ -6,8 +6,8 @@
 ul {
   display: grid;
   gap: 8px;
-  font-size: 0.875rem;
-  line-height: 1.2;
+  font-size: var(--text-note);
+  line-height: 1.125rem;
   color: var(--color-field-muted);
 }
 li {
