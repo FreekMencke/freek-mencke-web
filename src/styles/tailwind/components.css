@@ -5,7 +5,7 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 5px;
     text-decoration-color: var(--color-muted);
-    transition: color 0.15s;
+    transition: color var(--duration-hover);
 
     &:hover {
       color: var(--color-accent);

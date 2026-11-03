@@ -69,3 +69,44 @@
   /* A plate set into the field */
   --color-field-deep: #08271f;
 }
+
+/*
+ * Depth, corners, motion and fluid spacing for the component styles, which read them with var(): static, as Tailwind
+ * doesn't see those uses. The stock shadows and radii are cleared, so only these exist.
+ */
+@theme static {
+  /* A shadow only where something lies over something else (the skill's Design, Depth), all in shade */
+  --shadow-*: initial;
+  /* The deck switch's thumb on its track */
+  --shadow-thumb: 0 2px 6px -2px var(--color-shade);
+  /* A screenshot in OSRS Tracker's deck, on the cards under it */
+  --shadow-screen: 0 18px 40px -22px var(--color-shade);
+  /* The card of what runs on the cluster, across the field's edge */
+  --shadow-card: 0 30px 60px -26px var(--color-shade);
+  /* A deck card in the air, drawn once and faded in */
+  --shadow-lifted: 0 46px 90px -18px var(--color-shade);
+
+  --radius-*: initial;
+  /* The map's boxes, buttons and the switch's thumb */
+  --radius-box: 10px;
+  /* Desktop screenshots, the cluster's card and the stack's boundary */
+  --radius-card: 14px;
+  /* Phone screenshots */
+  --radius-phone: 22px;
+  /* The focus outline */
+  --radius-focus: 2px;
+
+  /* Every hover and highlight */
+  --duration-hover: 150ms;
+  /* The bar turning to glass */
+  --duration-fade: 250ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Between the parts of a section, and the smaller step */
+  --spacing-block: clamp(4.5rem, 8vw, 7rem);
+  --spacing-block-sm: clamp(3.5rem, 6.5vw, 6rem);
+  /* Inside a card */
+  --spacing-inset-card: clamp(1rem, 3vw, 2rem);
+  /* The page's width inside px-page, up to the screenshots' widest, in a container: cqw resolves where it's used */
+  --spacing-span: min(100cqw - 2 * max(var(--spacing-gutter), env(safe-area-inset-left)), var(--container-shots));
+}

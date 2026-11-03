@@ -11,14 +11,14 @@
 }
 
 .deck {
-  margin-top: clamp(3.5rem, 6.5vw, 6rem);
+  margin-top: var(--spacing-block-sm);
 }
 /* The same room on both sides of the stack: the 16px is the deck's own bottom padding */
 .stack {
-  margin-top: clamp(4.5rem, 8vw, 7rem);
+  margin-top: var(--spacing-block);
 }
 .story {
-  margin-top: calc(clamp(4.5rem, 8vw, 7rem) + 16px);
+  margin-top: calc(var(--spacing-block) + 16px);
 }
 figcaption {
   color: color-mix(in oklch, var(--color-muted) 65%, var(--color-ink));
