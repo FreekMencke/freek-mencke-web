@@ -54,10 +54,10 @@
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.6",
     "angular-eslint": "^22.6.0",
-    "eslint": "^10.12.0",
+    "eslint": "^10.15.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.5",
-    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-import-x": "^4.18.1",
     "jscpd": "^5.4.2",
     "jsdom": "^30.1.2",
     "knip": "^6.41.0",
@@ -75,5 +75,10 @@
     "@parcel/watcher@2.6.0": true,
     "unrs-resolver": false,
     "msgpackr-extract@3.0.6": true
+  },
+  "overrides": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.5"
+    }
   }
 }
